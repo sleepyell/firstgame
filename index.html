@@ -1,0 +1,2770 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LOS SANTOS ROLEPLAY - GTA V FiveM Web Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Three.js 3D Engine via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #050508;
+      font-family: 'Rajdhani', 'Montserrat', sans-serif;
+      color: #fff;
+    }
+
+    #gameCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    /* Crosshair */
+    #crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10;
+      transition: all 0.15s ease;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    }
+    #crosshair.aiming {
+      width: 24px;
+      height: 24px;
+      border-color: #ff3344;
+      background: rgba(255, 51, 68, 0.2);
+    }
+    #crosshair.aiming::before, #crosshair.aiming::after {
+      content: '';
+      position: absolute;
+      background: #ff3344;
+    }
+    #crosshair.aiming::before {
+      top: 50%; left: -6px; right: -6px; height: 2px; transform: translateY(-50%);
+    }
+    #crosshair.aiming::after {
+      left: 50%; top: -6px; bottom: -6px; width: 2px; transform: translateX(-50%);
+    }
+
+    /* Top-Right HUD: Money & Job */
+    #topRightHud {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .hud-card {
+      background: rgba(15, 20, 30, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 8px 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .money-wallet {
+      color: #2ecc71;
+      font-size: 20px;
+      text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+    }
+    .money-bank {
+      color: #3498db;
+      font-size: 16px;
+    }
+    .job-badge {
+      font-size: 14px;
+      color: #f39c12;
+      text-transform: uppercase;
+      background: rgba(243, 156, 18, 0.15);
+      border: 1px solid rgba(243, 156, 18, 0.4);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Wanted Stars */
+    .wanted-stars {
+      display: flex;
+      gap: 4px;
+      font-size: 18px;
+      color: #444;
+      text-shadow: 0 0 6px rgba(0,0,0,0.8);
+    }
+    .wanted-stars .active {
+      color: #f1c40f;
+      animation: starPulse 1s infinite alternate;
+    }
+    @keyframes starPulse {
+      from { transform: scale(1); filter: drop-shadow(0 0 4px #f1c40f); }
+      to { transform: scale(1.15); filter: drop-shadow(0 0 10px #e67e22); }
+    }
+
+    /* Bottom-Left HUD: Radar & Status Bars */
+    #bottomLeftHud {
+      position: absolute;
+      bottom: 25px;
+      left: 25px;
+      display: flex;
+      align-items: flex-end;
+      gap: 15px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    #radarContainer {
+      width: 175px;
+      height: 175px;
+      border-radius: 50%;
+      background: #0a0f18;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 15px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    #radarCanvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    .radar-scanline {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: conic-gradient(from 0deg, rgba(46, 204, 113, 0.25), transparent 60deg);
+      border-radius: 50%;
+      animation: radarRotate 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes radarRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #statusBars {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(15, 20, 30, 0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .bar-bg {
+      width: 120px;
+      height: 8px;
+      background: rgba(10, 15, 25, 0.8);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .bar-fill {
+      height: 100%;
+      transition: width 0.2s ease;
+      border-radius: 4px;
+    }
+    .bar-health { background: linear-gradient(90deg, #e74c3c, #2ecc71); }
+    .bar-armor { background: linear-gradient(90deg, #2980b9, #3498db); }
+    .bar-hunger { background: linear-gradient(90deg, #d35400, #e67e22); }
+    .bar-thirst { background: linear-gradient(90deg, #16a085, #1abc9c); }
+    .bar-stamina { background: linear-gradient(90deg, #f39c12, #f1c40f); }
+
+    /* Bottom-Right Speedometer (Active in Car) */
+    #speedoContainer {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(15, 20, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 12px 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 20;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+      pointer-events: none;
+    }
+    .speedo-top {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .speedo-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 44px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    .speedo-unit {
+      font-size: 14px;
+      font-weight: 700;
+      color: #8892b0;
+    }
+    .speedo-info {
+      display: flex;
+      gap: 15px;
+      font-size: 12px;
+      color: #a0aec0;
+      font-weight: 600;
+    }
+    .speedo-icon.active {
+      color: #2ecc71;
+      text-shadow: 0 0 8px #2ecc71;
+    }
+    .speedo-icon.seatbelt-off {
+      color: #e74c3c;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+
+    /* Interaction Prompt ([E] Press) */
+    #interactPrompt {
+      position: absolute;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 15, 25, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-left: 4px solid #3498db;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 25;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+      animation: floatPrompt 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes floatPrompt {
+      from { transform: translate(-50%, -50%); }
+      to { transform: translate(-50%, -55%); }
+    }
+    .key-badge {
+      background: #3498db;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 900;
+      font-size: 13px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    /* Notifications & Mission / RP Alerts */
+    #notifArea {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .notif-card {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+      border-left: 4px solid #3498db;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .notif-card.success { border-color: #2ecc71; }
+    .notif-card.danger { border-color: #e74c3c; }
+    .notif-card.warning { border-color: #f39c12; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* RP Chat Box (Press T) */
+    #chatWrapper {
+      position: absolute;
+      top: 150px;
+      left: 25px;
+      width: 380px;
+      z-index: 35;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      pointer-events: none;
+    }
+    #chatMessages {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-right: 5px;
+    }
+    .chat-msg {
+      background: rgba(10, 15, 25, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+    .chat-me { color: #c084fc; font-style: italic; }
+    .chat-do { color: #38bdf8; font-style: italic; }
+    .chat-ooc { color: #94a3b8; }
+    .chat-police { color: #60a5fa; font-weight: bold; }
+    .chat-ems { color: #f87171; font-weight: bold; }
+    .chat-system { color: #fbbf24; font-weight: 600; }
+    
+    #chatInputBox {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: none;
+      pointer-events: auto;
+    }
+    #chatInput {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    /* Modal Windows (Inventory, Phone, Menus) */
+    .modal-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* FiveM Inventory (Press TAB / I) */
+    #inventoryModal {
+      width: 700px;
+      background: rgba(15, 20, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .inv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 10px;
+    }
+    .inv-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .inv-weight {
+      font-size: 14px;
+      color: #a0aec0;
+    }
+    .inv-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 5px;
+    }
+    .inv-slot {
+      height: 90px;
+      background: rgba(25, 32, 48, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .inv-slot:hover {
+      background: rgba(45, 55, 80, 0.9);
+      border-color: #3498db;
+      transform: translateY(-2px);
+    }
+    .inv-slot i {
+      font-size: 26px;
+      color: #60a5fa;
+    }
+    .inv-slot .item-name {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      color: #e2e8f0;
+    }
+    .inv-slot .item-count {
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #f1c40f;
+    }
+
+    /* Smartphone UI (Press M / P) */
+    #phoneContainer {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: 290px;
+      height: 540px;
+      background: #090d16;
+      border: 4px solid #2d3748;
+      border-radius: 36px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(66, 153, 225, 0.2);
+      z-index: 60;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .phone-notch {
+      width: 110px;
+      height: 18px;
+      background: #1a202c;
+      margin: 0 auto;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 18px;
+      font-size: 11px;
+      color: #cbd5e0;
+      font-weight: 600;
+    }
+    .phone-screen {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .phone-app-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .phone-app-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .phone-app-btn:hover {
+      transform: scale(1.1);
+    }
+    .app-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .app-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .phone-home-bar {
+      width: 100px;
+      height: 4px;
+      background: #cbd5e0;
+      border-radius: 2px;
+      margin: 8px auto;
+      cursor: pointer;
+    }
+    .phone-page {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      gap: 10px;
+    }
+    .phone-page.active {
+      display: flex;
+    }
+
+    /* Store / Bank / Dealership Dialogs */
+    #storeModal {
+      width: 550px;
+      background: rgba(15, 20, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .store-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .store-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .btn-buy {
+      background: #2ecc71;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-buy:hover {
+      background: #27ae60;
+    }
+    .btn-danger {
+      background: #e74c3c;
+    }
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    /* Help & Controls Overlay (F1) */
+    #helpModal {
+      width: 600px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .keybind-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .keybind-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .kbd {
+      background: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    /* Job Selection UI */
+    #jobModal {
+      width: 650px;
+      background: rgba(15, 20, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 25px;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .job-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .job-select-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .job-select-card:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: #38bdf8;
+      transform: translateY(-4px);
+    }
+    .job-select-card i {
+      font-size: 32px;
+    }
+
+    /* Start Screen */
+    #startScreen {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, #1a2035 0%, #080a12 100%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+      padding: 20px;
+    }
+    .game-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #fff 20%, #38bdf8 60%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+    }
+    .game-subtitle {
+      font-size: 18px;
+      color: #94a3b8;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .btn-start {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 30px;
+      font-size: 20px;
+      font-weight: 800;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-start:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 15px 35px rgba(37, 99, 235, 0.7);
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    /* Quick Action Buttons on HUD */
+    #quickActions {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
+    .quick-btn {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #cbd5e0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .quick-btn:hover {
+      background: rgba(30, 41, 59, 0.95);
+      color: #fff;
+      border-color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Three.js Canvas -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Crosshair -->
+  <div id="crosshair"></div>
+
+  <!-- Top-Right HUD -->
+  <div id="topRightHud">
+    <div class="hud-card">
+      <i class="fa-solid fa-wallet" style="color: #2ecc71;"></i>
+      <span class="money-wallet" id="walletDisplay">$5,000</span>
+    </div>
+    <div class="hud-card">
+      <i class="fa-solid fa-building-columns" style="color: #3498db;"></i>
+      <span class="money-bank" id="bankDisplay">$25,000</span>
+    </div>
+    <div class="hud-card">
+      <i class="fa-solid fa-id-badge" style="color: #f39c12;"></i>
+      <span class="job-badge" id="jobDisplay">Civilian</span>
+    </div>
+    <div class="wanted-stars" id="wantedStars">
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+    </div>
+  </div>
+
+  <!-- Quick Action Buttons -->
+  <div id="quickActions">
+    <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-keyboard"></i> [F1] Controls</button>
+    <button class="quick-btn" onclick="toggleInventory()"><i class="fa-solid fa-briefcase"></i> [TAB] Bag</button>
+    <button class="quick-btn" onclick="togglePhone()"><i class="fa-solid fa-mobile-screen"></i> [M] Phone</button>
+    <button class="quick-btn" onclick="openJobCenter()"><i class="fa-solid fa-briefcase"></i> [J] Jobs</button>
+    <button class="quick-btn" onclick="spawnPlayerCar('supercar')"><i class="fa-solid fa-car"></i> Spawn Car</button>
+  </div>
+
+  <!-- Notifications -->
+  <div id="notifArea"></div>
+
+  <!-- Bottom-Left HUD (Minimap + Stats) -->
+  <div id="bottomLeftHud">
+    <div id="radarContainer">
+      <canvas id="radarCanvas" width="200" height="200"></canvas>
+      <div class="radar-scanline"></div>
+    </div>
+    <div id="statusBars">
+      <!-- Health -->
+      <div class="status-row">
+        <div class="status-icon" style="color: #2ecc71;"><i class="fa-solid fa-heart"></i></div>
+        <div class="bar-bg"><div class="bar-fill bar-health" id="healthBar" style="width: 100%;"></div></div>
+      </div>
+      <!-- Armor -->
+      <div class="status-row">
+        <div class="status-icon" style="color: #3498db;"><i class="fa-solid fa-shield"></i></div>
+        <div class="bar-bg"><div class="bar-fill bar-armor" id="armorBar" style="width: 100%;"></div></div>
+      </div>
+      <!-- Hunger -->
+      <div class="status-row">
+        <div class="status-icon" style="color: #e67e22;"><i class="fa-solid fa-burger"></i></div>
+        <div class="bar-bg"><div class="bar-fill bar-hunger" id="hungerBar" style="width: 85%;"></div></div>
+      </div>
+      <!-- Thirst -->
+      <div class="status-row">
+        <div class="status-icon" style="color: #1abc9c;"><i class="fa-solid fa-droplet"></i></div>
+        <div class="bar-bg"><div class="bar-fill bar-thirst" id="thirstBar" style="width: 90%;"></div></div>
+      </div>
+      <!-- Stamina -->
+      <div class="status-row">
+        <div class="status-icon" style="color: #f1c40f;"><i class="fa-solid fa-bolt"></i></div>
+        <div class="bar-bg"><div class="bar-fill bar-stamina" id="staminaBar" style="width: 100%;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom-Right Speedometer -->
+  <div id="speedoContainer">
+    <div class="speedo-top">
+      <span class="speedo-num" id="speedNum">0</span>
+      <span class="speedo-unit">KM/H</span>
+    </div>
+    <div class="speedo-info">
+      <span><i class="fa-solid fa-gas-pump" style="color:#e67e22;"></i> <span id="fuelNum">98</span>%</span>
+      <span><i class="fa-solid fa-gauge-high"></i> GEAR <span id="gearNum">D</span></span>
+      <span class="speedo-icon seatbelt-off" id="seatbeltIcon"><i class="fa-solid fa-user-shield"></i> [B]</span>
+      <span class="speedo-icon" id="sirenIcon"><i class="fa-solid fa-bullhorn"></i> [Q] SIREN</span>
+    </div>
+  </div>
+
+  <!-- Interaction Prompt -->
+  <div id="interactPrompt">
+    <span class="key-badge">E</span>
+    <span id="promptText">Interact</span>
+  </div>
+
+  <!-- RP Chat Box -->
+  <div id="chatWrapper">
+    <div id="chatMessages">
+      <div class="chat-msg chat-system">Selamat datang di Los Santos Roleplay (FiveM Web)! Tekan <b>T</b> untuk chat, <b>F1</b> untuk bantuan kontrol.</div>
+      <div class="chat-msg chat-ooc">[OOC] Server: Sistem Roleplay, Job, Kendaraan & Polisi telah aktif.</div>
+    </div>
+    <div id="chatInputBox">
+      <input type="text" id="chatInput" placeholder="Tekan Enter untuk kirim (/me, /do, /ooc, /police, /help)...">
+    </div>
+  </div>
+
+  <!-- Inventory Modal -->
+  <div class="modal-overlay" id="invOverlay" onclick="if(event.target===this) toggleInventory()">
+    <div id="inventoryModal">
+      <div class="inv-header">
+        <div class="inv-title"><i class="fa-solid fa-briefcase" style="color: #38bdf8;"></i> Inventory Pemain</div>
+        <div class="inv-weight"><i class="fa-solid fa-weight-hanging"></i> <span id="invWeight">4.5</span> / 30.0 KG</div>
+      </div>
+      <div class="inv-grid" id="invGrid">
+        <!-- Dynamically rendered items -->
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="quick-btn" onclick="toggleInventory()">Tutup [TAB]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Store / Bank / Action Modal -->
+  <div class="modal-overlay" id="storeOverlay" onclick="if(event.target===this) closeStoreModal()">
+    <div id="storeModal">
+      <div class="inv-header">
+        <div class="inv-title" id="storeModalTitle"><i class="fa-solid fa-shop"></i> 24/7 Supermarket</div>
+        <button class="quick-btn" onclick="closeStoreModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="store-list" id="storeList"></div>
+    </div>
+  </div>
+
+  <!-- Job Center Modal -->
+  <div class="modal-overlay" id="jobOverlay" onclick="if(event.target===this) closeJobCenter()">
+    <div id="jobModal">
+      <div class="inv-header">
+        <div class="inv-title"><i class="fa-solid fa-user-tie" style="color: #f59e0b;"></i> Pusat Lowongan Kerja Los Santos</div>
+        <button class="quick-btn" onclick="closeJobCenter()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="job-cards-grid">
+        <div class="job-select-card" onclick="selectJob('police')">
+          <i class="fa-solid fa-shield-halved" style="color: #3b82f6;"></i>
+          <h3>Polisi (LSPD)</h3>
+          <p style="font-size:12px; color:#94a3b8;">Patroli kota, kejar penjahat, dan jaga ketertiban.</p>
+        </div>
+        <div class="job-select-card" onclick="selectJob('ems')">
+          <i class="fa-solid fa-truck-medical" style="color: #ef4444;"></i>
+          <h3>Medis (EMS)</h3>
+          <p style="font-size:12px; color:#94a3b8;">Selamatkan warga luka & rawat pasien di rumah sakit.</p>
+        </div>
+        <div class="job-select-card" onclick="selectJob('taxi')">
+          <i class="fa-solid fa-taxi" style="color: #eab308;"></i>
+          <h3>Supir Taksi</h3>
+          <p style="font-size:12px; color:#94a3b8;">Antar penumpang ke tujuan & dapatkan argo + tip.</p>
+        </div>
+        <div class="job-select-card" onclick="selectJob('delivery')">
+          <i class="fa-solid fa-box-open" style="color: #10b981;"></i>
+          <h3>Kurir Barang</h3>
+          <p style="font-size:12px; color:#94a3b8;">Kirim paket pesanan keliling kota untuk uang tunai.</p>
+        </div>
+        <div class="job-select-card" onclick="selectJob('gangster')">
+          <i class="fa-solid fa-skull-crossbones" style="color: #a855f7;"></i>
+          <h3>Gangster / Kriminal</h3>
+          <p style="font-size:12px; color:#94a3b8;">Rampok toko, bobol brankas bank, hindari kejaran polisi.</p>
+        </div>
+        <div class="job-select-card" onclick="selectJob('civilian')">
+          <i class="fa-solid fa-user" style="color: #cbd5e1;"></i>
+          <h3>Warga Sipil</h3>
+          <p style="font-size:12px; color:#94a3b8;">Bebas menjelajah kota, modifikasi mobil, santai.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help & Controls Modal -->
+  <div class="modal-overlay" id="helpOverlay" onclick="if(event.target===this) toggleHelpModal()">
+    <div id="helpModal">
+      <div class="inv-header">
+        <div class="inv-title"><i class="fa-solid fa-gamepad" style="color: #38bdf8;"></i> Kontrol & Panduan Roleplay</div>
+        <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="keybind-grid">
+        <div class="keybind-item"><span>Gerak Karakter</span><span class="kbd">W A S D</span></div>
+        <div class="keybind-item"><span>Lari Cepat (Sprint)</span><span class="kbd">SHIFT</span></div>
+        <div class="keybind-item"><span>Lompat</span><span class="kbd">SPACE</span></div>
+        <div class="keybind-item"><span>Masuk / Keluar Mobil</span><span class="kbd">F</span></div>
+        <div class="keybind-item"><span>Interaksi (Toko, Bank, NPC)</span><span class="kbd">E</span></div>
+        <div class="keybind-item"><span>Sirine Polisi / Ambulans</span><span class="kbd">Q</span></div>
+        <div class="keybind-item"><span>Sabuk Pengaman</span><span class="kbd">B</span></div>
+        <div class="keybind-item"><span>Klakson Mobil</span><span class="kbd">H</span></div>
+        <div class="keybind-item"><span>Nitro Boost Mobil</span><span class="kbd">X</span></div>
+        <div class="keybind-item"><span>Buka / Tutup Tas (Inventory)</span><span class="kbd">TAB</span></div>
+        <div class="keybind-item"><span>Buka Smartphone FiveM</span><span class="kbd">M</span></div>
+        <div class="keybind-item"><span>Pusat Pekerjaan (Jobs)</span><span class="kbd">J</span></div>
+        <div class="keybind-item"><span>Buka Obrolan RP Chat</span><span class="kbd">T</span></div>
+        <div class="keybind-item"><span>Menu Bantuan Kontrol</span><span class="kbd">F1</span></div>
+        <div class="keybind-item"><span>Membidik / Menembak</span><span class="kbd">R-Click / L-Click</span></div>
+        <div class="keybind-item"><span>Ganti Senjata (1, 2, 3, 4)</span><span class="kbd">Angka 1-4</span></div>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; line-height:1.5;">
+        💡 <b>Tips RP:</b> Datangi gedung berikon di Minimap (Bank, RS Pillbox, Kantor Polisi Mission Row, Toko 24/7). Tekan <b>E</b> untuk bertransaksi atau merampok!
+      </div>
+    </div>
+  </div>
+
+  <!-- FiveM Smartphone -->
+  <div id="phoneContainer">
+    <div class="phone-notch"></div>
+    <div class="phone-status">
+      <span id="phoneTime">12:00</span>
+      <span><i class="fa-solid fa-wifi"></i> 5G <i class="fa-solid fa-battery-full"></i></span>
+    </div>
+    
+    <div class="phone-screen">
+      <!-- Main Home Apps Grid -->
+      <div id="phoneHome" class="phone-page active">
+        <h4 style="font-size:14px; color:#94a3b8; margin-top:5px;">Los Santos OS</h4>
+        <div class="phone-app-grid">
+          <div class="phone-app-btn" onclick="openPhoneApp('bank')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-building-columns"></i></div>
+            <span class="app-label">Maze Bank</span>
+          </div>
+          <div class="phone-app-btn" onclick="openPhoneApp('bleeter')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #38bdf8, #0284c7);"><i class="fa-brands fa-twitter"></i></div>
+            <span class="app-label">Bleeter</span>
+          </div>
+          <div class="phone-app-btn" onclick="openPhoneApp('dispatch')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-phone-volume"></i></div>
+            <span class="app-label">911 Call</span>
+          </div>
+          <div class="phone-app-btn" onclick="openPhoneApp('jobs')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-briefcase"></i></div>
+            <span class="app-label">Job Center</span>
+          </div>
+          <div class="phone-app-btn" onclick="openPhoneApp('darkweb')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #6b21a8, #3b0764);"><i class="fa-solid fa-user-secret"></i></div>
+            <span class="app-label">Dark Web</span>
+          </div>
+          <div class="phone-app-btn" onclick="openPhoneApp('garage')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #64748b, #334155);"><i class="fa-solid fa-warehouse"></i></div>
+            <span class="app-label">Valet Car</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- App: Maze Bank -->
+      <div id="phoneAppBank" class="phone-page">
+        <h3 style="color:#10b981;"><i class="fa-solid fa-building-columns"></i> Maze Bank</h3>
+        <p style="font-size:12px; color:#94a3b8;">Saldo: <b id="phoneBankBalance" style="color:#fff;">$25,000</b></p>
+        <button class="btn-buy" style="margin-top:10px;" onclick="phoneDepositCash()">Deposit Semua Uang Tunai</button>
+        <button class="btn-buy" style="background:#3b82f6; margin-top:5px;" onclick="phoneWithdrawCash()">Tarik $2,000</button>
+      </div>
+
+      <!-- App: Bleeter (RP Social Media) -->
+      <div id="phoneAppBleeter" class="phone-page">
+        <h3 style="color:#38bdf8;"><i class="fa-brands fa-twitter"></i> Bleeter</h3>
+        <div id="bleeterFeed" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px; font-size:11px;">
+          <div style="background:rgba(255,255,255,0.06); padding:6px; border-radius:6px;">
+            <b>@LSPD_Official:</b> Waspada terhadap perampok toko di Vinewood!
+          </div>
+          <div style="background:rgba(255,255,255,0.06); padding:6px; border-radius:6px;">
+            <b>@BennyCustoms:</b> Diskon modifikasi mesin & cat neon hari ini!
+          </div>
+        </div>
+        <input type="text" id="bleeterInput" placeholder="Kirim bleet tweet..." style="background:#1e293b; border:none; padding:6px; color:#fff; border-radius:4px; font-size:11px;">
+        <button class="btn-buy" style="background:#0284c7; padding:4px;" onclick="sendBleet()">Kirim Tweet</button>
+      </div>
+
+      <!-- App: 911 Dispatch -->
+      <div id="phoneAppDispatch" class="phone-page">
+        <h3 style="color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> 911 Emergency</h3>
+        <p style="font-size:12px; color:#94a3b8;">Hubungi layanan darurat kota Los Santos:</p>
+        <button class="btn-buy btn-danger" style="margin-top:8px;" onclick="call911('police')"><i class="fa-solid fa-handcuffs"></i> Panggil Polisi (LSPD)</button>
+        <button class="btn-buy" style="background:#ec4899; margin-top:8px;" onclick="call911('ems')"><i class="fa-solid fa-ambulance"></i> Panggil Ambulans (EMS)</button>
+        <button class="btn-buy" style="background:#eab308; margin-top:8px;" onclick="call911('taxi')"><i class="fa-solid fa-taxi"></i> Panggil Taksi Online</button>
+      </div>
+
+      <!-- App: Dark Web -->
+      <div id="phoneAppDarkweb" class="phone-page">
+        <h3 style="color:#a855f7;"><i class="fa-solid fa-user-secret"></i> Dark Web SilkRoad</h3>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1b4b; padding:6px; border-radius:4px;">
+            <span>Lockpick Mobil ($500)</span>
+            <button class="btn-buy" style="background:#7e22ce; padding:3px 8px;" onclick="buyDarkItem('lockpick', 500)">Beli</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1b4b; padding:6px; border-radius:4px;">
+            <span>Rompi Kebal ($1,500)</span>
+            <button class="btn-buy" style="background:#7e22ce; padding:3px 8px;" onclick="buyDarkItem('armor', 1500)">Beli</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1b4b; padding:6px; border-radius:4px;">
+            <span>Pistol 9mm + Peluru ($3,000)</span>
+            <button class="btn-buy" style="background:#7e22ce; padding:3px 8px;" onclick="buyDarkItem('pistol', 3000)">Beli</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1b4b; padding:6px; border-radius:4px;">
+            <span>Assault Rifle ($8,000)</span>
+            <button class="btn-buy" style="background:#7e22ce; padding:3px 8px;" onclick="buyDarkItem('rifle', 8000)">Beli</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="phone-home-bar" onclick="returnPhoneHome()"></div>
+  </div>
+
+  <!-- Start Game Overlay -->
+  <div id="startScreen">
+    <div class="game-title">LOS SANTOS RP</div>
+    <div class="game-subtitle">Grand Theft Auto V • FiveM Web Roleplay Simulator</div>
+    
+    <div style="display:flex; gap:12px; margin: 10px 0;">
+      <span class="job-badge"><i class="fa-solid fa-shield"></i> LSPD Polisi</span>
+      <span class="job-badge"><i class="fa-solid fa-truck-medical"></i> EMS Medis</span>
+      <span class="job-badge"><i class="fa-solid fa-taxi"></i> Taksi & Kurir</span>
+      <span class="job-badge"><i class="fa-solid fa-skull"></i> Robbery Heists</span>
+    </div>
+
+    <button class="btn-start" id="btnStartGame" onclick="startGame()">
+      <i class="fa-solid fa-play"></i> MASUK KOTA (CONNECT)
+    </button>
+    
+    <div style="font-size:13px; color:#64748b; max-width: 500px; margin-top:10px;">
+      Gunakan keyboard <b>WASD</b> untuk bergerak, <b>F</b> untuk naik mobil, <b>E</b> untuk interaksi toko & misi, <b>M</b> untuk Smartphone, <b>TAB</b> untuk tas.
+    </div>
+  </div>
+
+  <!-- JavaScript Game Engine Code -->
+  <script>
+    /* ==========================================================================
+       1. PROCEDURAL SOUND SYNTHESIZER (Web Audio API)
+       ========================================================================== */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.engineOsc = null;
+        this.engineGain = null;
+        this.sirenOsc = null;
+        this.sirenGain = null;
+        this.sirenTimer = null;
+        this.isSirenOn = false;
+        this.isEngineRunning = false;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playUiClick() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.06);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.06);
+      }
+
+      playCashChime() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [987.77, 1318.51, 1975.53].forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.15, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.25);
+        });
+      }
+
+      playGunshot(gunType = 'pistol') {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        // White noise burst
+        const bufferSize = this.ctx.sampleRate * 0.15;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = gunType === 'shotgun' ? 'lowpass' : 'bandpass';
+        filter.frequency.setValueAtTime(gunType === 'shotgun' ? 600 : 1200, now);
+        filter.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.4, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+        // Low boom oscillator
+        const osc = this.ctx.createOscillator();
+        const oscGain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
+        oscGain.gain.setValueAtTime(0.3, now);
+        oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.connect(oscGain);
+        oscGain.connect(this.ctx.destination);
+
+        noise.start(now);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      }
+
+      playCarHorn() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [440, 554].forEach(f => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(f, now);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.linearRampToValueAtTime(0.1, now + 0.3);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        });
+      }
+
+      startEngineSound() {
+        if (!this.ctx || this.isEngineRunning) return;
+        this.isEngineRunning = true;
+        this.engineOsc = this.ctx.createOscillator();
+        this.engineGain = this.ctx.createGain();
+        this.engineOsc.type = 'sawtooth';
+        this.engineOsc.frequency.setValueAtTime(45, this.ctx.currentTime);
+        this.engineGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        this.engineOsc.connect(this.engineGain);
+        this.engineGain.connect(this.ctx.destination);
+        this.engineOsc.start();
+      }
+
+      updateEngineRPM(speedRatio) {
+        if (!this.isEngineRunning || !this.engineOsc) return;
+        const targetFreq = 45 + speedRatio * 180;
+        this.engineOsc.frequency.setTargetAtTime(targetFreq, this.ctx.currentTime, 0.05);
+      }
+
+      stopEngineSound() {
+        if (!this.isEngineRunning) return;
+        try {
+          this.engineGain.gain.setTargetAtTime(0.001, this.ctx.currentTime, 0.05);
+          setTimeout(() => {
+            if (this.engineOsc) {
+              this.engineOsc.stop();
+              this.engineOsc.disconnect();
+              this.engineOsc = null;
+            }
+          }, 100);
+        } catch (e) {}
+        this.isEngineRunning = false;
+      }
+
+      toggleSiren(state) {
+        if (state === undefined) this.isSirenOn = !this.isSirenOn;
+        else this.isSirenOn = state;
+
+        if (!this.ctx) return;
+        if (this.isSirenOn) {
+          if (this.sirenTimer) clearInterval(this.sirenTimer);
+          this.sirenOsc = this.ctx.createOscillator();
+          this.sirenGain = this.ctx.createGain();
+          this.sirenOsc.type = 'sine';
+          this.sirenGain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          this.sirenOsc.connect(this.sirenGain);
+          this.sirenGain.connect(this.ctx.destination);
+          this.sirenOsc.start();
+
+          let toggle = false;
+          this.sirenTimer = setInterval(() => {
+            if (!this.isSirenOn || !this.sirenOsc) return;
+            toggle = !toggle;
+            const freq = toggle ? 920 : 650;
+            this.sirenOsc.frequency.setTargetAtTime(freq, this.ctx.currentTime, 0.15);
+          }, 450);
+        } else {
+          if (this.sirenTimer) clearInterval(this.sirenTimer);
+          if (this.sirenOsc) {
+            this.sirenGain.gain.setTargetAtTime(0.001, this.ctx.currentTime, 0.05);
+            setTimeout(() => {
+              if (this.sirenOsc) {
+                this.sirenOsc.stop();
+                this.sirenOsc.disconnect();
+                this.sirenOsc = null;
+              }
+            }, 100);
+          }
+        }
+      }
+    }
+
+    const audio = new SoundEngine();
+
+    /* ==========================================================================
+       2. ROLEPLAY GAME STATE & DATA
+       ========================================================================== */
+    const RP = {
+      player: {
+        name: 'Alex Vance',
+        wallet: 5000,
+        bank: 25000,
+        job: 'civilian', // 'police', 'ems', 'taxi', 'delivery', 'gangster', 'civilian'
+        wantedLevel: 0,
+        health: 100,
+        armor: 100,
+        hunger: 90,
+        thirst: 92,
+        stamina: 100,
+        isDead: false,
+        seatbelt: false,
+        inVehicle: false,
+        currentVehicle: null,
+        currentWeapon: 'fists', // 'fists', 'taser', 'pistol', 'smg', 'shotgun', 'rifle'
+        ammo: { pistol: 48, smg: 120, shotgun: 24, rifle: 180 },
+        inventory: [
+          { id: 'phone', name: 'FiveM Smartphone', icon: 'fa-mobile-screen', count: 1, weight: 0.3 },
+          { id: 'idcard', name: 'KTP & SIM Driver', icon: 'fa-id-card', count: 1, weight: 0.1 },
+          { id: 'donut', name: 'Donat Manis', icon: 'fa-cookie-bite', count: 3, weight: 0.6, type: 'food', val: 25 },
+          { id: 'water', name: 'Air Mineral E-Cola', icon: 'fa-bottle-water', count: 4, weight: 1.2, type: 'drink', val: 30 },
+          { id: 'medkit', name: 'P3K Medkit', icon: 'fa-kit-medical', count: 2, weight: 1.0, type: 'med', val: 50 },
+          { id: 'repairkit', name: 'Repair Kit Mesin', icon: 'fa-wrench', count: 1, weight: 2.0, type: 'tool' },
+          { id: 'lockpick', name: 'Lockpick Pembobol', icon: 'fa-key', count: 2, weight: 0.4, type: 'tool' }
+        ],
+        activeMission: null
+      },
+      cityLocations: [
+        { id: 'police_hq', name: 'LSPD Mission Row (Polisi)', type: 'police', x: -80, z: -60, color: '#3b82f6', icon: 'fa-shield' },
+        { id: 'hospital', name: 'Pillbox Hill Hospital (EMS)', type: 'hospital', x: 70, z: -70, color: '#ef4444', icon: 'fa-hospital' },
+        { id: 'bank', name: 'Pacific Standard Bank', type: 'bank', x: 0, z: 80, color: '#10b981', icon: 'fa-building-columns' },
+        { id: 'store_247', name: '24/7 Supermarket Vinewood', type: 'store', x: -70, z: 60, color: '#f59e0b', icon: 'fa-store' },
+        { id: 'customs', name: "Benny's Motor Works Garage", type: 'garage', x: 80, z: 60, color: '#8b5cf6', icon: 'fa-warehouse' },
+        { id: 'pdm', name: 'PDM Car Dealership', type: 'dealership', x: 0, z: -100, color: '#ec4899', icon: 'fa-car' }
+      ]
+    };
+
+    /* ==========================================================================
+       3. THREE.JS 3D SCENE & ENVIRONMENT SETUP
+       ========================================================================== */
+    let scene, camera, renderer, clock;
+    let playerMesh, playerGroup;
+    let vehicles = [];
+    let pedestrians = [];
+    let buildingColliders = [];
+    let interactiveSpots = [];
+    let keys = {};
+    let mouse = { x: 0, y: 0, isAiming: false, isMouseDown: false };
+    let cameraAngle = { pitch: 0.35, yaw: 0 };
+    let activePrompt = null;
+
+    function init3DWorld() {
+      const canvas = document.getElementById('gameCanvas');
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0a0e17);
+      scene.fog = new THREE.FogExp2(0x0a0e17, 0.007);
+
+      camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 5, 10);
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      clock = new THREE.Clock();
+
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xdde8f5, 0.45);
+      scene.add(ambientLight);
+
+      const sunLight = new THREE.DirectionalLight(0xfffaed, 0.85);
+      sunLight.position.set(80, 150, 60);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.camera.near = 10;
+      sunLight.shadow.camera.far = 300;
+      const d = 140;
+      sunLight.shadow.camera.left = -d;
+      sunLight.shadow.camera.right = d;
+      sunLight.shadow.camera.top = d;
+      sunLight.shadow.camera.bottom = -d;
+      scene.add(sunLight);
+
+      buildCityMap();
+      createPlayerCharacter();
+      spawnAmbientTrafficAndPedestrians();
+
+      // Event Listeners
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('keydown', onKeyDown);
+      window.addEventListener('keyup', onKeyUp);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mousedown', onMouseDown);
+      window.addEventListener('mouseup', onMouseUp);
+      window.addEventListener('contextmenu', e => e.preventDefault());
+
+      // Start Loops
+      renderLoop();
+      setInterval(gameUpdateTimer, 1000);
+    }
+
+    /* ==========================================================================
+       4. CITY MAP GENERATOR (Roads, Buildings, Signs, Trees)
+       ========================================================================== */
+    function buildCityMap() {
+      // Ground / Terrain
+      const groundGeo = new THREE.PlaneGeometry(600, 600);
+      const groundMat = new THREE.MeshStandardMaterial({ color: 0x182026, roughness: 0.9, metalness: 0.1 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      scene.add(ground);
+
+      // Roads Network (Grid System)
+      const roadMat = new THREE.MeshStandardMaterial({ color: 0x1f242b, roughness: 0.8 });
+      const lineMat = new THREE.MeshBasicMaterial({ color: 0xf1c40f });
+
+      // Create road grid (-200 to +200)
+      for (let x = -160; x <= 160; x += 80) {
+        // Vertical Roads
+        const vRoad = new THREE.Mesh(new THREE.PlaneGeometry(16, 400), roadMat);
+        vRoad.rotation.x = -Math.PI / 2;
+        vRoad.position.set(x, 0.02, 0);
+        vRoad.receiveShadow = true;
+        scene.add(vRoad);
+
+        // Center Road Line
+        const vLine = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 380), lineMat);
+        vLine.rotation.x = -Math.PI / 2;
+        vLine.position.set(x, 0.03, 0);
+        scene.add(vLine);
+      }
+
+      for (let z = -160; z <= 160; z += 80) {
+        // Horizontal Roads
+        const hRoad = new THREE.Mesh(new THREE.PlaneGeometry(400, 16), roadMat);
+        hRoad.rotation.x = -Math.PI / 2;
+        hRoad.position.set(0, 0.02, z);
+        hRoad.receiveShadow = true;
+        scene.add(hRoad);
+
+        // Center Road Line
+        const hLine = new THREE.Mesh(new THREE.PlaneGeometry(380, 0.4), lineMat);
+        hLine.rotation.x = -Math.PI / 2;
+        hLine.position.set(0, 0.03, z);
+        scene.add(hLine);
+      }
+
+      // City Blocks with Buildings & Landmarks
+      RP.cityLocations.forEach(loc => {
+        createLandmarkBuilding(loc);
+      });
+
+      // Procedural Skyscrapers and Houses
+      createProceduralCityBlocks();
+    }
+
+    function createLandmarkBuilding(loc) {
+      const group = new THREE.Group();
+      group.position.set(loc.x, 0, loc.z);
+
+      // Main Landmark Mesh
+      let color = 0x2c3e50;
+      let height = 24;
+      let width = 28;
+      let depth = 28;
+
+      if (loc.type === 'police') { color = 0x1e3a8a; height = 20; }
+      else if (loc.type === 'hospital') { color = 0xdbeafe; height = 28; }
+      else if (loc.type === 'bank') { color = 0x064e3b; height = 36; width = 34; }
+      else if (loc.type === 'store') { color = 0xd97706; height = 12; width = 20; }
+      else if (loc.type === 'dealership') { color = 0x831843; height = 14; width = 30; }
+      else if (loc.type === 'garage') { color = 0x4c1d95; height = 12; width = 22; }
+
+      const bGeo = new THREE.BoxGeometry(width, height, depth);
+      const bMat = new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.3 });
+      const bMesh = new THREE.Mesh(bGeo, bMat);
+      bMesh.position.y = height / 2;
+      bMesh.castShadow = true;
+      bMesh.receiveShadow = true;
+      group.add(bMesh);
+
+      // Glowing Neon Sign Banner
+      const signGeo = new THREE.BoxGeometry(width * 0.7, 3, 0.8);
+      const signMat = new THREE.MeshBasicMaterial({ color: loc.color });
+      const signMesh = new THREE.Mesh(signGeo, signMat);
+      signMesh.position.set(0, height * 0.7, depth / 2 + 0.5);
+      group.add(signMesh);
+
+      // Spot Light
+      const spotLight = new THREE.PointLight(loc.color, 1.2, 25);
+      spotLight.position.set(0, 4, depth / 2 + 4);
+      group.add(spotLight);
+
+      // Interactive Marker Cylinder on ground
+      const markerGeo = new THREE.CylinderGeometry(1.8, 1.8, 0.2, 24);
+      const markerMat = new THREE.MeshBasicMaterial({ color: loc.color, transparent: true, opacity: 0.65 });
+      const marker = new THREE.Mesh(markerGeo, markerMat);
+      marker.position.set(0, 0.1, depth / 2 + 4);
+      group.add(marker);
+
+      scene.add(group);
+
+      // Add to interactive spots
+      interactiveSpots.push({
+        id: loc.id,
+        name: loc.name,
+        type: loc.type,
+        x: loc.x,
+        z: loc.z + depth / 2 + 4,
+        radius: 3.5,
+        action: () => handleInteractSpot(loc)
+      });
+
+      // Collider box
+      buildingColliders.push({
+        minX: loc.x - width / 2 - 1,
+        maxX: loc.x + width / 2 + 1,
+        minZ: loc.z - depth / 2 - 1,
+        maxZ: loc.z + depth / 2 + 1
+      });
+    }
+
+    function createProceduralCityBlocks() {
+      // Skyscraper clusters in downtown blocks
+      const blockCoords = [
+        { x: -80, z: 0 }, { x: 0, z: 0 }, { x: 80, z: 0 },
+        { x: -80, z: -160 }, { x: 0, z: -160 }, { x: 80, z: -160 },
+        { x: -160, z: -80 }, { x: -160, z: 0 }, { x: -160, z: 80 },
+        { x: 160, z: -80 }, { x: 160, z: 0 }, { x: 160, z: 80 }
+      ];
+
+      const bColors = [0x1e293b, 0x0f172a, 0x334155, 0x111827, 0x27272a];
+
+      blockCoords.forEach(b => {
+        const height = 30 + Math.random() * 50;
+        const width = 24 + Math.random() * 12;
+        const depth = 24 + Math.random() * 12;
+        const color = bColors[Math.floor(Math.random() * bColors.length)];
+
+        const geo = new THREE.BoxGeometry(width, height, depth);
+        const mat = new THREE.MeshStandardMaterial({
+          color,
+          roughness: 0.3,
+          metalness: 0.6
+        });
+        const building = new THREE.Mesh(geo, mat);
+        building.position.set(b.x, height / 2, b.z);
+        building.castShadow = true;
+        building.receiveShadow = true;
+        scene.add(building);
+
+        // Neon Roof antenna
+        const antGeo = new THREE.CylinderGeometry(0.2, 0.4, 12);
+        const antMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+        const antenna = new THREE.Mesh(antGeo, antMat);
+        antenna.position.set(b.x, height + 6, b.z);
+        scene.add(antenna);
+
+        buildingColliders.push({
+          minX: b.x - width / 2 - 1,
+          maxX: b.x + width / 2 + 1,
+          minZ: b.z - depth / 2 - 1,
+          maxZ: b.z + depth / 2 + 1
+        });
+      });
+
+      // Street Lamps along roads
+      for (let x = -160; x <= 160; x += 80) {
+        for (let z = -140; z <= 140; z += 40) {
+          createStreetLamp(x + 9, z);
+          createStreetLamp(x - 9, z);
+        }
+      }
+
+      // Palm Trees
+      for (let i = 0; i < 30; i++) {
+        const px = (Math.random() - 0.5) * 320;
+        const pz = (Math.random() - 0.5) * 320;
+        if (Math.abs(px % 80) > 12 && Math.abs(pz % 80) > 12) {
+          createPalmTree(px, pz);
+        }
+      }
+    }
+
+    function createStreetLamp(x, z) {
+      const poleGeo = new THREE.CylinderGeometry(0.12, 0.16, 7);
+      const poleMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
+      const pole = new THREE.Mesh(poleGeo, poleMat);
+      pole.position.set(x, 3.5, z);
+      scene.add(pole);
+
+      const lampHead = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
+      lampHead.position.set(x, 7, z);
+      scene.add(lampHead);
+    }
+
+    function createPalmTree(x, z) {
+      const trunkGeo = new THREE.CylinderGeometry(0.25, 0.45, 8, 8);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x78350f });
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.set(x, 4, z);
+      scene.add(trunk);
+
+      const leavesGeo = new THREE.ConeGeometry(2.5, 4, 8);
+      const leavesMat = new THREE.MeshStandardMaterial({ color: 0x15803d });
+      const leaves = new THREE.Mesh(leavesGeo, leavesMat);
+      leaves.position.set(x, 8, z);
+      scene.add(leaves);
+    }
+
+    /* ==========================================================================
+       5. PLAYER CHARACTER (3D Mesh & Animations)
+       ========================================================================== */
+    function createPlayerCharacter() {
+      playerGroup = new THREE.Group();
+      playerGroup.position.set(0, 0, 10);
+
+      // Body / Torso
+      const torsoGeo = new THREE.BoxGeometry(0.8, 1.1, 0.45);
+      const torsoMat = new THREE.MeshStandardMaterial({ color: 0x2563eb }); // Blue shirt
+      const torso = new THREE.Mesh(torsoGeo, torsoMat);
+      torso.position.y = 1.35;
+      torso.castShadow = true;
+      playerGroup.add(torso);
+
+      // Head
+      const headGeo = new THREE.SphereGeometry(0.32, 16, 16);
+      const headMat = new THREE.MeshStandardMaterial({ color: 0xfbcfe8 });
+      const head = new THREE.Mesh(headGeo, headMat);
+      head.position.y = 2.15;
+      head.castShadow = true;
+      playerGroup.add(head);
+
+      // Hair
+      const hairGeo = new THREE.BoxGeometry(0.68, 0.25, 0.68);
+      const hairMat = new THREE.MeshStandardMaterial({ color: 0x1c1917 });
+      const hair = new THREE.Mesh(hairGeo, hairMat);
+      hair.position.y = 2.35;
+      playerGroup.add(hair);
+
+      // Legs
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b }); // Jeans
+      const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.9, 0.35), legMat);
+      leftLeg.position.set(-0.22, 0.45, 0);
+      leftLeg.castShadow = true;
+      playerGroup.add(leftLeg);
+
+      const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.9, 0.35), legMat);
+      rightLeg.position.set(0.22, 0.45, 0);
+      rightLeg.castShadow = true;
+      playerGroup.add(rightLeg);
+
+      // Arms & Weapon Holder
+      const armMat = new THREE.MeshStandardMaterial({ color: 0x2563eb });
+      const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.25), armMat);
+      rightArm.position.set(0.55, 1.35, 0);
+      rightArm.castShadow = true;
+      playerGroup.add(rightArm);
+
+      const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.25), armMat);
+      leftArm.position.set(-0.55, 1.35, 0);
+      leftArm.castShadow = true;
+      playerGroup.add(leftArm);
+
+      scene.add(playerGroup);
+      playerMesh = playerGroup;
+    }
+
+    /* ==========================================================================
+       6. VEHICLE SYSTEM (Supercars, Cop Cars, Ambulances, Physics)
+       ========================================================================== */
+    function spawnVehicle(type, x, z, angle = 0) {
+      const vGroup = new THREE.Group();
+      vGroup.position.set(x, 0, z);
+      vGroup.rotation.y = angle;
+
+      let bodyColor = 0xe11d48; // Supercar red
+      let isEmergency = false;
+      let sirenColor1 = 0xff0000;
+      let sirenColor2 = 0x0000ff;
+
+      if (type === 'police') {
+        bodyColor = 0x0f172a; // Black & White cop
+        isEmergency = true;
+      } else if (type === 'ambulance') {
+        bodyColor = 0xf8fafc; // White EMS
+        isEmergency = true;
+        sirenColor1 = 0xff0000;
+        sirenColor2 = 0xffffff;
+      } else if (type === 'taxi') {
+        bodyColor = 0xfacc15; // Yellow taxi
+      } else if (type === 'muscle') {
+        bodyColor = 0x475569;
+      }
+
+      // Chassis / Body
+      const bodyGeo = new THREE.BoxGeometry(2.4, 0.9, 4.6);
+      const bodyMat = new THREE.MeshStandardMaterial({ color: bodyColor, metalness: 0.7, roughness: 0.2 });
+      const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
+      bodyMesh.position.y = 0.75;
+      bodyMesh.castShadow = true;
+      vGroup.add(bodyMesh);
+
+      // Cabin / Roof & Windows
+      const cabinGeo = new THREE.BoxGeometry(2.0, 0.7, 2.4);
+      const cabinMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1 });
+      const cabinMesh = new THREE.Mesh(cabinGeo, cabinMat);
+      cabinMesh.position.set(0, 1.45, -0.2);
+      cabinMesh.castShadow = true;
+      vGroup.add(cabinMesh);
+
+      // Wheels
+      const wheelGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.4, 16);
+      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.9 });
+      const wheelPositions = [
+        [-1.2, 0.45, 1.4], [1.2, 0.45, 1.4],
+        [-1.2, 0.45, -1.4], [1.2, 0.45, -1.4]
+      ];
+      wheelPositions.forEach(pos => {
+        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+        wheel.rotation.z = Math.PI / 2;
+        wheel.position.set(pos[0], pos[1], pos[2]);
+        wheel.castShadow = true;
+        vGroup.add(wheel);
+      });
+
+      // Headlights
+      const headL = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      headL.position.set(-0.8, 0.8, 2.3);
+      vGroup.add(headL);
+      const headR = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      headR.position.set(0.8, 0.8, 2.3);
+      vGroup.add(headR);
+
+      // Taillights
+      const tailL = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+      tailL.position.set(-0.8, 0.8, -2.3);
+      vGroup.add(tailL);
+      const tailR = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
+      tailR.position.set(0.8, 0.8, -2.3);
+      vGroup.add(tailR);
+
+      // Emergency Lightbar
+      let lightbar1 = null, lightbar2 = null;
+      if (isEmergency) {
+        const barGeo = new THREE.BoxGeometry(1.6, 0.2, 0.4);
+        const barMesh = new THREE.Mesh(barGeo, new THREE.MeshBasicMaterial({ color: 0x334155 }));
+        barMesh.position.set(0, 1.9, -0.2);
+        vGroup.add(barMesh);
+
+        lightbar1 = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.25, 0.35), new THREE.MeshBasicMaterial({ color: sirenColor1 }));
+        lightbar1.position.set(-0.45, 1.95, -0.2);
+        vGroup.add(lightbar1);
+
+        lightbar2 = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.25, 0.35), new THREE.MeshBasicMaterial({ color: sirenColor2 }));
+        lightbar2.position.set(0.45, 1.95, -0.2);
+        vGroup.add(lightbar2);
+      }
+
+      scene.add(vGroup);
+
+      const vehicleData = {
+        group: vGroup,
+        type: type,
+        speed: 0,
+        maxSpeed: type === 'supercar' ? 1.6 : (type === 'police' ? 1.4 : 1.1),
+        accel: 0.02,
+        brake: 0.035,
+        turnSpeed: 0.038,
+        steer: 0,
+        fuel: 100,
+        health: 1000,
+        isEmergency,
+        lightbar1,
+        lightbar2,
+        sirenActive: false,
+        nitroActive: false
+      };
+
+      vehicles.push(vehicleData);
+      return vehicleData;
+    }
+
+    function spawnPlayerCar(type = 'supercar') {
+      const pos = playerGroup.position;
+      const v = spawnVehicle(type, pos.x + 4, pos.z + 2, playerGroup.rotation.y);
+      showNotification(`Kendaraan ${type.toUpperCase()} telah diparkir di dekat Anda!`, 'success');
+      audio.playUiClick();
+    }
+
+    function spawnAmbientTrafficAndPedestrians() {
+      // Spawn Vehicles at specific landmarks
+      spawnVehicle('police', -75, -45, Math.PI / 2);
+      spawnVehicle('ambulance', 75, -55, 0);
+      spawnVehicle('taxi', -5, 70, 0);
+      spawnVehicle('supercar', 5, -85, Math.PI);
+      spawnVehicle('muscle', 75, 45, -Math.PI / 2);
+
+      // Pedestrians (Walkers)
+      for (let i = 0; i < 20; i++) {
+        const ped = new THREE.Group();
+        const px = (Math.random() - 0.5) * 260;
+        const pz = (Math.random() - 0.5) * 260;
+        ped.position.set(px, 0, pz);
+
+        const colors = [0xef4444, 0x10b981, 0x3b82f6, 0xf59e0b, 0x8b5cf6];
+        const pedColor = colors[Math.floor(Math.random() * colors.length)];
+
+        const body = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.1, 0.4), new THREE.MeshStandardMaterial({ color: pedColor }));
+        body.position.y = 1.35;
+        body.castShadow = true;
+        ped.add(body);
+
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 12), new THREE.MeshStandardMaterial({ color: 0xfcd34d }));
+        head.position.y = 2.1;
+        head.castShadow = true;
+        ped.add(head);
+
+        scene.add(ped);
+        pedestrians.push({
+          group: ped,
+          targetX: px + (Math.random() - 0.5) * 40,
+          targetZ: pz + (Math.random() - 0.5) * 40,
+          speed: 0.04 + Math.random() * 0.03,
+          isPanicking: false
+        });
+      }
+    }
+
+    /* ==========================================================================
+       7. PLAYER CONTROLS & INTERACTION ENGINE
+       ========================================================================== */
+    function onKeyDown(e) {
+      keys[e.code] = true;
+
+      // Disable inputs when chat input is focused
+      if (document.activeElement === document.getElementById('chatInput')) {
+        if (e.code === 'Enter') sendChatMessage();
+        if (e.code === 'Escape') toggleChat(false);
+        return;
+      }
+
+      // Hotkeys
+      if (e.code === 'KeyT') {
+        e.preventDefault();
+        toggleChat(true);
+      } else if (e.code === 'Tab') {
+        e.preventDefault();
+        toggleInventory();
+      } else if (e.code === 'KeyM' || e.code === 'KeyP') {
+        e.preventDefault();
+        togglePhone();
+      } else if (e.code === 'KeyJ') {
+        e.preventDefault();
+        openJobCenter();
+      } else if (e.code === 'F1') {
+        e.preventDefault();
+        toggleHelpModal();
+      } else if (e.code === 'KeyF') {
+        // Enter / Exit Vehicle
+        handleVehicleEnterExit();
+      } else if (e.code === 'KeyE') {
+        // Interaction
+        if (activePrompt && activePrompt.action) {
+          activePrompt.action();
+        }
+      } else if (e.code === 'KeyQ') {
+        // Siren Toggle in Emergency Vehicle
+        if (RP.player.inVehicle && RP.player.currentVehicle.isEmergency) {
+          const v = RP.player.currentVehicle;
+          v.sirenActive = !v.sirenActive;
+          audio.toggleSiren(v.sirenActive);
+          document.getElementById('sirenIcon').classList.toggle('active', v.sirenActive);
+          showNotification(`Sirine ${v.sirenActive ? 'ON' : 'OFF'}`, 'warning');
+        }
+      } else if (e.code === 'KeyB') {
+        // Seatbelt
+        if (RP.player.inVehicle) {
+          RP.player.seatbelt = !RP.player.seatbelt;
+          const sIcon = document.getElementById('seatbeltIcon');
+          sIcon.classList.toggle('seatbelt-off', !RP.player.seatbelt);
+          sIcon.classList.toggle('active', RP.player.seatbelt);
+          audio.playUiClick();
+          showNotification(`Sabuk Pengaman: ${RP.player.seatbelt ? 'TERPASANG' : 'DILEPAS'}`, RP.player.seatbelt ? 'success' : 'danger');
+        }
+      } else if (e.code === 'KeyH') {
+        // Horn
+        if (RP.player.inVehicle) audio.playCarHorn();
+      } else if (e.code === 'Digit1') {
+        selectWeapon('fists');
+      } else if (e.code === 'Digit2') {
+        selectWeapon('taser');
+      } else if (e.code === 'Digit3') {
+        selectWeapon('pistol');
+      } else if (e.code === 'Digit4') {
+        selectWeapon('rifle');
+      }
+    }
+
+    function onKeyUp(e) {
+      keys[e.code] = false;
+    }
+
+    function onMouseMove(e) {
+      if (document.pointerLockElement === document.body || mouse.isAiming) {
+        cameraAngle.yaw -= e.movementX * 0.003;
+        cameraAngle.pitch -= e.movementY * 0.003;
+        cameraAngle.pitch = Math.max(0.05, Math.min(Math.PI / 2.2, cameraAngle.pitch));
+      }
+    }
+
+    function onMouseDown(e) {
+      if (e.button === 2) {
+        // Right Click Aim
+        mouse.isAiming = true;
+        document.getElementById('crosshair').classList.add('aiming');
+      } else if (e.button === 0) {
+        // Left Click Shoot / Attack
+        if (!RP.player.inVehicle) {
+          fireWeapon();
+        }
+      }
+    }
+
+    function onMouseUp(e) {
+      if (e.button === 2) {
+        mouse.isAiming = false;
+        document.getElementById('crosshair').classList.remove('aiming');
+      }
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    /* ==========================================================================
+       8. GAME LOGIC & UPDATE LOOPS
+       ========================================================================== */
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+      const delta = clock.getDelta();
+
+      updatePlayerMovement(delta);
+      updateVehicles(delta);
+      updatePedestrians(delta);
+      updateCamera();
+      checkInteractions();
+      renderRadarMinimap();
+
+      renderer.render(scene, camera);
+    }
+
+    function updatePlayerMovement(delta) {
+      if (RP.player.inVehicle) {
+        // Sync player position with car
+        const v = RP.player.currentVehicle;
+        playerGroup.position.copy(v.group.position);
+        playerGroup.visible = false;
+        return;
+      }
+      playerGroup.visible = true;
+
+      let moveSpeed = 6.0;
+      if (keys['ShiftLeft'] || keys['ShiftRight']) {
+        if (RP.player.stamina > 10) {
+          moveSpeed = 12.0;
+          RP.player.stamina = Math.max(0, RP.player.stamina - delta * 12);
+        }
+      } else {
+        RP.player.stamina = Math.min(100, RP.player.stamina + delta * 8);
+      }
+
+      let dx = 0, dz = 0;
+      if (keys['KeyW']) dz -= 1;
+      if (keys['KeyS']) dz += 1;
+      if (keys['KeyA']) dx -= 1;
+      if (keys['KeyD']) dx += 1;
+
+      if (dx !== 0 || dz !== 0) {
+        const angle = cameraAngle.yaw + Math.atan2(dx, dz);
+        const moveX = Math.sin(angle) * moveSpeed * delta;
+        const moveZ = Math.cos(angle) * moveSpeed * delta;
+
+        // Collision detection with buildings
+        const newX = playerGroup.position.x + moveX;
+        const newZ = playerGroup.position.z + moveZ;
+
+        let blocked = false;
+        for (let b of buildingColliders) {
+          if (newX > b.minX && newX < b.maxX && newZ > b.minZ && newZ < b.maxZ) {
+            blocked = true;
+            break;
+          }
+        }
+
+        if (!blocked) {
+          playerGroup.position.x = newX;
+          playerGroup.position.z = newZ;
+        }
+
+        // Face movement direction
+        playerGroup.rotation.y = angle + Math.PI;
+      }
+    }
+
+    function updateVehicles(delta) {
+      vehicles.forEach(v => {
+        // Active Player Driven Vehicle
+        if (RP.player.inVehicle && RP.player.currentVehicle === v) {
+          let accel = 0;
+          if (keys['KeyW']) accel += v.accel;
+          if (keys['KeyS']) accel -= v.brake;
+
+          // Nitro Boost
+          if (keys['KeyX'] && v.speed > 0.2) {
+            accel *= 2.5;
+            v.nitroActive = true;
+          } else {
+            v.nitroActive = false;
+          }
+
+          v.speed += accel;
+          v.speed *= 0.98; // Friction
+          v.speed = Math.max(-0.4, Math.min(v.maxSpeed, v.speed));
+
+          // Steering
+          if (Math.abs(v.speed) > 0.05) {
+            const dir = v.speed > 0 ? 1 : -1;
+            if (keys['KeyA']) v.group.rotation.y += v.turnSpeed * dir;
+            if (keys['KeyD']) v.group.rotation.y -= v.turnSpeed * dir;
+          }
+
+          // Move Vehicle Forward in its direction
+          const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), v.group.rotation.y);
+          v.group.position.add(forward.multiplyScalar(v.speed * 45 * delta));
+
+          // Update HUD Speedometer & Audio
+          const kmh = Math.round(Math.abs(v.speed) * 110);
+          document.getElementById('speedNum').innerText = kmh;
+          document.getElementById('gearNum').innerText = v.speed < -0.05 ? 'R' : (kmh === 0 ? 'P' : 'D');
+          audio.updateEngineRPM(Math.abs(v.speed) / v.maxSpeed);
+
+          // Siren Lightbar strobe animation
+          if (v.isEmergency && v.sirenActive) {
+            const time = Date.now() * 0.01;
+            v.lightbar1.material.color.setHex(Math.sin(time) > 0 ? 0xff0000 : 0x000000);
+            v.lightbar2.material.color.setHex(Math.cos(time) > 0 ? 0x0000ff : 0x000000);
+          }
+        }
+      });
+    }
+
+    function updatePedestrians(delta) {
+      pedestrians.forEach(p => {
+        const dx = p.targetX - p.group.position.x;
+        const dz = p.targetZ - p.group.position.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 2) {
+          p.targetX = (Math.random() - 0.5) * 260;
+          p.targetZ = (Math.random() - 0.5) * 260;
+        } else {
+          const angle = Math.atan2(dx, dz);
+          p.group.position.x += Math.sin(angle) * p.speed;
+          p.group.position.z += Math.cos(angle) * p.speed;
+          p.group.rotation.y = angle;
+        }
+      });
+    }
+
+    function updateCamera() {
+      const targetPos = RP.player.inVehicle ? RP.player.currentVehicle.group.position : playerGroup.position;
+      const camDist = RP.player.inVehicle ? 9.0 : (mouse.isAiming ? 2.8 : 5.5);
+      const camHeight = RP.player.inVehicle ? 3.8 : 2.2;
+
+      const cx = targetPos.x + Math.sin(cameraAngle.yaw) * camDist;
+      const cz = targetPos.z + Math.cos(cameraAngle.yaw) * camDist;
+      const cy = targetPos.y + camHeight + Math.sin(cameraAngle.pitch) * camDist;
+
+      camera.position.set(cx, cy, cz);
+      camera.lookAt(targetPos.x, targetPos.y + 1.4, targetPos.z);
+    }
+
+    function handleVehicleEnterExit() {
+      if (RP.player.inVehicle) {
+        // Exit Vehicle
+        const v = RP.player.currentVehicle;
+        RP.player.inVehicle = false;
+        RP.player.currentVehicle = null;
+        playerGroup.position.set(v.group.position.x + 2.5, 0, v.group.position.z);
+        document.getElementById('speedoContainer').style.display = 'none';
+        audio.stopEngineSound();
+        audio.toggleSiren(false);
+        showNotification('Anda telah keluar dari kendaraan.', 'warning');
+      } else {
+        // Find closest vehicle
+        let closest = null;
+        let minDist = 4.5;
+        vehicles.forEach(v => {
+          const dist = playerGroup.position.distanceTo(v.group.position);
+          if (dist < minDist) {
+            minDist = dist;
+            closest = v;
+          }
+        });
+
+        if (closest) {
+          RP.player.inVehicle = true;
+          RP.player.currentVehicle = closest;
+          document.getElementById('speedoContainer').style.display = 'flex';
+          audio.startEngineSound();
+          audio.playUiClick();
+          showNotification(`Memasuki ${closest.type.toUpperCase()}. Tekan F untuk keluar, Q sirine, B sabuk.`, 'success');
+        }
+      }
+    }
+
+    function checkInteractions() {
+      const pos = playerGroup.position;
+      let found = null;
+
+      interactiveSpots.forEach(spot => {
+        const dist = Math.hypot(pos.x - spot.x, pos.z - spot.z);
+        if (dist <= spot.radius) {
+          found = spot;
+        }
+      });
+
+      const promptEl = document.getElementById('interactPrompt');
+      const promptText = document.getElementById('promptText');
+
+      if (found && !RP.player.inVehicle) {
+        activePrompt = found;
+        promptText.innerText = `Tekan [E] untuk ${found.name}`;
+        promptEl.style.display = 'flex';
+      } else {
+        activePrompt = null;
+        promptEl.style.display = 'none';
+      }
+    }
+
+    /* ==========================================================================
+       9. RADAR MINIMAP (Canvas 2D)
+       ========================================================================== */
+    function renderRadarMinimap() {
+      const canvas = document.getElementById('radarCanvas');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const center = w / 2;
+      const scale = 0.55;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const pPos = playerGroup.position;
+
+      ctx.save();
+      ctx.translate(center, center);
+      ctx.rotate(-cameraAngle.yaw);
+
+      // Draw Roads
+      ctx.strokeStyle = '#2d3748';
+      ctx.lineWidth = 10;
+      for (let x = -160; x <= 160; x += 80) {
+        const rx = (x - pPos.x) * scale;
+        ctx.beginPath();
+        ctx.moveTo(rx, -200);
+        ctx.lineTo(rx, 200);
+        ctx.stroke();
+      }
+      for (let z = -160; z <= 160; z += 80) {
+        const rz = (z - pPos.z) * scale;
+        ctx.beginPath();
+        ctx.moveTo(-200, rz);
+        ctx.lineTo(200, rz);
+        ctx.stroke();
+      }
+
+      // Draw Landmark Icons
+      RP.cityLocations.forEach(loc => {
+        const lx = (loc.x - pPos.x) * scale;
+        const lz = (loc.z - pPos.z) * scale;
+
+        ctx.fillStyle = loc.color;
+        ctx.beginPath();
+        ctx.arc(lx, lz, 5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw Vehicles
+      vehicles.forEach(v => {
+        const vx = (v.group.position.x - pPos.x) * scale;
+        const vz = (v.group.position.z - pPos.z) * scale;
+        ctx.fillStyle = v.isEmergency ? '#3b82f6' : '#e2e8f0';
+        ctx.fillRect(vx - 2, vz - 3, 4, 6);
+      });
+
+      ctx.restore();
+
+      // Center Player Arrow
+      ctx.fillStyle = '#22c55e';
+      ctx.beginPath();
+      ctx.moveTo(center, center - 7);
+      ctx.lineTo(center - 5, center + 6);
+      ctx.lineTo(center + 5, center + 6);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    /* ==========================================================================
+       10. WEAPONS, COMBAT & POLICE PURSUIT
+       ========================================================================== */
+    function selectWeapon(wType) {
+      RP.player.currentWeapon = wType;
+      showNotification(`Senjata Dipilih: ${wType.toUpperCase()}`, 'warning');
+      audio.playUiClick();
+    }
+
+    function fireWeapon() {
+      const w = RP.player.currentWeapon;
+      if (w === 'fists') {
+        audio.playGunshot('pistol'); // Punch thud
+        showNotification('* Meninju angin / target *', 'warning');
+        return;
+      }
+
+      if (RP.player.ammo[w] <= 0) {
+        showNotification('Peluru Habis! Beli di Dark Web atau Ammunation.', 'danger');
+        return;
+      }
+
+      RP.player.ammo[w]--;
+      audio.playGunshot(w);
+
+      // Flash Screen Muzzle
+      const cross = document.getElementById('crosshair');
+      cross.style.transform = 'translate(-50%, -50%) scale(1.6)';
+      setTimeout(() => cross.style.transform = 'translate(-50%, -50%) scale(1.0)', 80);
+
+      // Crime check: Shooting in city increases Wanted level!
+      if (RP.player.job !== 'police') {
+        addWantedStar(1);
+      }
+
+      // Panic nearby pedestrians
+      pedestrians.forEach(p => {
+        const dist = playerGroup.position.distanceTo(p.group.position);
+        if (dist < 30) {
+          p.speed = 0.12; // Run fast
+          p.targetX = (Math.random() - 0.5) * 300;
+          p.targetZ = (Math.random() - 0.5) * 300;
+        }
+      });
+    }
+
+    function addWantedStar(amount = 1) {
+      RP.player.wantedLevel = Math.min(5, RP.player.wantedLevel + amount);
+      updateWantedUI();
+      if (RP.player.wantedLevel > 0) {
+        showNotification(`PERINGATAN: Wanted Level ${RP.player.wantedLevel} Bintang! Polisi dalam perjalanan!`, 'danger');
+      }
+    }
+
+    function updateWantedUI() {
+      const stars = document.getElementById('wantedStars').children;
+      for (let i = 0; i < 5; i++) {
+        if (i < RP.player.wantedLevel) stars[i].classList.add('active');
+        else stars[i].classList.remove('active');
+      }
+    }
+
+    /* ==========================================================================
+       11. ROLEPLAY ACTIONS (Bank Robbery, Store, Jobs, ATM)
+       ========================================================================== */
+    function handleInteractSpot(loc) {
+      audio.playUiClick();
+      if (loc.type === 'store') {
+        openStoreModal();
+      } else if (loc.type === 'bank') {
+        openBankModal();
+      } else if (loc.type === 'police') {
+        openPoliceHQModal();
+      } else if (loc.type === 'hospital') {
+        openHospitalModal();
+      } else if (loc.type === 'dealership') {
+        openDealershipModal();
+      } else if (loc.type === 'garage') {
+        openGarageModal();
+      }
+    }
+
+    function openStoreModal() {
+      document.getElementById('storeModalTitle').innerHTML = '<i class="fa-solid fa-store"></i> 24/7 Supermarket Vinewood';
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Donat Manis (+25 Makanan)</span>
+          <button class="btn-buy" onclick="buyItem('donut', 20)">Beli $20</button>
+        </div>
+        <div class="store-item">
+          <span>Air Mineral (+30 Minuman)</span>
+          <button class="btn-buy" onclick="buyItem('water', 15)">Beli $15</button>
+        </div>
+        <div class="store-item">
+          <span>P3K Medkit (+50 HP)</span>
+          <button class="btn-buy" onclick="buyItem('medkit', 250)">Beli $250</button>
+        </div>
+        <div class="store-item" style="border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px;">
+          <span style="color:#ef4444;"><i class="fa-solid fa-gun"></i> Rampok Kasir Supermarket!</span>
+          <button class="btn-buy btn-danger" onclick="robStore()">RAMPOK KASIR</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function robStore() {
+      closeStoreModal();
+      showNotification('🚨 PERAMPOKAN TOKO DIMULAI! Tahan kasir selama 5 detik...', 'danger');
+      audio.playGunshot('pistol');
+      addWantedStar(2);
+
+      setTimeout(() => {
+        const loot = 2500 + Math.floor(Math.random() * 3000);
+        RP.player.wallet += loot;
+        updateMoneyUI();
+        audio.playCashChime();
+        showNotification(`✅ PERAMPOKAN SUKSES! Anda mengantongi $${loot} uang tunai curian. Segera kabur!`, 'success');
+        addWantedStar(1);
+      }, 5000);
+    }
+
+    function openBankModal() {
+      document.getElementById('storeModalTitle').innerHTML = '<i class="fa-solid fa-building-columns"></i> Pacific Standard Bank';
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Deposit Semua Uang Tunai ke Rekening</span>
+          <button class="btn-buy" onclick="depositCash()">Deposit</button>
+        </div>
+        <div class="store-item">
+          <span>Tarik Tunai $5,000 dari Rekening</span>
+          <button class="btn-buy" onclick="withdrawCash(5000)">Tarik $5,000</button>
+        </div>
+        <div class="store-item" style="border-top:1px dashed rgba(255,255,255,0.2); padding-top:10px;">
+          <span style="color:#ef4444;"><i class="fa-solid fa-bomb"></i> Bobol Brankas Vault Utama Bank</span>
+          <button class="btn-buy btn-danger" onclick="robBank()">HEIST BRANKAS</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function robBank() {
+      closeStoreModal();
+      showNotification('💣 ALARM PACIFIC STANDARD BERBUNYI! Membobol pintu brankas...', 'danger');
+      addWantedStar(4);
+
+      setTimeout(() => {
+        const loot = 25000 + Math.floor(Math.random() * 15000);
+        RP.player.wallet += loot;
+        updateMoneyUI();
+        audio.playCashChime();
+        showNotification(`🏆 HEIST SUKSES! Mengambil $${loot.toLocaleString()} dari brankas! Waspada Polisi Bintang 5!`, 'success');
+        addWantedStar(2);
+      }, 7000);
+    }
+
+    function openHospitalModal() {
+      document.getElementById('storeModalTitle').innerHTML = '<i class="fa-solid fa-hospital"></i> Pillbox Hill Medical';
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Perawatan Penuh & Sembuhkan Luka</span>
+          <button class="btn-buy" onclick="healPlayer(100, 100)">Rawat ($100)</button>
+        </div>
+        <div class="store-item">
+          <span>Beli Rompi Medis Pelindung Tubuh</span>
+          <button class="btn-buy" onclick="buyArmor(500)">Beli $500</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function openPoliceHQModal() {
+      document.getElementById('storeModalTitle').innerHTML = '<i class="fa-solid fa-shield"></i> LSPD Mission Row';
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Daftar Jadi Petugas Polisi (LSPD)</span>
+          <button class="btn-buy" onclick="selectJob('police')">Daftar Polisi</button>
+        </div>
+        <div class="store-item">
+          <span>Bayar Denda & Hapus Wanted Bintang</span>
+          <button class="btn-buy btn-danger" onclick="payBail()">Bayar Denda ($1,000)</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function openDealershipModal() {
+      document.getElementById('storeModalTitle').innerHTML = '<i class="fa-solid fa-car"></i> PDM Car Dealership';
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Zentorno Supercar (Kecepatan Maksimal)</span>
+          <button class="btn-buy" onclick="buyVehicle('supercar', 50000)">Beli $50,000</button>
+        </div>
+        <div class="store-item">
+          <span>Muscle Dominator (Tenaga Kuat)</span>
+          <button class="btn-buy" onclick="buyVehicle('muscle', 25000)">Beli $25,000</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function openGarageModal() {
+      document.getElementById('storeModalTitle').innerHTML = "<i class=\"fa-solid fa-warehouse\"></i> Benny's Customs Garage";
+      const list = document.getElementById('storeList');
+      list.innerHTML = `
+        <div class="store-item">
+          <span>Perbaikan Total Bodi & Mesin</span>
+          <button class="btn-buy" onclick="repairVehicle(200)">Perbaiki ($200)</button>
+        </div>
+        <div class="store-item">
+          <span>Pasang Tabung Nitro Booster X</span>
+          <button class="btn-buy" onclick="installNitro(1500)">Pasang Nitro ($1,500)</button>
+        </div>
+      `;
+      document.getElementById('storeOverlay').style.display = 'flex';
+    }
+
+    function closeStoreModal() {
+      document.getElementById('storeOverlay').style.display = 'none';
+    }
+
+    function buyItem(id, price) {
+      if (RP.player.wallet < price) {
+        showNotification('Uang Tunai Anda tidak mencukupi!', 'danger');
+        return;
+      }
+      RP.player.wallet -= price;
+      updateMoneyUI();
+      audio.playCashChime();
+      showNotification(`Berhasil membeli item seharga $${price}!`, 'success');
+    }
+
+    function depositCash() {
+      if (RP.player.wallet <= 0) {
+        showNotification('Tidak ada uang tunai di dompet!', 'warning');
+        return;
+      }
+      RP.player.bank += RP.player.wallet;
+      RP.player.wallet = 0;
+      updateMoneyUI();
+      audio.playCashChime();
+      showNotification('Semua uang tunai telah didepositkan ke rekening bank.', 'success');
+    }
+
+    function withdrawCash(amt) {
+      if (RP.player.bank < amt) {
+        showNotification('Saldo rekening bank tidak mencukupi!', 'danger');
+        return;
+      }
+      RP.player.bank -= amt;
+      RP.player.wallet += amt;
+      updateMoneyUI();
+      audio.playCashChime();
+      showNotification(`Menarik $${amt} tunai dari bank.`, 'success');
+    }
+
+    function payBail() {
+      if (RP.player.wallet < 1000) {
+        showNotification('Uang tidak cukup untuk bayar denda!', 'danger');
+        return;
+      }
+      RP.player.wallet -= 1000;
+      RP.player.wantedLevel = 0;
+      updateMoneyUI();
+      updateWantedUI();
+      audio.playCashChime();
+      showNotification('Denda telah dibayar. Catatan kriminal Anda bersih kembali!', 'success');
+    }
+
+    function healPlayer(hp, cost) {
+      if (RP.player.wallet < cost) {
+        showNotification('Uang tidak cukup untuk biaya medis!', 'danger');
+        return;
+      }
+      RP.player.wallet -= cost;
+      RP.player.health = 100;
+      updateMoneyUI();
+      updateStatusBars();
+      showNotification('Kesehatan Anda telah pulih 100%!', 'success');
+    }
+
+    /* ==========================================================================
+       12. JOB SELECTION & MISSION DISPATCH SYSTEM
+       ========================================================================== */
+    function openJobCenter() {
+      document.getElementById('jobOverlay').style.display = 'flex';
+      audio.playUiClick();
+    }
+    function closeJobCenter() {
+      document.getElementById('jobOverlay').style.display = 'none';
+    }
+
+    function selectJob(jobKey) {
+      RP.player.job = jobKey;
+      document.getElementById('jobDisplay').innerText = jobKey.toUpperCase();
+      closeJobCenter();
+      closeStoreModal();
+      audio.playCashChime();
+      showNotification(`Selamat! Anda sekarang bekerja sebagai ${jobKey.toUpperCase()}.`, 'success');
+
+      // Add RP chat broadcast
+      addChatMessage(`[JOB] Anda sekarang berdinas sebagai ${jobKey.toUpperCase()}. Gaji dibayar tiap periode!`, 'chat-system');
+    }
+
+    function gameUpdateTimer() {
+      // Hunger & Thirst tick
+      RP.player.hunger = Math.max(0, RP.player.hunger - 0.05);
+      RP.player.thirst = Math.max(0, RP.player.thirst - 0.08);
+      updateStatusBars();
+
+      // Salary Payout
+      if (Math.random() < 0.05) {
+        let salary = 350;
+        if (RP.player.job === 'police') salary = 1200;
+        else if (RP.player.job === 'ems') salary = 1100;
+        else if (RP.player.job === 'taxi') salary = 750;
+        else if (RP.player.job === 'delivery') salary = 600;
+
+        RP.player.bank += salary;
+        updateMoneyUI();
+        showNotification(`💰 GAJI DICAIRKAN: +$${salary} masuk ke rekening bank Anda.`, 'success');
+      }
+
+      // Random Police / EMS / Taxi Missions
+      if (!RP.player.activeMission && Math.random() < 0.08) {
+        triggerJobMission();
+      }
+    }
+
+    function triggerJobMission() {
+      if (RP.player.job === 'police') {
+        showNotification('🚨 DISPATCH LSPD: Terjadi perampokan toko di Vinewood! Amankan lokasi!', 'danger');
+        audio.toggleSiren(true);
+        setTimeout(() => audio.toggleSiren(false), 2000);
+      } else if (RP.player.job === 'ems') {
+        showNotification('🚑 DISPATCH EMS: Warga terluka membutuhkan pertolongan di Pillbox Hill!', 'warning');
+      } else if (RP.player.job === 'taxi') {
+        showNotification('🚕 ORDER TAKSI: Penumpang menunggu di depan Pacific Standard Bank!', 'success');
+      }
+    }
+
+    /* ==========================================================================
+       13. SMARTPHONE & INVENTORY & CHAT UI
+       ========================================================================== */
+    function togglePhone() {
+      const p = document.getElementById('phoneContainer');
+      const isOpen = p.style.display === 'flex';
+      p.style.display = isOpen ? 'none' : 'flex';
+      audio.playUiClick();
+      if (!isOpen) {
+        document.getElementById('phoneBankBalance').innerText = '$' + RP.player.bank.toLocaleString();
+        document.getElementById('phoneTime').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+
+    function openPhoneApp(appKey) {
+      audio.playUiClick();
+      document.querySelectorAll('.phone-page').forEach(pg => pg.classList.remove('active'));
+      if (appKey === 'bank') document.getElementById('phoneAppBank').classList.add('active');
+      else if (appKey === 'bleeter') document.getElementById('phoneAppBleeter').classList.add('active');
+      else if (appKey === 'dispatch') document.getElementById('phoneAppDispatch').classList.add('active');
+      else if (appKey === 'darkweb') document.getElementById('phoneAppDarkweb').classList.add('active');
+      else if (appKey === 'jobs') openJobCenter();
+      else if (appKey === 'garage') spawnPlayerCar('supercar');
+    }
+
+    function returnPhoneHome() {
+      audio.playUiClick();
+      document.querySelectorAll('.phone-page').forEach(pg => pg.classList.remove('active'));
+      document.getElementById('phoneHome').classList.add('active');
+    }
+
+    function sendBleet() {
+      const inp = document.getElementById('bleeterInput');
+      const txt = inp.value.trim();
+      if (!txt) return;
+      const feed = document.getElementById('bleeterFeed');
+      const card = document.createElement('div');
+      card.style.background = 'rgba(56, 189, 248, 0.15)';
+      card.style.padding = '6px';
+      card.style.borderRadius = '6px';
+      card.innerHTML = `<b>@${RP.player.name.replace(/\s+/g, '')}:</b> ${txt}`;
+      feed.prepend(card);
+      inp.value = '';
+      audio.playUiClick();
+      addChatMessage(`[Bleeter] @${RP.player.name}: ${txt}`, 'chat-me');
+    }
+
+    function call911(service) {
+      showNotification(`Panggilan 911 ke ${service.toUpperCase()} telah diterima operator.`, 'danger');
+      audio.playUiClick();
+    }
+
+    function buyDarkItem(item, cost) {
+      if (RP.player.wallet < cost) {
+        showNotification('Uang Tunai Gelap tidak cukup!', 'danger');
+        return;
+      }
+      RP.player.wallet -= cost;
+      updateMoneyUI();
+      audio.playCashChime();
+      showNotification(`Item ilegal [${item.toUpperCase()}] berhasil dibeli!`, 'success');
+    }
+
+    function toggleInventory() {
+      const inv = document.getElementById('invOverlay');
+      const isOpen = inv.style.display === 'flex';
+      inv.style.display = isOpen ? 'none' : 'flex';
+      audio.playUiClick();
+      if (!isOpen) renderInventory();
+    }
+
+    function renderInventory() {
+      const grid = document.getElementById('invGrid');
+      grid.innerHTML = '';
+      RP.player.inventory.forEach(item => {
+        const slot = document.createElement('div');
+        slot.className = 'inv-slot';
+        slot.innerHTML = `
+          <i class="fa-solid ${item.icon}"></i>
+          <span class="item-name">${item.name}</span>
+          <span class="item-count">x${item.count}</span>
+        `;
+        slot.onclick = () => useInventoryItem(item);
+        grid.appendChild(slot);
+      });
+    }
+
+    function useInventoryItem(item) {
+      audio.playUiClick();
+      if (item.type === 'food') {
+        RP.player.hunger = Math.min(100, RP.player.hunger + item.val);
+        showNotification(`Memakan ${item.name}. Kenyang +${item.val}%`, 'success');
+      } else if (item.type === 'drink') {
+        RP.player.thirst = Math.min(100, RP.player.thirst + item.val);
+        showNotification(`Meminum ${item.name}. Haus +${item.val}%`, 'success');
+      } else if (item.type === 'med') {
+        RP.player.health = Math.min(100, RP.player.health + item.val);
+        showNotification(`Menggunakan ${item.name}. HP +${item.val}%`, 'success');
+      } else {
+        showNotification(`Menggunakan ${item.name}`, 'warning');
+      }
+      updateStatusBars();
+    }
+
+    function toggleChat(state) {
+      const box = document.getElementById('chatInputBox');
+      const inp = document.getElementById('chatInput');
+      if (state) {
+        box.style.display = 'block';
+        inp.focus();
+      } else {
+        box.style.display = 'none';
+        inp.blur();
+      }
+    }
+
+    function sendChatMessage() {
+      const inp = document.getElementById('chatInput');
+      const text = inp.value.trim();
+      if (!text) {
+        toggleChat(false);
+        return;
+      }
+
+      if (text.startsWith('/me ')) {
+        addChatMessage(`* ${RP.player.name} ${text.substring(4)} *`, 'chat-me');
+      } else if (text.startsWith('/do ')) {
+        addChatMessage(`* [DO] ${text.substring(4)} (( ${RP.player.name} )) *`, 'chat-do');
+      } else if (text.startsWith('/ooc ')) {
+        addChatMessage(`[OOC] ${RP.player.name}: ${text.substring(5)}`, 'chat-ooc');
+      } else if (text.startsWith('/help')) {
+        toggleHelpModal();
+      } else if (text.startsWith('/police')) {
+        addChatMessage(`[RADIO LSPD] ${RP.player.name}: 10-4, merespons panggilan darurat.`, 'chat-police');
+      } else if (text.startsWith('/ems')) {
+        addChatMessage(`[RADIO EMS] ${RP.player.name}: Unit ambulans sedang meluncur ke lokasi.`, 'chat-ems');
+      } else {
+        addChatMessage(`${RP.player.name}: ${text}`, 'chat-ooc');
+      }
+
+      inp.value = '';
+      toggleChat(false);
+    }
+
+    function addChatMessage(msg, className = '') {
+      const box = document.getElementById('chatMessages');
+      const d = document.createElement('div');
+      d.className = `chat-msg ${className}`;
+      d.innerText = msg;
+      box.appendChild(d);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function showNotification(text, type = 'info') {
+      const area = document.getElementById('notifArea');
+      const card = document.createElement('div');
+      card.className = `notif-card ${type}`;
+      let icon = 'fa-info-circle';
+      if (type === 'success') icon = 'fa-circle-check';
+      if (type === 'danger') icon = 'fa-triangle-exclamation';
+      if (type === 'warning') icon = 'fa-bell';
+
+      card.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${text}</span>`;
+      area.prepend(card);
+      setTimeout(() => card.remove(), 4500);
+    }
+
+    function updateMoneyUI() {
+      document.getElementById('walletDisplay').innerText = '$' + RP.player.wallet.toLocaleString();
+      document.getElementById('bankDisplay').innerText = '$' + RP.player.bank.toLocaleString();
+    }
+
+    function updateStatusBars() {
+      document.getElementById('healthBar').style.width = RP.player.health + '%';
+      document.getElementById('armorBar').style.width = RP.player.armor + '%';
+      document.getElementById('hungerBar').style.width = RP.player.hunger + '%';
+      document.getElementById('thirstBar').style.width = RP.player.thirst + '%';
+      document.getElementById('staminaBar').style.width = RP.player.stamina + '%';
+    }
+
+    function toggleHelpModal() {
+      const h = document.getElementById('helpOverlay');
+      h.style.display = h.style.display === 'flex' ? 'none' : 'flex';
+      audio.playUiClick();
+    }
+
+    /* ==========================================================================
+       14. INITIALIZE & START
+       ========================================================================== */
+    function startGame() {
+      audio.init();
+      audio.playCashChime();
+      document.getElementById('startScreen').style.display = 'none';
+      init3DWorld();
+      showNotification('Selamat datang di Los Santos! Buka [F1] untuk panduan kontrol.', 'success');
+    }
+  </script>
+</body>
+</html>

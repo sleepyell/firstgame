@@ -1,0 +1,93 @@
+[
+  {
+    "WeaponID": "WEP_MELEE_01",
+    "Name": "Titanium Knuckle Grips",
+    "Slot": "Melee",
+    "Damage": 35.0,
+    "FireRate": 1.4,
+    "Range": 2.2,
+    "ReloadTime": 0.0,
+    "MagazineSize": 0,
+    "RecoilPitch": 0.0,
+    "Spread": 0.0,
+    "Price": 250
+  },
+  {
+    "WeaponID": "WEP_PISTOL_01",
+    "Name": "Kuroshio 9mm Tactical",
+    "Slot": "Secondary",
+    "Damage": 42.0,
+    "FireRate": 4.5,
+    "Range": 45.0,
+    "ReloadTime": 1.6,
+    "MagazineSize": 15,
+    "RecoilPitch": 1.2,
+    "Spread": 0.04,
+    "Price": 1200
+  },
+  {
+    "WeaponID": "WEP_TASER_01",
+    "Name": "ShockWave Arc Disabler",
+    "Slot": "Secondary",
+    "Damage": 15.0,
+    "FireRate": 1.0,
+    "Range": 12.0,
+    "ReloadTime": 2.2,
+    "MagazineSize": 2,
+    "RecoilPitch": 0.5,
+    "Spread": 0.01,
+    "Price": 850
+  },
+  {
+    "WeaponID": "WEP_SMG_01",
+    "Name": "Vectoris PDW-45",
+    "Slot": "Primary",
+    "Damage": 28.0,
+    "FireRate": 13.5,
+    "Range": 60.0,
+    "ReloadTime": 2.1,
+    "MagazineSize": 32,
+    "RecoilPitch": 1.5,
+    "Spread": 0.08,
+    "Price": 4500
+  },
+  {
+    "WeaponID": "WEP_SHOTGUN_01",
+    "Name": "Breaker 12G Enforcer",
+    "Slot": "Primary",
+    "Damage": 120.0,
+    "FireRate": 1.8,
+    "Range": 25.0,
+    "ReloadTime": 3.0,
+    "MagazineSize": 8,
+    "RecoilPitch": 4.5,
+    "Spread": 0.22,
+    "Price": 3800
+  },
+  {
+    "WeaponID": "WEP_RIFLE_01",
+    "Name": "Vanguard Carbine Mk.IV",
+    "Slot": "Primary",
+    "Damage": 52.0,
+    "FireRate": 9.2,
+    "Range": 120.0,
+    "ReloadTime": 2.4,
+    "MagazineSize": 30,
+    "RecoilPitch": 2.0,
+    "Spread": 0.03,
+    "Price": 8200
+  },
+  {
+    "WeaponID": "WEP_SNIPER_01",
+    "Name": "Ghostfall Apex .338",
+    "Slot": "Special",
+    "Damage": 185.0,
+    "FireRate": 0.9,
+    "Range": 350.0,
+    "ReloadTime": 3.5,
+    "MagazineSize": 5,
+    "RecoilPitch": 6.0,
+    "Spread": 0.005,
+    "Price": 16500
+  }
+]
