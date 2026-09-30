@@ -1,0 +1,28 @@
+{
+  "name": "los-santos-roleplay-fivem-web",
+  "version": "1.0.0",
+  "description": "Los Santos Roleplay - GTA V FiveM Web Edition with Firebase Cloud Save & Sync",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve . -l 3000",
+    "dev": "serve . -l 3000",
+    "deploy": "firebase deploy"
+  },
+  "keywords": [
+    "threejs",
+    "game",
+    "gta",
+    "fivem",
+    "firebase",
+    "roleplay"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^10.8.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^13.0.0",
+    "serve": "^14.2.4"
+  }
+}

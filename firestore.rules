@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Izin membaca dan menulis data karakter pemain
+    match /players/{userId} {
+      allow read, write: if true;
+    }
+    
+    // Izin membaca dan memposting tweet Bleeter
+    match /bleeter_posts/{postId} {
+      allow read, write: if true;
+    }
+    
+    // Default open access untuk development
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
