@@ -1895,7 +1895,9 @@
        ========================================================================== */
     function createPlayerCharacter() {
       playerGroup = new THREE.Group();
-      playerGroup.position.set(0, 0, 10);
+      const sx = (RP.player.savedSpawn && RP.player.savedSpawn.x !== undefined) ? RP.player.savedSpawn.x : 0;
+      const sz = (RP.player.savedSpawn && RP.player.savedSpawn.z !== undefined) ? RP.player.savedSpawn.z : 10;
+      playerGroup.position.set(sx, 0, sz);
 
       // Body / Torso
       const torsoGeo = new THREE.BoxGeometry(0.8, 1.1, 0.45);
@@ -2725,6 +2727,7 @@
       updateMoneyUI();
       audio.playCashChime();
       showNotification(`Berhasil membeli item seharga $${price}!`, 'success');
+      saveGameToCloud(false);
     }
 
     function depositCash() {
@@ -2737,6 +2740,7 @@
       updateMoneyUI();
       audio.playCashChime();
       showNotification('Semua uang tunai telah didepositkan ke rekening bank.', 'success');
+      saveGameToCloud(false);
     }
 
     function withdrawCash(amt) {
@@ -2749,6 +2753,7 @@
       updateMoneyUI();
       audio.playCashChime();
       showNotification(`Menarik $${amt} tunai dari bank.`, 'success');
+      saveGameToCloud(false);
     }
 
     function payBail() {
@@ -2762,6 +2767,7 @@
       updateWantedUI();
       audio.playCashChime();
       showNotification('Denda telah dibayar. Catatan kriminal Anda bersih kembali!', 'success');
+      saveGameToCloud(false);
     }
 
     function healPlayer(hp, cost) {
@@ -2774,6 +2780,7 @@
       updateMoneyUI();
       updateStatusBars();
       showNotification('Kesehatan Anda telah pulih 100%!', 'success');
+      saveGameToCloud(false);
     }
 
     /* ==========================================================================
@@ -2797,6 +2804,7 @@
 
       // Add RP chat broadcast
       addChatMessage(`[JOB] Anda sekarang berdinas sebagai ${jobKey.toUpperCase()}. Gaji dibayar tiap periode!`, 'chat-system');
+      saveGameToCloud(false);
     }
 
     function gameUpdateTimer() {
@@ -2867,19 +2875,39 @@
       document.getElementById('phoneHome').classList.add('active');
     }
 
+    function phoneDepositCash() {
+      depositCash();
+      const el = document.getElementById('phoneBankBalance');
+      if (el) el.innerText = '$' + RP.player.bank.toLocaleString();
+    }
+
+    function phoneWithdrawCash() {
+      withdrawCash(2000);
+      const el = document.getElementById('phoneBankBalance');
+      if (el) el.innerText = '$' + RP.player.bank.toLocaleString();
+    }
+
     function sendBleet() {
       const inp = document.getElementById('bleeterInput');
       const txt = inp.value.trim();
       if (!txt) return;
-      const feed = document.getElementById('bleeterFeed');
-      const card = document.createElement('div');
-      card.style.background = 'rgba(56, 189, 248, 0.15)';
-      card.style.padding = '6px';
-      card.style.borderRadius = '6px';
-      card.innerHTML = `<b>@${RP.player.name.replace(/\s+/g, '')}:</b> ${txt}`;
-      feed.prepend(card);
+      
       inp.value = '';
       audio.playUiClick();
+
+      // Send to Firebase Firestore
+      if (window.FB && window.FB.sendBleet && window.FB.isInitialized) {
+        window.FB.sendBleet(RP.player.name, txt);
+      } else {
+        const feed = document.getElementById('bleeterFeed');
+        const card = document.createElement('div');
+        card.style.background = 'rgba(56, 189, 248, 0.15)';
+        card.style.padding = '6px';
+        card.style.borderRadius = '6px';
+        card.innerHTML = `<b>@${RP.player.name.replace(/\s+/g, '')}:</b> ${txt}`;
+        feed.prepend(card);
+      }
+
       addChatMessage(`[Bleeter] @${RP.player.name}: ${txt}`, 'chat-me');
     }
 
@@ -2897,6 +2925,7 @@
       updateMoneyUI();
       audio.playCashChime();
       showNotification(`Item ilegal [${item.toUpperCase()}] berhasil dibeli!`, 'success');
+      saveGameToCloud(false);
     }
 
     function toggleInventory() {
@@ -3023,14 +3052,194 @@
     }
 
     /* ==========================================================================
-       14. INITIALIZE & START
+       14. FIREBASE AUTH & CLOUD SAVE / LOAD ENGINE
+       ========================================================================== */
+    let currentFirebaseUser = null;
+
+    function switchAuthTab(tab) {
+      audio.playUiClick();
+      const tabGuest = document.getElementById('tabGuest');
+      const tabEmail = document.getElementById('tabEmail');
+      const formGuest = document.getElementById('guestForm');
+      const formEmail = document.getElementById('emailForm');
+
+      if (tab === 'guest') {
+        tabGuest.classList.add('active');
+        tabEmail.classList.remove('active');
+        formGuest.classList.add('active');
+        formEmail.classList.remove('active');
+      } else {
+        tabEmail.classList.add('active');
+        tabGuest.classList.remove('active');
+        formEmail.classList.add('active');
+        formGuest.classList.remove('active');
+      }
+    }
+
+    async function startWithAuth(mode) {
+      const statusMsg = document.getElementById('authStatusMsg');
+      statusMsg.innerText = 'Menghubungkan ke Firebase...';
+      statusMsg.style.color = '#38bdf8';
+
+      try {
+        if (window.FB && window.FB.isInitialized) {
+          if (mode === 'guest') {
+            const rpName = document.getElementById('rpCharName').value.trim() || 'Alex Vance';
+            RP.player.name = rpName;
+            const user = await window.FB.loginAnonymous();
+            currentFirebaseUser = user;
+          } else if (mode === 'login') {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) {
+              statusMsg.innerText = 'Harap isi email & password!';
+              statusMsg.style.color = '#ef4444';
+              return;
+            }
+            const user = await window.FB.loginEmail(email, pass);
+            currentFirebaseUser = user;
+          } else if (mode === 'register') {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            const rpName = document.getElementById('authRpName').value.trim() || 'Alex Vance';
+            if (!email || !pass) {
+              statusMsg.innerText = 'Harap isi email & password!';
+              statusMsg.style.color = '#ef4444';
+              return;
+            }
+            RP.player.name = rpName;
+            const user = await window.FB.registerEmail(email, pass);
+            currentFirebaseUser = user;
+          }
+
+          // Load cloud character data if exists
+          if (currentFirebaseUser) {
+            statusMsg.innerText = 'Memuat save data cloud...';
+            const cloudData = await window.FB.loadPlayerData(currentFirebaseUser.uid);
+            if (cloudData) {
+              if (cloudData.name) RP.player.name = cloudData.name;
+              if (cloudData.wallet !== undefined) RP.player.wallet = cloudData.wallet;
+              if (cloudData.bank !== undefined) RP.player.bank = cloudData.bank;
+              if (cloudData.job) RP.player.job = cloudData.job;
+              if (cloudData.wantedLevel !== undefined) RP.player.wantedLevel = cloudData.wantedLevel;
+              if (cloudData.health !== undefined) RP.player.health = cloudData.health;
+              if (cloudData.armor !== undefined) RP.player.armor = cloudData.armor;
+              if (cloudData.hunger !== undefined) RP.player.hunger = cloudData.hunger;
+              if (cloudData.thirst !== undefined) RP.player.thirst = cloudData.thirst;
+              if (cloudData.inventory) RP.player.inventory = cloudData.inventory;
+              if (cloudData.ammo) RP.player.ammo = cloudData.ammo;
+              if (cloudData.lastPosition) {
+                RP.player.savedSpawn = cloudData.lastPosition;
+              }
+              showNotification(`Data karakter [${RP.player.name}] dimuat dari Cloud!`, 'success');
+            } else {
+              // First time registration: save initial profile
+              await saveGameToCloud(false);
+              showNotification(`Karakter baru [${RP.player.name}] terdaftar di Cloud!`, 'success');
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Firebase Auth Error:", err);
+        statusMsg.innerText = `Peringatan: ${err.message || 'Mode Offline'}`;
+        statusMsg.style.color = '#f59e0b';
+      }
+
+      startGame();
+    }
+
+    async function saveGameToCloud(showToast = true) {
+      if (!window.FB || !window.FB.isInitialized || !currentFirebaseUser) return;
+      
+      const cloudStatusText = document.getElementById('cloudStatusText');
+      if (cloudStatusText) cloudStatusText.innerText = 'Menyimpan...';
+
+      const pos = (playerGroup && playerGroup.position) ? {
+        x: Math.round(playerGroup.position.x * 10) / 10,
+        y: Math.round(playerGroup.position.y * 10) / 10,
+        z: Math.round(playerGroup.position.z * 10) / 10
+      } : { x: 0, y: 0, z: 10 };
+
+      const dataToSave = {
+        name: RP.player.name,
+        wallet: RP.player.wallet,
+        bank: RP.player.bank,
+        job: RP.player.job,
+        wantedLevel: RP.player.wantedLevel,
+        health: RP.player.health,
+        armor: RP.player.armor,
+        hunger: Math.round(RP.player.hunger),
+        thirst: Math.round(RP.player.thirst),
+        stamina: Math.round(RP.player.stamina),
+        inventory: RP.player.inventory,
+        ammo: RP.player.ammo,
+        lastPosition: pos
+      };
+
+      const ok = await window.FB.savePlayerData(currentFirebaseUser.uid, dataToSave);
+      if (cloudStatusText) {
+        cloudStatusText.innerText = ok ? 'Cloud: Synced' : 'Sync Error';
+        setTimeout(() => {
+          if (cloudStatusText) cloudStatusText.innerText = 'Sync Cloud';
+        }, 2500);
+      }
+
+      if (ok && showToast) {
+        showNotification('☁️ Progres karakter berhasil tersimpan di Firebase Cloud!', 'success');
+      }
+    }
+
+    function manualCloudSave() {
+      audio.playUiClick();
+      if (!currentFirebaseUser) {
+        showNotification('Tidak terhubung ke akun Firebase!', 'warning');
+        return;
+      }
+      saveGameToCloud(true);
+    }
+
+    function initBleeterFeedListener() {
+      if (window.FB && window.FB.listenToBleeter && window.FB.isInitialized) {
+        window.FB.listenToBleeter((posts) => {
+          const feed = document.getElementById('bleeterFeed');
+          if (!feed) return;
+          feed.innerHTML = '';
+          posts.forEach(p => {
+            const card = document.createElement('div');
+            card.style.background = 'rgba(56, 189, 248, 0.15)';
+            card.style.padding = '6px';
+            card.style.borderRadius = '6px';
+            card.innerHTML = `<b>@${(p.author || 'Anonymous').replace(/\s+/g, '')}:</b> ${p.content || ''}`;
+            feed.appendChild(card);
+          });
+        });
+      }
+    }
+
+    /* ==========================================================================
+       15. INITIALIZE & START
        ========================================================================== */
     function startGame() {
       audio.init();
       audio.playCashChime();
       document.getElementById('startScreen').style.display = 'none';
       init3DWorld();
-      showNotification('Selamat datang di Los Santos! Buka [F1] untuk panduan kontrol.', 'success');
+      updateMoneyUI();
+      updateStatusBars();
+      
+      const jobBadge = document.getElementById('jobDisplay');
+      if (jobBadge) jobBadge.innerText = RP.player.job.toUpperCase();
+
+      initBleeterFeedListener();
+
+      // Auto-save every 25 seconds
+      setInterval(() => {
+        if (currentFirebaseUser) {
+          saveGameToCloud(false);
+        }
+      }, 25000);
+
+      showNotification(`Selamat datang di Los Santos, ${RP.player.name}! [F1] untuk bantuan.`, 'success');
     }
   </script>
 </body>
