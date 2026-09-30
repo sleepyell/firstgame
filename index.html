@@ -12,6 +12,140 @@
   <!-- Three.js 3D Engine via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+  <!-- Firebase 10.x Web SDK via CDN (ES Modules) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInAnonymously, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      setDoc, 
+      collection, 
+      addDoc, 
+      query, 
+      orderBy, 
+      limit, 
+      onSnapshot, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // User's Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8Hhh7_ilJUz9oMcdgBVS2pTuNAIqplRE",
+      authDomain: "myfirstproject-4ee8d.firebaseapp.com",
+      projectId: "myfirstproject-4ee8d",
+      storageBucket: "myfirstproject-4ee8d.firebasestorage.app",
+      messagingSenderId: "977119061725",
+      appId: "1:977119061725:web:e91d68870ca82af6f21d34"
+    };
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      window.FB = {
+        app,
+        auth,
+        db,
+        currentUser: null,
+        isInitialized: true,
+        
+        loginAnonymous: async () => {
+          const cred = await signInAnonymously(auth);
+          return cred.user;
+        },
+        loginEmail: async (email, password) => {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          return cred.user;
+        },
+        registerEmail: async (email, password) => {
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+          return cred.user;
+        },
+        logout: async () => {
+          await signOut(auth);
+        },
+
+        savePlayerData: async (uid, data) => {
+          try {
+            const ref = doc(db, "players", uid);
+            await setDoc(ref, {
+              ...data,
+              lastSavedAt: serverTimestamp()
+            }, { merge: true });
+            return true;
+          } catch (e) {
+            console.error("Firebase Save Error:", e);
+            return false;
+          }
+        },
+        loadPlayerData: async (uid) => {
+          try {
+            const ref = doc(db, "players", uid);
+            const snap = await getDoc(ref);
+            if (snap.exists()) {
+              return snap.data();
+            }
+            return null;
+          } catch (e) {
+            console.error("Firebase Load Error:", e);
+            return null;
+          }
+        },
+
+        sendBleet: async (authorName, content) => {
+          try {
+            const colRef = collection(db, "bleeter_posts");
+            await addDoc(colRef, {
+              author: authorName,
+              content: content,
+              createdAt: serverTimestamp()
+            });
+            return true;
+          } catch (e) {
+            console.error("Firebase Bleet Error:", e);
+            return false;
+          }
+        },
+        listenToBleeter: (callback) => {
+          try {
+            const colRef = collection(db, "bleeter_posts");
+            const q = query(colRef, orderBy("createdAt", "desc"), limit(20));
+            return onSnapshot(q, (snapshot) => {
+              const posts = [];
+              snapshot.forEach(doc => posts.push({ id: doc.id, ...doc.data() }));
+              callback(posts);
+            });
+          } catch (e) {
+            console.error("Firebase Bleeter Listen Error:", e);
+          }
+        }
+      };
+
+      onAuthStateChanged(auth, (user) => {
+        window.FB.currentUser = user;
+        const ind = document.getElementById('cloudStatusText');
+        if (ind && user) {
+          ind.innerText = user.isAnonymous ? 'Cloud: Guest' : 'Cloud: Online';
+        }
+      });
+
+      console.log("🔥 Firebase initialized successfully!");
+    } catch (err) {
+      console.warn("⚠️ Firebase Initialization Error:", err);
+      window.FB = { isInitialized: false };
+    }
+  </script>
+
   <style>
     * {
       margin: 0;
@@ -750,6 +884,93 @@
       background: linear-gradient(135deg, #3b82f6, #2563eb);
     }
 
+    /* Firebase Auth & Character Setup Card */
+    .auth-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 16px;
+      padding: 22px 26px;
+      width: 440px;
+      max-width: 92vw;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+    }
+    .auth-tabs {
+      display: flex;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .auth-tab.active {
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+    .auth-form {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .auth-form.active {
+      display: flex;
+    }
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .auth-input-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .auth-input-group input {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-input-group input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+    .cloud-btn-active {
+      border-color: #38bdf8 !important;
+      color: #38bdf8 !important;
+    }
+
     /* Quick Action Buttons on HUD */
     #quickActions {
       position: absolute;
@@ -820,6 +1041,7 @@
     <button class="quick-btn" onclick="togglePhone()"><i class="fa-solid fa-mobile-screen"></i> [M] Phone</button>
     <button class="quick-btn" onclick="openJobCenter()"><i class="fa-solid fa-briefcase"></i> [J] Jobs</button>
     <button class="quick-btn" onclick="spawnPlayerCar('supercar')"><i class="fa-solid fa-car"></i> Spawn Car</button>
+    <button class="quick-btn cloud-btn-active" id="btnCloudSave" onclick="manualCloudSave()"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="cloudStatusText">Sync Cloud</span></button>
   </div>
 
   <!-- Notifications -->
@@ -1095,18 +1317,62 @@
     <div class="game-title">LOS SANTOS RP</div>
     <div class="game-subtitle">Grand Theft Auto V • FiveM Web Roleplay Simulator</div>
     
-    <div style="display:flex; gap:12px; margin: 10px 0;">
+    <div style="display:flex; gap:12px; margin: 4px 0;">
       <span class="job-badge"><i class="fa-solid fa-shield"></i> LSPD Polisi</span>
       <span class="job-badge"><i class="fa-solid fa-truck-medical"></i> EMS Medis</span>
       <span class="job-badge"><i class="fa-solid fa-taxi"></i> Taksi & Kurir</span>
       <span class="job-badge"><i class="fa-solid fa-skull"></i> Robbery Heists</span>
     </div>
 
-    <button class="btn-start" id="btnStartGame" onclick="startGame()">
-      <i class="fa-solid fa-play"></i> MASUK KOTA (CONNECT)
-    </button>
+    <!-- Firebase Auth & Character Card -->
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabGuest" onclick="switchAuthTab('guest')"><i class="fa-solid fa-user-ninja"></i> Masuk Cepat (Guest)</button>
+        <button class="auth-tab" id="tabEmail" onclick="switchAuthTab('email')"><i class="fa-solid fa-envelope"></i> Akun Cloud (Email)</button>
+      </div>
+
+      <!-- Guest / Quick Connect Form -->
+      <div id="guestForm" class="auth-form active">
+        <div class="auth-input-group">
+          <label><i class="fa-solid fa-signature"></i> Nama Karakter RP</label>
+          <input type="text" id="rpCharName" value="Alex Vance" placeholder="Contoh: Alex Vance">
+        </div>
+        <button class="btn-start" style="width:100%; justify-content:center; margin-top:8px;" onclick="startWithAuth('guest')">
+          <i class="fa-solid fa-play"></i> MASUK KOTA (CONNECT)
+        </button>
+      </div>
+
+      <!-- Email Login / Register Form -->
+      <div id="emailForm" class="auth-form">
+        <div class="auth-input-group">
+          <label><i class="fa-solid fa-envelope"></i> Email Akun</label>
+          <input type="email" id="authEmail" placeholder="nama@email.com">
+        </div>
+        <div class="auth-input-group">
+          <label><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="authPassword" placeholder="Min 6 karakter">
+        </div>
+        <div class="auth-input-group">
+          <label><i class="fa-solid fa-signature"></i> Nama Karakter RP (Jika Daftar Baru)</label>
+          <input type="text" id="authRpName" value="Alex Vance" placeholder="Nama karakter">
+        </div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn-start" style="flex:1; font-size:14px; padding:12px 14px; justify-content:center;" onclick="startWithAuth('login')">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+          </button>
+          <button class="btn-start" style="flex:1; font-size:14px; padding:12px 14px; justify-content:center; background: linear-gradient(135deg, #10b981, #059669);" onclick="startWithAuth('register')">
+            <i class="fa-solid fa-user-plus"></i> Buat Akun
+          </button>
+        </div>
+      </div>
+
+      <div id="authStatusMsg" style="font-size:12px; color:#94a3b8; text-align:center; min-height:16px;"></div>
+      <div style="font-size:11px; color:#38bdf8; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <i class="fa-solid fa-cloud"></i> Firebase Cloud Firestore & Auth: Aktif
+      </div>
+    </div>
     
-    <div style="font-size:13px; color:#64748b; max-width: 500px; margin-top:10px;">
+    <div style="font-size:12px; color:#64748b; max-width: 500px;">
       Gunakan keyboard <b>WASD</b> untuk bergerak, <b>F</b> untuk naik mobil, <b>E</b> untuk interaksi toko & misi, <b>M</b> untuk Smartphone, <b>TAB</b> untuk tas.
     </div>
   </div>
