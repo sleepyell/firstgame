@@ -207,6 +207,37 @@
       left: 50%; top: -6px; bottom: -6px; width: 2px; transform: translateX(-50%);
     }
 
+    /* Floating Cursor Lock Hint */
+    #cursorLockNotice {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 18px;
+      border-radius: 20px;
+      z-index: 25;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    #cursorLockNotice.locked {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: rgba(16, 185, 129, 0.6);
+      color: #6ee7b7;
+      opacity: 0.85;
+    }
+
     /* Top-Right HUD: Money & Job */
     #topRightHud {
       position: absolute;
@@ -1011,6 +1042,11 @@
   <!-- Crosshair -->
   <div id="crosshair"></div>
 
+  <!-- Cursor Lock Notice -->
+  <div id="cursorLockNotice">
+    <i class="fa-solid fa-arrow-pointer"></i> <span>Klik layar untuk kunci mouse & arahkan kamera (ESC untuk lepas kursor)</span>
+  </div>
+
   <!-- Top-Right HUD -->
   <div id="topRightHud">
     <div class="hud-card">
@@ -1190,21 +1226,27 @@
         <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="keybind-grid">
-        <div class="keybind-item"><span>Gerak Karakter</span><span class="kbd">W A S D</span></div>
+        <div class="keybind-item"><span>Maju (Forward)</span><span class="kbd">W</span></div>
+        <div class="keybind-item"><span>Mundur (Backward)</span><span class="kbd">S</span></div>
+        <div class="keybind-item"><span>Geser Kiri (Left Strafe)</span><span class="kbd">A</span></div>
+        <div class="keybind-item"><span>Geser Kanan (Right Strafe)</span><span class="kbd">D</span></div>
+        <div class="keybind-item"><span>Lompat (Jump)</span><span class="kbd">SPACE</span></div>
         <div class="keybind-item"><span>Lari Cepat (Sprint)</span><span class="kbd">SHIFT</span></div>
-        <div class="keybind-item"><span>Lompat</span><span class="kbd">SPACE</span></div>
+        <div class="keybind-item"><span>Arahkan Kamera Bebas</span><span class="kbd">Mouse (Klik Layar)</span></div>
+        <div class="keybind-item"><span>Lepas Kursor Mouse</span><span class="kbd">ESC</span></div>
+        <div class="keybind-item"><span>Zoom Kamera Dekat/Jauh</span><span class="kbd">Scroll Mouse</span></div>
+        <div class="keybind-item"><span>Membidik Senjata (Aim)</span><span class="kbd">R-Click</span></div>
+        <div class="keybind-item"><span>Menembak / Memukul</span><span class="kbd">L-Click</span></div>
         <div class="keybind-item"><span>Masuk / Keluar Mobil</span><span class="kbd">F</span></div>
         <div class="keybind-item"><span>Interaksi (Toko, Bank, NPC)</span><span class="kbd">E</span></div>
         <div class="keybind-item"><span>Sirine Polisi / Ambulans</span><span class="kbd">Q</span></div>
-        <div class="keybind-item"><span>Sabuk Pengaman</span><span class="kbd">B</span></div>
+        <div class="keybind-item"><span>Sabuk Pengaman Mobil</span><span class="kbd">B</span></div>
         <div class="keybind-item"><span>Klakson Mobil</span><span class="kbd">H</span></div>
         <div class="keybind-item"><span>Nitro Boost Mobil</span><span class="kbd">X</span></div>
         <div class="keybind-item"><span>Buka / Tutup Tas (Inventory)</span><span class="kbd">TAB</span></div>
         <div class="keybind-item"><span>Buka Smartphone FiveM</span><span class="kbd">M</span></div>
         <div class="keybind-item"><span>Pusat Pekerjaan (Jobs)</span><span class="kbd">J</span></div>
         <div class="keybind-item"><span>Buka Obrolan RP Chat</span><span class="kbd">T</span></div>
-        <div class="keybind-item"><span>Menu Bantuan Kontrol</span><span class="kbd">F1</span></div>
-        <div class="keybind-item"><span>Membidik / Menembak</span><span class="kbd">R-Click / L-Click</span></div>
         <div class="keybind-item"><span>Ganti Senjata (1, 2, 3, 4)</span><span class="kbd">Angka 1-4</span></div>
       </div>
       <div style="font-size:12px; color:#94a3b8; line-height:1.5;">
@@ -1417,6 +1459,22 @@
         gain.connect(this.ctx.destination);
         osc.start();
         osc.stop(this.ctx.currentTime + 0.06);
+      }
+
+      playFootstep() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(110 + Math.random() * 25, now);
+        osc.frequency.exponentialRampToValueAtTime(35, now + 0.07);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.07);
       }
 
       playCashChime() {
