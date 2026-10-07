@@ -723,12 +723,68 @@
       font-weight: 600;
       color: #e2e8f0;
     }
+    .phone-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: rgba(30, 41, 59, 0.85);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 8px;
+    }
+    .phone-back-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .phone-back-btn:hover {
+      background: #38bdf8;
+      color: #000;
+    }
+    .phone-bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 10px;
+      background: #0f172a;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+    }
+    .phone-bottom-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .phone-bottom-btn:hover {
+      color: #38bdf8;
+      background: rgba(255, 255, 255, 0.08);
+    }
     .phone-home-bar {
-      width: 100px;
+      width: 80px;
       height: 4px;
       background: #cbd5e0;
       border-radius: 2px;
-      margin: 8px auto;
+      margin: 4px auto 6px auto;
       cursor: pointer;
     }
     .phone-page {
@@ -739,6 +795,114 @@
     }
     .phone-page.active {
       display: flex;
+    }
+
+    /* Fixed Bottom Controls Guide Bar */
+    #controlsBottomBar {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 6px 14px;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      z-index: 45;
+      pointer-events: auto;
+      user-select: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+    .ctrl-group:not(:last-child)::after {
+      content: "•";
+      color: rgba(255, 255, 255, 0.2);
+      margin-left: 6px;
+    }
+    .ctrl-key {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      color: #38bdf8;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .ctrl-label {
+      font-weight: 600;
+    }
+
+    /* Full GPS Map Modal */
+    #mapModal {
+      width: 780px;
+      max-width: 95vw;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 30px rgba(56, 189, 248, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .map-body-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 16px;
+    }
+    #fullMapCanvas {
+      background: #0b1120;
+      border: 2px solid #1e293b;
+      border-radius: 10px;
+      width: 100%;
+      height: 380px;
+    }
+    .map-legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .map-legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .map-legend-item:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+      transform: translateX(3px);
+    }
+    .legend-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 11px;
+      margin-right: 8px;
     }
 
     /* Store / Bank / Dealership Dialogs */
@@ -1072,12 +1236,28 @@
 
   <!-- Quick Action Buttons -->
   <div id="quickActions">
-    <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-keyboard"></i> [F1] Controls</button>
-    <button class="quick-btn" onclick="toggleInventory()"><i class="fa-solid fa-briefcase"></i> [TAB] Bag</button>
-    <button class="quick-btn" onclick="togglePhone()"><i class="fa-solid fa-mobile-screen"></i> [M] Phone</button>
-    <button class="quick-btn" onclick="openJobCenter()"><i class="fa-solid fa-briefcase"></i> [J] Jobs</button>
-    <button class="quick-btn" onclick="spawnPlayerCar('supercar')"><i class="fa-solid fa-car"></i> Spawn Car</button>
+    <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-keyboard"></i> [F1] Bantuan</button>
+    <button class="quick-btn" onclick="toggleMapModal()"><i class="fa-solid fa-map-location-dot" style="color:#38bdf8;"></i> [P] Peta GPS</button>
+    <button class="quick-btn" onclick="togglePhone()"><i class="fa-solid fa-mobile-screen" style="color:#10b981;"></i> [M] Handphone</button>
+    <button class="quick-btn" onclick="toggleInventory()"><i class="fa-solid fa-briefcase"></i> [TAB] Tas</button>
+    <button class="quick-btn" onclick="openJobCenter()"><i class="fa-solid fa-user-tie"></i> [J] Pekerjaan</button>
+    <button class="quick-btn" onclick="spawnPlayerCar('supercar')"><i class="fa-solid fa-car"></i> Spawn Mobil</button>
     <button class="quick-btn cloud-btn-active" id="btnCloudSave" onclick="manualCloudSave()"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="cloudStatusText">Sync Cloud</span></button>
+  </div>
+
+  <!-- Bottom Permanent Controls Guide Bar -->
+  <div id="controlsBottomBar">
+    <div class="ctrl-group"><span class="ctrl-key">W A S D</span> <span class="ctrl-label">Jalan</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">SHIFT</span> <span class="ctrl-label">Lari</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">SPACE</span> <span class="ctrl-label">Lompat</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">M</span> <span class="ctrl-label">Handphone</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">P</span> <span class="ctrl-label">Peta GPS</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">TAB</span> <span class="ctrl-label">Tas</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">E</span> <span class="ctrl-label">Interaksi</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">F</span> <span class="ctrl-label">Mobil</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">J</span> <span class="ctrl-label">Pekerjaan</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">T</span> <span class="ctrl-label">Chat</span></div>
+    <div class="ctrl-group"><span class="ctrl-key">F1</span> <span class="ctrl-label">Panduan</span></div>
   </div>
 
   <!-- Notifications -->
@@ -1085,7 +1265,7 @@
 
   <!-- Bottom-Left HUD (Minimap + Stats) -->
   <div id="bottomLeftHud">
-    <div id="radarContainer">
+    <div id="radarContainer" onclick="toggleMapModal()" title="Klik untuk membuka Peta Penuh [P]" style="cursor:pointer;">
       <canvas id="radarCanvas" width="200" height="200"></canvas>
       <div class="radar-scanline"></div>
     </div>
@@ -1141,8 +1321,8 @@
   <!-- RP Chat Box -->
   <div id="chatWrapper">
     <div id="chatMessages">
-      <div class="chat-msg chat-system">Selamat datang di Los Santos Roleplay (FiveM Web)! Tekan <b>T</b> untuk chat, <b>F1</b> untuk bantuan kontrol.</div>
-      <div class="chat-msg chat-ooc">[OOC] Server: Sistem Roleplay, Job, Kendaraan & Polisi telah aktif.</div>
+      <div class="chat-msg chat-system">Selamat datang di Los Santos Roleplay (FiveM Web)! Tekan <b>T</b> untuk chat, <b>F1</b> untuk bantuan kontrol, <b>P</b> untuk Peta GPS.</div>
+      <div class="chat-msg chat-ooc">[OOC] Server: Sistem Roleplay, Job, Balai Kota, Salon, Restoran & Polisi telah aktif.</div>
     </div>
     <div id="chatInputBox">
       <input type="text" id="chatInput" placeholder="Tekan Enter untuk kirim (/me, /do, /ooc, /police, /help)...">
@@ -1161,6 +1341,26 @@
       </div>
       <div style="display:flex; justify-content:flex-end; gap:10px;">
         <button class="quick-btn" onclick="toggleInventory()">Tutup [TAB]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full GPS Map Modal [P] -->
+  <div class="modal-overlay" id="mapOverlay" onclick="if(event.target===this) toggleMapModal()">
+    <div id="mapModal">
+      <div class="inv-header">
+        <div class="inv-title"><i class="fa-solid fa-map-location-dot" style="color: #38bdf8;"></i> Peta Navigasi GPS Los Santos [P]</div>
+        <button class="quick-btn" onclick="toggleMapModal()"><i class="fa-solid fa-xmark"></i> Tutup</button>
+      </div>
+      <div class="map-body-layout">
+        <canvas id="fullMapCanvas" width="480" height="380"></canvas>
+        <div class="map-legend-list" id="mapLegendList">
+          <!-- Dynamically populated from RP.cityLocations -->
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#94a3b8;">
+        <span>💡 <b>Tips:</b> Klik lokasi di daftar untuk langsung Teleport / Pasang Rute GPS!</span>
+        <button class="quick-btn" onclick="toggleMapModal()">Tutup [P]</button>
       </div>
     </div>
   </div>
@@ -1226,31 +1426,32 @@
         <button class="quick-btn" onclick="toggleHelpModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="keybind-grid">
-        <div class="keybind-item"><span>Maju (Forward)</span><span class="kbd">W</span></div>
-        <div class="keybind-item"><span>Mundur (Backward)</span><span class="kbd">S</span></div>
-        <div class="keybind-item"><span>Geser Kiri (Left Strafe)</span><span class="kbd">A</span></div>
-        <div class="keybind-item"><span>Geser Kanan (Right Strafe)</span><span class="kbd">D</span></div>
+        <div class="keybind-item"><span>Maju (Forward)</span><span class="kbd">W / ↑</span></div>
+        <div class="keybind-item"><span>Mundur (Backward)</span><span class="kbd">S / ↓</span></div>
+        <div class="keybind-item"><span>Geser Kiri (Left Strafe)</span><span class="kbd">A / ←</span></div>
+        <div class="keybind-item"><span>Geser Kanan (Right Strafe)</span><span class="kbd">D / →</span></div>
         <div class="keybind-item"><span>Lompat (Jump)</span><span class="kbd">SPACE</span></div>
         <div class="keybind-item"><span>Lari Cepat (Sprint)</span><span class="kbd">SHIFT</span></div>
+        <div class="keybind-item"><span>Buka Peta GPS Kota</span><span class="kbd">P</span></div>
+        <div class="keybind-item"><span>Buka Smartphone FiveM</span><span class="kbd">M</span></div>
         <div class="keybind-item"><span>Arahkan Kamera Bebas</span><span class="kbd">Mouse (Klik Layar)</span></div>
         <div class="keybind-item"><span>Lepas Kursor Mouse</span><span class="kbd">ESC</span></div>
         <div class="keybind-item"><span>Zoom Kamera Dekat/Jauh</span><span class="kbd">Scroll Mouse</span></div>
         <div class="keybind-item"><span>Membidik Senjata (Aim)</span><span class="kbd">R-Click</span></div>
         <div class="keybind-item"><span>Menembak / Memukul</span><span class="kbd">L-Click</span></div>
         <div class="keybind-item"><span>Masuk / Keluar Mobil</span><span class="kbd">F</span></div>
-        <div class="keybind-item"><span>Interaksi (Toko, Bank, NPC)</span><span class="kbd">E</span></div>
+        <div class="keybind-item"><span>Interaksi (Toko, Bank, Balai Kota, Salon)</span><span class="kbd">E</span></div>
         <div class="keybind-item"><span>Sirine Polisi / Ambulans</span><span class="kbd">Q</span></div>
         <div class="keybind-item"><span>Sabuk Pengaman Mobil</span><span class="kbd">B</span></div>
         <div class="keybind-item"><span>Klakson Mobil</span><span class="kbd">H</span></div>
         <div class="keybind-item"><span>Nitro Boost Mobil</span><span class="kbd">X</span></div>
         <div class="keybind-item"><span>Buka / Tutup Tas (Inventory)</span><span class="kbd">TAB</span></div>
-        <div class="keybind-item"><span>Buka Smartphone FiveM</span><span class="kbd">M</span></div>
         <div class="keybind-item"><span>Pusat Pekerjaan (Jobs)</span><span class="kbd">J</span></div>
         <div class="keybind-item"><span>Buka Obrolan RP Chat</span><span class="kbd">T</span></div>
         <div class="keybind-item"><span>Ganti Senjata (1, 2, 3, 4)</span><span class="kbd">Angka 1-4</span></div>
       </div>
       <div style="font-size:12px; color:#94a3b8; line-height:1.5;">
-        💡 <b>Tips RP:</b> Datangi gedung berikon di Minimap (Bank, RS Pillbox, Kantor Polisi Mission Row, Toko 24/7). Tekan <b>E</b> untuk bertransaksi atau merampok!
+        💡 <b>Tips RP:</b> Datangi gedung berikon di Minimap & Peta (Balai Kota, Salon Vinewood, Burger Shot, Pacific Standard Bank, RS Pillbox, Kantor Polisi LSPD). Tekan <b>E</b> untuk bertransaksi!
       </div>
     </div>
   </div>
@@ -1266,8 +1467,15 @@
     <div class="phone-screen">
       <!-- Main Home Apps Grid -->
       <div id="phoneHome" class="phone-page active">
-        <h4 style="font-size:14px; color:#94a3b8; margin-top:5px;">Los Santos OS</h4>
+        <h4 style="font-size:14px; color:#94a3b8; margin-top:2px; display:flex; justify-content:space-between; align-items:center;">
+          <span>Los Santos OS</span>
+          <span style="font-size:11px; color:#38bdf8;"><i class="fa-solid fa-circle-check"></i> Online</span>
+        </h4>
         <div class="phone-app-grid">
+          <div class="phone-app-btn" onclick="openPhoneApp('map')">
+            <div class="app-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"><i class="fa-solid fa-map-location-dot"></i></div>
+            <span class="app-label">Peta GPS</span>
+          </div>
           <div class="phone-app-btn" onclick="openPhoneApp('bank')">
             <div class="app-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-building-columns"></i></div>
             <span class="app-label">Maze Bank</span>
@@ -1292,20 +1500,34 @@
             <div class="app-icon" style="background: linear-gradient(135deg, #64748b, #334155);"><i class="fa-solid fa-warehouse"></i></div>
             <span class="app-label">Valet Car</span>
           </div>
+          <div class="phone-app-btn" onclick="toggleInventory()">
+            <div class="app-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-briefcase"></i></div>
+            <span class="app-label">Tas Inv</span>
+          </div>
+          <div class="phone-app-btn" onclick="toggleHelpModal()">
+            <div class="app-icon" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-gamepad"></i></div>
+            <span class="app-label">Bantuan</span>
+          </div>
         </div>
       </div>
 
       <!-- App: Maze Bank -->
       <div id="phoneAppBank" class="phone-page">
-        <h3 style="color:#10b981;"><i class="fa-solid fa-building-columns"></i> Maze Bank</h3>
-        <p style="font-size:12px; color:#94a3b8;">Saldo: <b id="phoneBankBalance" style="color:#fff;">$25,000</b></p>
+        <div class="phone-nav-header">
+          <button class="phone-back-btn" onclick="returnPhoneHome()"><i class="fa-solid fa-arrow-left"></i> Beranda</button>
+          <span style="font-size:12px; font-weight:700; color:#10b981;"><i class="fa-solid fa-building-columns"></i> Maze Bank</span>
+        </div>
+        <p style="font-size:12px; color:#94a3b8;">Saldo Rekening: <b id="phoneBankBalance" style="color:#fff;">$25,000</b></p>
         <button class="btn-buy" style="margin-top:10px;" onclick="phoneDepositCash()">Deposit Semua Uang Tunai</button>
         <button class="btn-buy" style="background:#3b82f6; margin-top:5px;" onclick="phoneWithdrawCash()">Tarik $2,000</button>
       </div>
 
       <!-- App: Bleeter (RP Social Media) -->
       <div id="phoneAppBleeter" class="phone-page">
-        <h3 style="color:#38bdf8;"><i class="fa-brands fa-twitter"></i> Bleeter</h3>
+        <div class="phone-nav-header">
+          <button class="phone-back-btn" onclick="returnPhoneHome()"><i class="fa-solid fa-arrow-left"></i> Beranda</button>
+          <span style="font-size:12px; font-weight:700; color:#38bdf8;"><i class="fa-brands fa-twitter"></i> Bleeter</span>
+        </div>
         <div id="bleeterFeed" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px; font-size:11px;">
           <div style="background:rgba(255,255,255,0.06); padding:6px; border-radius:6px;">
             <b>@LSPD_Official:</b> Waspada terhadap perampok toko di Vinewood!
@@ -1315,12 +1537,15 @@
           </div>
         </div>
         <input type="text" id="bleeterInput" placeholder="Kirim bleet tweet..." style="background:#1e293b; border:none; padding:6px; color:#fff; border-radius:4px; font-size:11px;">
-        <button class="btn-buy" style="background:#0284c7; padding:4px;" onclick="sendBleet()">Kirim Tweet</button>
+        <button class="btn-buy" style="background:#0284c7; padding:6px;" onclick="sendBleet()">Kirim Tweet</button>
       </div>
 
       <!-- App: 911 Dispatch -->
       <div id="phoneAppDispatch" class="phone-page">
-        <h3 style="color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> 911 Emergency</h3>
+        <div class="phone-nav-header">
+          <button class="phone-back-btn" onclick="returnPhoneHome()"><i class="fa-solid fa-arrow-left"></i> Beranda</button>
+          <span style="font-size:12px; font-weight:700; color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> 911 Dispatch</span>
+        </div>
         <p style="font-size:12px; color:#94a3b8;">Hubungi layanan darurat kota Los Santos:</p>
         <button class="btn-buy btn-danger" style="margin-top:8px;" onclick="call911('police')"><i class="fa-solid fa-handcuffs"></i> Panggil Polisi (LSPD)</button>
         <button class="btn-buy" style="background:#ec4899; margin-top:8px;" onclick="call911('ems')"><i class="fa-solid fa-ambulance"></i> Panggil Ambulans (EMS)</button>
@@ -1329,7 +1554,10 @@
 
       <!-- App: Dark Web -->
       <div id="phoneAppDarkweb" class="phone-page">
-        <h3 style="color:#a855f7;"><i class="fa-solid fa-user-secret"></i> Dark Web SilkRoad</h3>
+        <div class="phone-nav-header">
+          <button class="phone-back-btn" onclick="returnPhoneHome()"><i class="fa-solid fa-arrow-left"></i> Beranda</button>
+          <span style="font-size:12px; font-weight:700; color:#a855f7;"><i class="fa-solid fa-user-secret"></i> Dark Web</span>
+        </div>
         <div style="display:flex; flex-direction:column; gap:6px; font-size:11px;">
           <div style="display:flex; justify-content:space-between; align-items:center; background:#1e1b4b; padding:6px; border-radius:4px;">
             <span>Lockpick Mobil ($500)</span>
@@ -1351,6 +1579,13 @@
       </div>
     </div>
     
+    <!-- Phone Bottom Navigation Bar -->
+    <div class="phone-bottom-nav">
+      <button class="phone-bottom-btn" onclick="returnPhoneHome()" title="Kembali"><i class="fa-solid fa-arrow-left"></i><span>Kembali</span></button>
+      <button class="phone-bottom-btn" onclick="returnPhoneHome()" title="Beranda"><i class="fa-solid fa-house"></i><span>Beranda</span></button>
+      <button class="phone-bottom-btn" onclick="toggleMapModal()" title="Peta GPS"><i class="fa-solid fa-map-location-dot"></i><span>Peta</span></button>
+      <button class="phone-bottom-btn" onclick="togglePhone()" title="Tutup HP"><i class="fa-solid fa-xmark"></i><span>Tutup</span></button>
+    </div>
     <div class="phone-home-bar" onclick="returnPhoneHome()"></div>
   </div>
 
@@ -1662,39 +1897,113 @@
         activeMission: null
       },
       cityLocations: [
-        { id: 'police_hq', name: 'LSPD Mission Row (Polisi)', type: 'police', x: -80, z: -60, color: '#3b82f6', icon: 'fa-shield' },
-        { id: 'hospital', name: 'Pillbox Hill Hospital (EMS)', type: 'hospital', x: 70, z: -70, color: '#ef4444', icon: 'fa-hospital' },
+        { id: 'city_hall', name: 'Balai Kota (Pemerintahan)', type: 'government', x: 0, z: -40, color: '#f59e0b', icon: 'fa-landmark-dome' },
+        { id: 'salon', name: 'Vinewood Hair & Beauty Salon', type: 'salon', x: -70, z: -10, color: '#ec4899', icon: 'fa-scissors' },
+        { id: 'restaurant', name: 'Burger Shot & Cafe Vinewood', type: 'restaurant', x: 70, z: -10, color: '#f97316', icon: 'fa-burger' },
+        { id: 'police_hq', name: 'LSPD Mission Row (Polisi)', type: 'police', x: -80, z: -70, color: '#3b82f6', icon: 'fa-shield' },
+        { id: 'hospital', name: 'Pillbox Hill Hospital (EMS)', type: 'hospital', x: 80, z: -70, color: '#ef4444', icon: 'fa-hospital' },
         { id: 'bank', name: 'Pacific Standard Bank', type: 'bank', x: 0, z: 80, color: '#10b981', icon: 'fa-building-columns' },
-        { id: 'store_247', name: '24/7 Supermarket Vinewood', type: 'store', x: -70, z: 60, color: '#f59e0b', icon: 'fa-store' },
+        { id: 'store_247', name: '24/7 Supermarket Vinewood', type: 'store', x: -70, z: 60, color: '#eab308', icon: 'fa-store' },
         { id: 'customs', name: "Benny's Motor Works Garage", type: 'garage', x: 80, z: 60, color: '#8b5cf6', icon: 'fa-warehouse' },
-        { id: 'pdm', name: 'PDM Car Dealership', type: 'dealership', x: 0, z: -100, color: '#ec4899', icon: 'fa-car' }
+        { id: 'pdm', name: 'PDM Car Dealership', type: 'dealership', x: 0, z: -110, color: '#06b6d4', icon: 'fa-car' }
       ]
     };
 
     /* ==========================================================================
-       3. THREE.JS 3D SCENE & ENVIRONMENT SETUP
+       3. THREE.JS 3D SCENE & HIGH-FIDELITY GRAPHICS ENGINE
        ========================================================================== */
     let scene, camera, renderer, clock;
-    let playerMesh, playerGroup;
+    let playerMesh, playerGroup, playerCharacterRig;
     let vehicles = [];
     let pedestrians = [];
     let buildingColliders = [];
     let interactiveSpots = [];
+    let beaconLights = [];
     let keys = {};
     let mouse = { x: 0, y: 0, isAiming: false, isMouseDown: false };
-    let cameraAngle = { pitch: 0.35, yaw: 0 };
+    let cameraAngle = { pitch: 0.32, yaw: 0 };
+    let camZoom = 5.2;
+    let isDraggingMouse = false;
+    let lastMousePos = { x: 0, y: 0 };
     let activePrompt = null;
+    let playerVelocityY = 0;
+    let isJumping = false;
+    let playerWalkCycle = 0;
+    let footstepTimer = 0;
+    let playerWeapons = { pistol: null, rifle: null, taser: null };
+
+    // Procedural Texture Generators
+    let cachedWindowTex = null;
+    function getWindowTexture() {
+      if (cachedWindowTex) return cachedWindowTex;
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0a101d';
+      ctx.fillRect(0, 0, 256, 512);
+
+      const cols = 8, rows = 24;
+      const cw = 256 / cols, ch = 512 / rows;
+      const colors = ['#fef08a', '#fde047', '#38bdf8', '#7dd3fc', '#f59e0b', '#fb923c'];
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const lit = Math.random() > 0.45;
+          if (lit) {
+            ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+            ctx.fillRect(c * cw + 4, r * ch + 4, cw - 8, ch - 8);
+            if (Math.random() > 0.5) {
+              ctx.fillStyle = 'rgba(0,0,0,0.35)';
+              ctx.fillRect(c * cw + 4, r * ch + 4 + (ch - 8) * 0.45, cw - 8, 2);
+            }
+          } else {
+            ctx.fillStyle = '#111827';
+            ctx.fillRect(c * cw + 4, r * ch + 4, cw - 8, ch - 8);
+          }
+        }
+      }
+      cachedWindowTex = new THREE.CanvasTexture(canvas);
+      cachedWindowTex.wrapS = THREE.RepeatWrapping;
+      cachedWindowTex.wrapT = THREE.RepeatWrapping;
+      return cachedWindowTex;
+    }
+
+    let cachedAsphaltTex = null;
+    function getAsphaltTexture() {
+      if (cachedAsphaltTex) return cachedAsphaltTex;
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#171c22';
+      ctx.fillRect(0, 0, 256, 256);
+      const img = ctx.getImageData(0, 0, 256, 256);
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const n = (Math.random() - 0.5) * 25;
+        d[i] = Math.max(15, Math.min(48, d[i] + n));
+        d[i+1] = Math.max(18, Math.min(52, d[i+1] + n));
+        d[i+2] = Math.max(22, Math.min(60, d[i+2] + n));
+      }
+      ctx.putImageData(img, 0, 0);
+      cachedAsphaltTex = new THREE.CanvasTexture(canvas);
+      cachedAsphaltTex.wrapS = THREE.RepeatWrapping;
+      cachedAsphaltTex.wrapT = THREE.RepeatWrapping;
+      cachedAsphaltTex.repeat.set(3, 20);
+      return cachedAsphaltTex;
+    }
 
     function init3DWorld() {
       const canvas = document.getElementById('gameCanvas');
       scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x0a0e17);
-      scene.fog = new THREE.FogExp2(0x0a0e17, 0.007);
+      scene.background = new THREE.Color(0x070c18);
+      scene.fog = new THREE.FogExp2(0x070c18, 0.0055);
 
       camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.set(0, 5, 10);
 
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.shadowMap.enabled = true;
@@ -1702,186 +2011,380 @@
 
       clock = new THREE.Clock();
 
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0xdde8f5, 0.45);
+      // Atmospheric Sky & Stars
+      buildSkyAndAtmosphere();
+
+      // Balanced Lighting
+      const ambientLight = new THREE.AmbientLight(0xcfdcf5, 0.55);
       scene.add(ambientLight);
 
-      const sunLight = new THREE.DirectionalLight(0xfffaed, 0.85);
-      sunLight.position.set(80, 150, 60);
-      sunLight.castShadow = true;
-      sunLight.shadow.mapSize.width = 2048;
-      sunLight.shadow.mapSize.height = 2048;
-      sunLight.shadow.camera.near = 10;
-      sunLight.shadow.camera.far = 300;
-      const d = 140;
-      sunLight.shadow.camera.left = -d;
-      sunLight.shadow.camera.right = d;
-      sunLight.shadow.camera.top = d;
-      sunLight.shadow.camera.bottom = -d;
-      scene.add(sunLight);
+      const hemiLight = new THREE.HemisphereLight(0x38bdf8, 0x1f2937, 0.35);
+      scene.add(hemiLight);
+
+      const moonLight = new THREE.DirectionalLight(0xfffbeb, 1.05);
+      moonLight.position.set(90, 160, 70);
+      moonLight.castShadow = true;
+      moonLight.shadow.mapSize.width = 2048;
+      moonLight.shadow.mapSize.height = 2048;
+      moonLight.shadow.camera.near = 10;
+      moonLight.shadow.camera.far = 350;
+      moonLight.shadow.bias = -0.0004;
+      const d = 150;
+      moonLight.shadow.camera.left = -d;
+      moonLight.shadow.camera.right = d;
+      moonLight.shadow.camera.top = d;
+      moonLight.shadow.camera.bottom = -d;
+      scene.add(moonLight);
 
       buildCityMap();
       createPlayerCharacter();
       spawnAmbientTrafficAndPedestrians();
 
-      // Event Listeners
+      // Window & Input Listeners
       window.addEventListener('resize', onWindowResize);
       window.addEventListener('keydown', onKeyDown);
       window.addEventListener('keyup', onKeyUp);
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('mousedown', onMouseDown);
       window.addEventListener('mouseup', onMouseUp);
+      window.addEventListener('wheel', onMouseWheel, { passive: true });
       window.addEventListener('contextmenu', e => e.preventDefault());
+
+      // Mouse Pointer Lock on Canvas Click
+      canvas.addEventListener('click', () => {
+        if (!isAnyModalOpen()) {
+          canvas.requestPointerLock();
+        }
+      });
+
+      document.addEventListener('pointerlockchange', onPointerLockChange);
 
       // Start Loops
       renderLoop();
       setInterval(gameUpdateTimer, 1000);
     }
 
+    function buildSkyAndAtmosphere() {
+      const starGeo = new THREE.BufferGeometry();
+      const count = 800;
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count * 3; i += 3) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 0.95 + 0.05);
+        const rad = 420;
+        pos[i] = rad * Math.sin(phi) * Math.cos(theta);
+        pos[i+1] = rad * Math.cos(phi);
+        pos[i+2] = rad * Math.sin(phi) * Math.sin(theta);
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 1.8, transparent: true, opacity: 0.9 });
+      const starField = new THREE.Points(starGeo, starMat);
+      scene.add(starField);
+
+      // Gradient Dusk Sky Dome
+      const skyGeo = new THREE.SphereGeometry(460, 24, 24, 0, Math.PI * 2, 0, Math.PI / 2);
+      const skyCanvas = document.createElement('canvas');
+      skyCanvas.width = 16;
+      skyCanvas.height = 256;
+      const sCtx = skyCanvas.getContext('2d');
+      const grad = sCtx.createLinearGradient(0, 0, 0, 256);
+      grad.addColorStop(0, '#020510');
+      grad.addColorStop(0.55, '#0a1024');
+      grad.addColorStop(0.85, '#1e1b4b');
+      grad.addColorStop(1.0, '#31102f');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 16, 256);
+      const skyTex = new THREE.CanvasTexture(skyCanvas);
+      const skyMat = new THREE.MeshBasicMaterial({ map: skyTex, side: THREE.BackSide, fog: false });
+      const skyMesh = new THREE.Mesh(skyGeo, skyMat);
+      scene.add(skyMesh);
+    }
+
     /* ==========================================================================
-       4. CITY MAP GENERATOR (Roads, Buildings, Signs, Trees)
+       4. CITY MAP GENERATOR (Roads, Sidewalks, Buildings, Signs, Trees)
        ========================================================================== */
     function buildCityMap() {
-      // Ground / Terrain
+      // Ground / Terrain Base
       const groundGeo = new THREE.PlaneGeometry(600, 600);
-      const groundMat = new THREE.MeshStandardMaterial({ color: 0x182026, roughness: 0.9, metalness: 0.1 });
+      const groundMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.95, metalness: 0.05 });
       const ground = new THREE.Mesh(groundGeo, groundMat);
       ground.rotation.x = -Math.PI / 2;
       ground.receiveShadow = true;
       scene.add(ground);
 
-      // Roads Network (Grid System)
-      const roadMat = new THREE.MeshStandardMaterial({ color: 0x1f242b, roughness: 0.8 });
-      const lineMat = new THREE.MeshBasicMaterial({ color: 0xf1c40f });
+      // Materials
+      const asphaltMat = new THREE.MeshStandardMaterial({ map: getAsphaltTexture(), roughness: 0.8, metalness: 0.1 });
+      const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.7 });
+      const yellowLineMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+      const whiteLineMat = new THREE.MeshBasicMaterial({ color: 0xf8fafc });
 
-      // Create road grid (-200 to +200)
+      // Roads Grid System (-160 to +160 with 80m spacing)
       for (let x = -160; x <= 160; x += 80) {
-        // Vertical Roads
-        const vRoad = new THREE.Mesh(new THREE.PlaneGeometry(16, 400), roadMat);
+        // Vertical Road
+        const vRoad = new THREE.Mesh(new THREE.PlaneGeometry(16, 400), asphaltMat);
         vRoad.rotation.x = -Math.PI / 2;
         vRoad.position.set(x, 0.02, 0);
         vRoad.receiveShadow = true;
         scene.add(vRoad);
 
-        // Center Road Line
-        const vLine = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 380), lineMat);
-        vLine.rotation.x = -Math.PI / 2;
-        vLine.position.set(x, 0.03, 0);
-        scene.add(vLine);
+        // Center Double Yellow Lines
+        const yL1 = new THREE.Mesh(new THREE.PlaneGeometry(0.25, 380), yellowLineMat);
+        yL1.rotation.x = -Math.PI / 2;
+        yL1.position.set(x - 0.25, 0.035, 0);
+        scene.add(yL1);
+        const yL2 = new THREE.Mesh(new THREE.PlaneGeometry(0.25, 380), yellowLineMat);
+        yL2.rotation.x = -Math.PI / 2;
+        yL2.position.set(x + 0.25, 0.035, 0);
+        scene.add(yL2);
       }
 
       for (let z = -160; z <= 160; z += 80) {
-        // Horizontal Roads
-        const hRoad = new THREE.Mesh(new THREE.PlaneGeometry(400, 16), roadMat);
+        // Horizontal Road
+        const hRoad = new THREE.Mesh(new THREE.PlaneGeometry(400, 16), asphaltMat);
         hRoad.rotation.x = -Math.PI / 2;
         hRoad.position.set(0, 0.02, z);
         hRoad.receiveShadow = true;
         scene.add(hRoad);
 
-        // Center Road Line
-        const hLine = new THREE.Mesh(new THREE.PlaneGeometry(380, 0.4), lineMat);
-        hLine.rotation.x = -Math.PI / 2;
-        hLine.position.set(0, 0.03, z);
-        scene.add(hLine);
+        // Center Double Yellow Lines
+        const yL1 = new THREE.Mesh(new THREE.PlaneGeometry(380, 0.25), yellowLineMat);
+        yL1.rotation.x = -Math.PI / 2;
+        yL1.position.set(0, 0.035, z - 0.25);
+        scene.add(yL1);
+        const yL2 = new THREE.Mesh(new THREE.PlaneGeometry(380, 0.25), yellowLineMat);
+        yL2.rotation.x = -Math.PI / 2;
+        yL2.position.set(0, 0.035, z + 0.25);
+        scene.add(yL2);
       }
 
-      // City Blocks with Buildings & Landmarks
+      // Pedestrian Zebra Crosswalks at intersections
+      for (let x = -160; x <= 160; x += 80) {
+        for (let z = -160; z <= 160; z += 80) {
+          createZebraCrossings(x, z, whiteLineMat);
+        }
+      }
+
+      // Raised Sidewalk Blocks
+      for (let bx = -120; bx <= 120; bx += 80) {
+        for (let bz = -120; bz <= 120; bz += 80) {
+          const walkBlock = new THREE.Mesh(new THREE.BoxGeometry(62, 0.2, 62), sidewalkMat);
+          walkBlock.position.set(bx, 0.1, bz);
+          walkBlock.receiveShadow = true;
+          scene.add(walkBlock);
+        }
+      }
+
+      // Landmarks & Interactive Spots
       RP.cityLocations.forEach(loc => {
         createLandmarkBuilding(loc);
       });
 
-      // Procedural Skyscrapers and Houses
+      // Procedural Skyscrapers & Architecture
       createProceduralCityBlocks();
+    }
+
+    function createZebraCrossings(cx, cz, mat) {
+      const offsets = [
+        { x: cx, z: cz + 10.5, w: 14, h: 2.2 },
+        { x: cx, z: cz - 10.5, w: 14, h: 2.2 },
+        { x: cx + 10.5, z: cz, w: 2.2, h: 14 },
+        { x: cx - 10.5, z: cz, w: 2.2, h: 14 }
+      ];
+      offsets.forEach(o => {
+        for (let s = -5; s <= 5; s += 2) {
+          const stripe = new THREE.Mesh(
+            new THREE.PlaneGeometry(o.w > o.h ? 0.9 : 2.0, o.w > o.h ? 2.0 : 0.9),
+            mat
+          );
+          stripe.rotation.x = -Math.PI / 2;
+          const px = o.w > o.h ? o.x + s : o.x;
+          const pz = o.w > o.h ? o.z : o.z + s;
+          stripe.position.set(px, 0.04, pz);
+          scene.add(stripe);
+        }
+      });
     }
 
     function createLandmarkBuilding(loc) {
       const group = new THREE.Group();
       group.position.set(loc.x, 0, loc.z);
 
-      // Main Landmark Mesh
-      let color = 0x2c3e50;
-      let height = 24;
-      let width = 28;
-      let depth = 28;
+      let color = 0x1e3a8a;
+      let height = 24, width = 30, depth = 30;
 
-      if (loc.type === 'police') { color = 0x1e3a8a; height = 20; }
-      else if (loc.type === 'hospital') { color = 0xdbeafe; height = 28; }
-      else if (loc.type === 'bank') { color = 0x064e3b; height = 36; width = 34; }
-      else if (loc.type === 'store') { color = 0xd97706; height = 12; width = 20; }
-      else if (loc.type === 'dealership') { color = 0x831843; height = 14; width = 30; }
-      else if (loc.type === 'garage') { color = 0x4c1d95; height = 12; width = 22; }
+      if (loc.type === 'government') { color = 0xe2e8f0; height = 28; width = 36; depth = 32; }
+      else if (loc.type === 'salon') { color = 0x831843; height = 16; width = 24; depth = 22; }
+      else if (loc.type === 'restaurant') { color = 0x9a3412; height = 18; width = 26; depth = 24; }
+      else if (loc.type === 'police') { color = 0x1e3a8a; height = 22; width = 30; depth = 30; }
+      else if (loc.type === 'hospital') { color = 0xdbeafe; height = 30; width = 32; depth = 30; }
+      else if (loc.type === 'bank') { color = 0x064e3b; height = 38; width = 36; depth = 32; }
+      else if (loc.type === 'store') { color = 0xd97706; height = 14; width = 22; depth = 20; }
+      else if (loc.type === 'dealership') { color = 0x0e7490; height = 15; width = 32; depth = 26; }
+      else if (loc.type === 'garage') { color = 0x4c1d95; height = 14; width = 26; depth = 24; }
 
+      // Main Building Architecture
       const bGeo = new THREE.BoxGeometry(width, height, depth);
-      const bMat = new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.3 });
+      const bMat = new THREE.MeshStandardMaterial({
+        color,
+        roughness: 0.35,
+        metalness: loc.type === 'government' ? 0.1 : 0.3
+      });
       const bMesh = new THREE.Mesh(bGeo, bMat);
       bMesh.position.y = height / 2;
       bMesh.castShadow = true;
       bMesh.receiveShadow = true;
       group.add(bMesh);
 
-      // Glowing Neon Sign Banner
-      const signGeo = new THREE.BoxGeometry(width * 0.7, 3, 0.8);
+      // Unique Architecture Decorations per Type
+      if (loc.type === 'government') {
+        // Grand Classical Pillars in front
+        for (let px = -12; px <= 12; px += 8) {
+          const pillar = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.7, 0.8, height * 0.75, 16),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 })
+          );
+          pillar.position.set(px, (height * 0.75) / 2, depth / 2 + 2);
+          group.add(pillar);
+        }
+        // Golden Classical Dome on Roof
+        const dome = new THREE.Mesh(
+          new THREE.SphereGeometry(7.5, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2),
+          new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.85, roughness: 0.2 })
+        );
+        dome.position.set(0, height, 0);
+        group.add(dome);
+
+        // Flagpole on Dome
+        const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.15, 8, 8), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+        flagPole.position.set(0, height + 7.5 + 4, 0);
+        group.add(flagPole);
+
+        const flag = new THREE.Mesh(new THREE.PlaneGeometry(3, 1.8), new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide }));
+        flag.position.set(1.5, height + 7.5 + 6.5, 0);
+        group.add(flag);
+      } else if (loc.type === 'salon') {
+        // Barber Pole on Entrance Corner
+        const bpGeo = new THREE.CylinderGeometry(0.35, 0.35, 4.5, 12);
+        const bpMat = new THREE.MeshStandardMaterial({ color: 0xec4899, roughness: 0.2, metalness: 0.5 });
+        const bPole = new THREE.Mesh(bpGeo, bpMat);
+        bPole.position.set(width / 2 - 2, 4, depth / 2 + 1.5);
+        group.add(bPole);
+
+        // Neon Scissors Sign
+        const scGeo = new THREE.TorusGeometry(1.2, 0.2, 8, 16);
+        const scMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+        const scMesh = new THREE.Mesh(scGeo, scMat);
+        scMesh.position.set(0, height + 2, depth / 2 + 0.5);
+        group.add(scMesh);
+      } else if (loc.type === 'restaurant') {
+        // Rooftop Giant 3D Burger Sign
+        const burgerGroup = new THREE.Group();
+        burgerGroup.position.set(0, height + 3, 0);
+
+        const bunTop = new THREE.Mesh(
+          new THREE.SphereGeometry(3.2, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2),
+          new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.6 })
+        );
+        const patty = new THREE.Mesh(
+          new THREE.CylinderGeometry(3.2, 3.2, 0.8, 16),
+          new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.8 })
+        );
+        patty.position.y = -0.4;
+        const cheese = new THREE.Mesh(
+          new THREE.BoxGeometry(5.2, 0.2, 5.2),
+          new THREE.MeshStandardMaterial({ color: 0xfacc15 })
+        );
+        cheese.rotation.y = 0.4;
+        cheese.position.y = 0.1;
+        const bunBottom = new THREE.Mesh(
+          new THREE.CylinderGeometry(3.1, 3.1, 0.7, 16),
+          new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.6 })
+        );
+        bunBottom.position.y = -1.0;
+
+        burgerGroup.add(bunTop, patty, cheese, bunBottom);
+        group.add(burgerGroup);
+      }
+
+      // Architectural Entrance & Glass Portal
+      const portalGeo = new THREE.BoxGeometry(10, 6, 2);
+      const portalMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.2, metalness: 0.8 });
+      const portal = new THREE.Mesh(portalGeo, portalMat);
+      portal.position.set(0, 3, depth / 2 + 1);
+      group.add(portal);
+
+      // Glowing Neon 3D Signboard
+      const signGeo = new THREE.BoxGeometry(width * 0.75, 3.2, 1.2);
       const signMat = new THREE.MeshBasicMaterial({ color: loc.color });
       const signMesh = new THREE.Mesh(signGeo, signMat);
-      signMesh.position.set(0, height * 0.7, depth / 2 + 0.5);
+      signMesh.position.set(0, height * 0.75, depth / 2 + 0.8);
       group.add(signMesh);
 
-      // Spot Light
-      const spotLight = new THREE.PointLight(loc.color, 1.2, 25);
-      spotLight.position.set(0, 4, depth / 2 + 4);
+      // Spot Light Illuminating Entrance
+      const spotLight = new THREE.PointLight(loc.color, 1.8, 30);
+      spotLight.position.set(0, 5, depth / 2 + 5);
       group.add(spotLight);
 
-      // Interactive Marker Cylinder on ground
-      const markerGeo = new THREE.CylinderGeometry(1.8, 1.8, 0.2, 24);
-      const markerMat = new THREE.MeshBasicMaterial({ color: loc.color, transparent: true, opacity: 0.65 });
-      const marker = new THREE.Mesh(markerGeo, markerMat);
-      marker.position.set(0, 0.1, depth / 2 + 4);
-      group.add(marker);
+      // Holographic Rotating Ground Ring Marker
+      const ringGeo = new THREE.RingGeometry(1.6, 2.2, 32);
+      const ringMat = new THREE.MeshBasicMaterial({ color: loc.color, side: THREE.DoubleSide, transparent: true, opacity: 0.75 });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.rotation.x = -Math.PI / 2;
+      ringMesh.position.set(0, 0.15, depth / 2 + 5);
+      group.add(ringMesh);
+
+      const markerCore = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.3, 0.3, 0.1, 16),
+        new THREE.MeshBasicMaterial({ color: 0xffffff })
+      );
+      markerCore.position.set(0, 0.2, depth / 2 + 5);
+      group.add(markerCore);
 
       scene.add(group);
 
-      // Add to interactive spots
+      // Add spot to interaction list
       interactiveSpots.push({
         id: loc.id,
         name: loc.name,
         type: loc.type,
         x: loc.x,
-        z: loc.z + depth / 2 + 4,
-        radius: 3.5,
+        z: loc.z + depth / 2 + 5,
+        radius: 4.5,
+        ringMesh,
         action: () => handleInteractSpot(loc)
       });
 
       // Collider box
       buildingColliders.push({
-        minX: loc.x - width / 2 - 1,
-        maxX: loc.x + width / 2 + 1,
-        minZ: loc.z - depth / 2 - 1,
-        maxZ: loc.z + depth / 2 + 1
+        minX: loc.x - width / 2 - 1.2,
+        maxX: loc.x + width / 2 + 1.2,
+        minZ: loc.z - depth / 2 - 1.2,
+        maxZ: loc.z + depth / 2 + 1.2
       });
     }
 
     function createProceduralCityBlocks() {
-      // Skyscraper clusters in downtown blocks
+      // Downtown city blocks without center (0,0) to keep main intersection & spawn clear
       const blockCoords = [
-        { x: -80, z: 0 }, { x: 0, z: 0 }, { x: 80, z: 0 },
+        { x: -80, z: 0 }, { x: 80, z: 0 },
         { x: -80, z: -160 }, { x: 0, z: -160 }, { x: 80, z: -160 },
         { x: -160, z: -80 }, { x: -160, z: 0 }, { x: -160, z: 80 },
         { x: 160, z: -80 }, { x: 160, z: 0 }, { x: 160, z: 80 }
       ];
 
-      const bColors = [0x1e293b, 0x0f172a, 0x334155, 0x111827, 0x27272a];
+      const winTex = getWindowTexture();
 
       blockCoords.forEach(b => {
-        const height = 30 + Math.random() * 50;
-        const width = 24 + Math.random() * 12;
-        const depth = 24 + Math.random() * 12;
-        const color = bColors[Math.floor(Math.random() * bColors.length)];
+        const height = 35 + Math.random() * 55;
+        const width = 26 + Math.random() * 10;
+        const depth = 26 + Math.random() * 10;
 
         const geo = new THREE.BoxGeometry(width, height, depth);
         const mat = new THREE.MeshStandardMaterial({
-          color,
+          color: 0x1e293b,
           roughness: 0.3,
-          metalness: 0.6
+          metalness: 0.5,
+          map: winTex
         });
         const building = new THREE.Mesh(geo, mat);
         building.position.set(b.x, height / 2, b.z);
@@ -1889,22 +2392,29 @@
         building.receiveShadow = true;
         scene.add(building);
 
-        // Neon Roof antenna
-        const antGeo = new THREE.CylinderGeometry(0.2, 0.4, 12);
-        const antMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+        // Rooftop Architecture & Radio Beacon
+        const antGeo = new THREE.CylinderGeometry(0.15, 0.3, 14, 8);
+        const antMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8 });
         const antenna = new THREE.Mesh(antGeo, antMat);
-        antenna.position.set(b.x, height + 6, b.z);
+        antenna.position.set(b.x, height + 7, b.z);
         scene.add(antenna);
 
+        const beaconGeo = new THREE.SphereGeometry(0.45, 8, 8);
+        const beaconMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+        const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+        beacon.position.set(b.x, height + 14, b.z);
+        scene.add(beacon);
+        beaconLights.push(beacon);
+
         buildingColliders.push({
-          minX: b.x - width / 2 - 1,
-          maxX: b.x + width / 2 + 1,
-          minZ: b.z - depth / 2 - 1,
-          maxZ: b.z + depth / 2 + 1
+          minX: b.x - width / 2 - 1.2,
+          maxX: b.x + width / 2 + 1.2,
+          minZ: b.z - depth / 2 - 1.2,
+          maxZ: b.z + depth / 2 + 1.2
         });
       });
 
-      // Street Lamps along roads
+      // Street Lamps lining all avenues
       for (let x = -160; x <= 160; x += 80) {
         for (let z = -140; z <= 140; z += 40) {
           createStreetLamp(x + 9, z);
@@ -1913,147 +2423,418 @@
       }
 
       // Palm Trees
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 35; i++) {
         const px = (Math.random() - 0.5) * 320;
         const pz = (Math.random() - 0.5) * 320;
-        if (Math.abs(px % 80) > 12 && Math.abs(pz % 80) > 12) {
+        if (Math.abs(px % 80) > 13 && Math.abs(pz % 80) > 13) {
           createPalmTree(px, pz);
         }
       }
     }
 
     function createStreetLamp(x, z) {
-      const poleGeo = new THREE.CylinderGeometry(0.12, 0.16, 7);
-      const poleMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
+      const poleGeo = new THREE.CylinderGeometry(0.12, 0.18, 7.5, 8);
+      const poleMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7 });
       const pole = new THREE.Mesh(poleGeo, poleMat);
-      pole.position.set(x, 3.5, z);
+      pole.position.set(x, 3.75, z);
       scene.add(pole);
 
-      const lampHead = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
-      lampHead.position.set(x, 7, z);
+      const lampHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.45, 12, 12),
+        new THREE.MeshBasicMaterial({ color: 0xfef08a })
+      );
+      lampHead.position.set(x, 7.5, z);
       scene.add(lampHead);
+
+      // Light cone volumetric effect
+      const coneGeo = new THREE.ConeGeometry(2.4, 6.5, 12, 1, true);
+      const coneMat = new THREE.MeshBasicMaterial({
+        color: 0xfef08a,
+        transparent: true,
+        opacity: 0.12,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      });
+      const cone = new THREE.Mesh(coneGeo, coneMat);
+      cone.position.set(x, 4.25, z);
+      scene.add(cone);
     }
 
     function createPalmTree(x, z) {
-      const trunkGeo = new THREE.CylinderGeometry(0.25, 0.45, 8, 8);
-      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x78350f });
+      const trunkGeo = new THREE.CylinderGeometry(0.28, 0.5, 9, 8);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x713f12, roughness: 0.9 });
       const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-      trunk.position.set(x, 4, z);
+      trunk.position.set(x, 4.5, z);
       scene.add(trunk);
 
-      const leavesGeo = new THREE.ConeGeometry(2.5, 4, 8);
-      const leavesMat = new THREE.MeshStandardMaterial({ color: 0x15803d });
+      const leavesGeo = new THREE.ConeGeometry(3.0, 4.5, 8);
+      const leavesMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.7 });
       const leaves = new THREE.Mesh(leavesGeo, leavesMat);
-      leaves.position.set(x, 8, z);
+      leaves.position.set(x, 9.2, z);
+      leaves.castShadow = true;
       scene.add(leaves);
     }
 
     /* ==========================================================================
-       5. PLAYER CHARACTER (3D Mesh & Animations)
+       5. REALISTIC HUMAN 3D CHARACTER MODEL (Anatomy, Face, Clothes & Rigs)
        ========================================================================== */
+    function createHumanCharacterMesh(opts = {}) {
+      const skinColor = opts.skinColor || 0xf2c4a2;
+      const shirtColor = opts.shirtColor || 0x2563eb;
+      const pantsColor = opts.pantsColor || 0x1e293b;
+      const hairColor = opts.hairColor || 0x1c1917;
+      const shoesColor = opts.shoesColor || 0xb45309;
+
+      const skinMat = new THREE.MeshStandardMaterial({ color: skinColor, roughness: 0.6, metalness: 0.05 });
+      const shirtMat = new THREE.MeshStandardMaterial({ color: shirtColor, roughness: 0.55, metalness: 0.1 });
+      const pantsMat = new THREE.MeshStandardMaterial({ color: pantsColor, roughness: 0.7, metalness: 0.08 });
+      const shoeMat = new THREE.MeshStandardMaterial({ color: shoesColor, roughness: 0.4 });
+      const soleMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25 });
+      const hairMat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: 0.85 });
+      const beltMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.5 });
+      const buckleMat = new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.9, roughness: 0.2 });
+
+      // Facial Feature Materials
+      const eyeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
+      const eyeIrisMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.15 });
+      const eyePupilMat = new THREE.MeshBasicMaterial({ color: 0x0a0a0a });
+      const browMat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: 0.9 });
+      const lipMat = new THREE.MeshStandardMaterial({ color: 0xc26e68, roughness: 0.5 });
+
+      const rootGroup = new THREE.Group();
+      const rigGroup = new THREE.Group();
+      rootGroup.add(rigGroup);
+
+      // Pelvis / Hips
+      const hips = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.28, 0.36), pantsMat);
+      hips.position.y = 0.96;
+      hips.castShadow = true;
+      rigGroup.add(hips);
+
+      // Belt & Gold Buckle
+      const belt = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.08, 0.38), beltMat);
+      belt.position.y = 1.06;
+      rigGroup.add(belt);
+      const buckle = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.09, 0.40), buckleMat);
+      buckle.position.set(0, 1.06, 0.01);
+      rigGroup.add(buckle);
+
+      // Abdomen
+      const abdomen = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.30, 0.36), shirtMat);
+      abdomen.position.y = 1.25;
+      abdomen.castShadow = true;
+      rigGroup.add(abdomen);
+
+      // Upper Chest & Jacket
+      const chest = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.45, 0.42), shirtMat);
+      chest.position.y = 1.58;
+      chest.castShadow = true;
+      rigGroup.add(chest);
+
+      // Jacket Zipper Detail
+      const zipper = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.72, 0.44), buckleMat);
+      zipper.position.set(0, 1.42, 0.01);
+      rigGroup.add(zipper);
+
+      // Anatomical Neck
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.20, 12), skinMat);
+      neck.position.y = 1.88;
+      neck.castShadow = true;
+      rigGroup.add(neck);
+
+      // ==========================================
+      // DETAILED HEAD & HUMAN FACIAL FEATURES
+      // ==========================================
+      const headGroup = new THREE.Group();
+      headGroup.position.set(0, 2.06, 0);
+
+      // Cranium / Face Foundation
+      const headMesh = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.42, 0.40), skinMat);
+      headMesh.castShadow = true;
+      headGroup.add(headMesh);
+
+      // Jaw & Chin
+      const chin = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.16, 0.26), skinMat);
+      chin.position.set(0, -0.16, 0.08);
+      chin.castShadow = true;
+      headGroup.add(chin);
+
+      // Cheekbones (Left & Right)
+      const leftCheek = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.12, 0.06), skinMat);
+      leftCheek.position.set(-0.13, -0.04, 0.18);
+      headGroup.add(leftCheek);
+      const rightCheek = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.12, 0.06), skinMat);
+      rightCheek.position.set(0.13, -0.04, 0.18);
+      headGroup.add(rightCheek);
+
+      // 3D Nose with Bridge & Tip
+      const nose = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.14, 6), skinMat);
+      nose.rotation.x = -Math.PI / 2;
+      nose.position.set(0, -0.02, 0.23);
+      nose.castShadow = true;
+      headGroup.add(nose);
+
+      // Contoured Natural Lips
+      const lips = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.04, 0.03), lipMat);
+      lips.position.set(0, -0.13, 0.20);
+      headGroup.add(lips);
+
+      // Eyes: Left & Right (Sclera + Iris + Pupil + Eyebrows)
+      [-0.09, 0.09].forEach(eyeX => {
+        const sclera = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.045, 0.03), eyeWhiteMat);
+        sclera.position.set(eyeX, 0.05, 0.195);
+        headGroup.add(sclera);
+
+        const iris = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.032), eyeIrisMat);
+        iris.position.set(eyeX, 0.05, 0.198);
+        headGroup.add(iris);
+
+        const pupil = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, 0.034), eyePupilMat);
+        pupil.position.set(eyeX, 0.05, 0.20);
+        headGroup.add(pupil);
+
+        const brow = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.025, 0.04), browMat);
+        brow.position.set(eyeX, 0.10, 0.20);
+        headGroup.add(brow);
+      });
+
+      // Ears (Left & Right)
+      const leftEar = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.14, 0.08), skinMat);
+      leftEar.position.set(-0.21, 0.02, -0.02);
+      headGroup.add(leftEar);
+      const rightEar = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.14, 0.08), skinMat);
+      rightEar.position.set(0.21, 0.02, -0.02);
+      headGroup.add(rightEar);
+
+      // Modern Textured Haircut (Quiff / Fade with Fringe)
+      const hairTop = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.16, 0.44), hairMat);
+      hairTop.position.set(0, 0.22, -0.01);
+      hairTop.castShadow = true;
+      headGroup.add(hairTop);
+
+      const hairFringe = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.10, 0.12), hairMat);
+      hairFringe.position.set(0, 0.17, 0.18);
+      headGroup.add(hairFringe);
+
+      const hairBack = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.28, 0.14), hairMat);
+      hairBack.position.set(0, 0.06, -0.18);
+      headGroup.add(hairBack);
+
+      rigGroup.add(headGroup);
+
+      // ==========================================
+      // LEGS WITH KNEES & SNEAKERS
+      // ==========================================
+      const createLeg = (isLeft) => {
+        const legGroup = new THREE.Group();
+        const xOffset = isLeft ? -0.16 : 0.16;
+        legGroup.position.set(xOffset, 0.95, 0);
+
+        const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.48, 0.26), pantsMat);
+        thigh.position.y = -0.24;
+        thigh.castShadow = true;
+        legGroup.add(thigh);
+
+        const calf = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.42, 0.24), pantsMat);
+        calf.position.y = -0.58;
+        calf.castShadow = true;
+        legGroup.add(calf);
+
+        const shoeUpper = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.14, 0.36), shoeMat);
+        shoeUpper.position.set(0, -0.84, 0.05);
+        shoeUpper.castShadow = true;
+        legGroup.add(shoeUpper);
+
+        const shoeSole = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.06, 0.38), soleMat);
+        shoeSole.position.set(0, -0.92, 0.05);
+        shoeSole.castShadow = true;
+        legGroup.add(shoeSole);
+
+        return legGroup;
+      };
+
+      const leftLeg = createLeg(true);
+      const rightLeg = createLeg(false);
+      rigGroup.add(leftLeg);
+      rigGroup.add(rightLeg);
+
+      // ==========================================
+      // ARMS & HANDS WITH PALM / THUMB
+      // ==========================================
+      const createArm = (isLeft) => {
+        const armGroup = new THREE.Group();
+        const xOffset = isLeft ? -0.44 : 0.44;
+        armGroup.position.set(xOffset, 1.72, 0);
+
+        const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.12, 12, 12), shirtMat);
+        armGroup.add(shoulder);
+
+        const bicep = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.40, 0.20), shirtMat);
+        bicep.position.y = -0.20;
+        bicep.castShadow = true;
+        armGroup.add(bicep);
+
+        const forearm = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.36, 0.18), skinMat);
+        forearm.position.y = -0.48;
+        forearm.castShadow = true;
+        armGroup.add(forearm);
+
+        const hand = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.14, 0.12), skinMat);
+        hand.position.y = -0.70;
+        hand.castShadow = true;
+        armGroup.add(hand);
+
+        const thumb = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, 0.06), skinMat);
+        thumb.position.set(isLeft ? 0.07 : -0.07, -0.68, 0.03);
+        armGroup.add(thumb);
+
+        return armGroup;
+      };
+
+      const leftArm = createArm(true);
+      const rightArm = createArm(false);
+      rigGroup.add(leftArm);
+      rigGroup.add(rightArm);
+
+      // Weapon Socket attached to right hand
+      const weaponHolder = new THREE.Group();
+      weaponHolder.position.set(0, -0.70, 0.08);
+      rightArm.add(weaponHolder);
+
+      return {
+        root: rootGroup,
+        rig: rigGroup,
+        head: headGroup,
+        leftLeg,
+        rightLeg,
+        leftArm,
+        rightArm,
+        weaponHolder
+      };
+    }
+
     function createPlayerCharacter() {
       playerGroup = new THREE.Group();
       const sx = (RP.player.savedSpawn && RP.player.savedSpawn.x !== undefined) ? RP.player.savedSpawn.x : 0;
-      const sz = (RP.player.savedSpawn && RP.player.savedSpawn.z !== undefined) ? RP.player.savedSpawn.z : 10;
+      const sz = (RP.player.savedSpawn && RP.player.savedSpawn.z !== undefined) ? RP.player.savedSpawn.z : 20;
       playerGroup.position.set(sx, 0, sz);
 
-      // Body / Torso
-      const torsoGeo = new THREE.BoxGeometry(0.8, 1.1, 0.45);
-      const torsoMat = new THREE.MeshStandardMaterial({ color: 0x2563eb }); // Blue shirt
-      const torso = new THREE.Mesh(torsoGeo, torsoMat);
-      torso.position.y = 1.35;
-      torso.castShadow = true;
-      playerGroup.add(torso);
+      playerCharacterRig = createHumanCharacterMesh({
+        isPlayer: true,
+        shirtColor: 0x2563eb,
+        pantsColor: 0x1e293b,
+        skinColor: 0xf2c4a2,
+        hairColor: 0x1c1917,
+        shoesColor: 0xd97706
+      });
 
-      // Head
-      const headGeo = new THREE.SphereGeometry(0.32, 16, 16);
-      const headMat = new THREE.MeshStandardMaterial({ color: 0xfbcfe8 });
-      const head = new THREE.Mesh(headGeo, headMat);
-      head.position.y = 2.15;
-      head.castShadow = true;
-      playerGroup.add(head);
+      playerGroup.add(playerCharacterRig.root);
 
-      // Hair
-      const hairGeo = new THREE.BoxGeometry(0.68, 0.25, 0.68);
-      const hairMat = new THREE.MeshStandardMaterial({ color: 0x1c1917 });
-      const hair = new THREE.Mesh(hairGeo, hairMat);
-      hair.position.y = 2.35;
-      playerGroup.add(hair);
-
-      // Legs
-      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b }); // Jeans
-      const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.9, 0.35), legMat);
-      leftLeg.position.set(-0.22, 0.45, 0);
-      leftLeg.castShadow = true;
-      playerGroup.add(leftLeg);
-
-      const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.9, 0.35), legMat);
-      rightLeg.position.set(0.22, 0.45, 0);
-      rightLeg.castShadow = true;
-      playerGroup.add(rightLeg);
-
-      // Arms & Weapon Holder
-      const armMat = new THREE.MeshStandardMaterial({ color: 0x2563eb });
-      const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.25), armMat);
-      rightArm.position.set(0.55, 1.35, 0);
-      rightArm.castShadow = true;
-      playerGroup.add(rightArm);
-
-      const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.9, 0.25), armMat);
-      leftArm.position.set(-0.55, 1.35, 0);
-      leftArm.castShadow = true;
-      playerGroup.add(leftArm);
+      // Build 3D Weapon Models in Hand
+      buildPlayerWeaponModels(playerCharacterRig.weaponHolder);
 
       scene.add(playerGroup);
       playerMesh = playerGroup;
     }
 
+    function buildPlayerWeaponModels(holder) {
+      const gunMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.25, metalness: 0.8 });
+      const taserMat = new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.3 });
+
+      // Pistol Model
+      const pistolGroup = new THREE.Group();
+      const slide = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.32), gunMat);
+      slide.position.set(0, 0.04, 0.08);
+      pistolGroup.add(slide);
+      const grip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.20, 0.10), gunMat);
+      grip.position.set(0, -0.06, 0.0);
+      grip.rotation.x = 0.2;
+      pistolGroup.add(grip);
+      holder.add(pistolGroup);
+      playerWeapons.pistol = pistolGroup;
+
+      // Assault Rifle Model
+      const rifleGroup = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.12, 0.65), gunMat);
+      rifleGroup.add(body);
+      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.35), gunMat);
+      barrel.rotation.x = Math.PI / 2;
+      barrel.position.set(0, 0.02, 0.42);
+      rifleGroup.add(barrel);
+      const mag = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.24, 0.12), gunMat);
+      mag.position.set(0, -0.15, 0.10);
+      mag.rotation.x = -0.25;
+      rifleGroup.add(mag);
+      holder.add(rifleGroup);
+      playerWeapons.rifle = rifleGroup;
+
+      // Taser Model
+      const taserGroup = new THREE.Group();
+      const tBody = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.11, 0.24), taserMat);
+      taserGroup.add(tBody);
+      const tHandle = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.16, 0.08), gunMat);
+      tHandle.position.set(0, -0.10, -0.05);
+      taserGroup.add(tHandle);
+      holder.add(taserGroup);
+      playerWeapons.taser = taserGroup;
+
+      updatePlayerWeaponVisual(RP.player.currentWeapon);
+    }
+
+    function updatePlayerWeaponVisual(wType) {
+      if (playerWeapons.pistol) playerWeapons.pistol.visible = (wType === 'pistol');
+      if (playerWeapons.rifle) playerWeapons.rifle.visible = (wType === 'rifle' || wType === 'shotgun' || wType === 'smg');
+      if (playerWeapons.taser) playerWeapons.taser.visible = (wType === 'taser');
+    }
+
     /* ==========================================================================
-       6. VEHICLE SYSTEM (Supercars, Cop Cars, Ambulances, Physics)
+       6. VEHICLE SYSTEM (Supercars, Cop Cars, Ambulances & Spotlights)
        ========================================================================== */
     function spawnVehicle(type, x, z, angle = 0) {
       const vGroup = new THREE.Group();
       vGroup.position.set(x, 0, z);
       vGroup.rotation.y = angle;
 
-      let bodyColor = 0xe11d48; // Supercar red
+      let bodyColor = 0xe11d48;
       let isEmergency = false;
       let sirenColor1 = 0xff0000;
       let sirenColor2 = 0x0000ff;
 
       if (type === 'police') {
-        bodyColor = 0x0f172a; // Black & White cop
+        bodyColor = 0x0f172a;
         isEmergency = true;
       } else if (type === 'ambulance') {
-        bodyColor = 0xf8fafc; // White EMS
+        bodyColor = 0xf8fafc;
         isEmergency = true;
         sirenColor1 = 0xff0000;
         sirenColor2 = 0xffffff;
       } else if (type === 'taxi') {
-        bodyColor = 0xfacc15; // Yellow taxi
+        bodyColor = 0xfacc15;
       } else if (type === 'muscle') {
-        bodyColor = 0x475569;
+        bodyColor = 0x334155;
       }
 
-      // Chassis / Body
+      // Gloss Metallic Chassis
       const bodyGeo = new THREE.BoxGeometry(2.4, 0.9, 4.6);
-      const bodyMat = new THREE.MeshStandardMaterial({ color: bodyColor, metalness: 0.7, roughness: 0.2 });
+      const bodyMat = new THREE.MeshStandardMaterial({ color: bodyColor, metalness: 0.85, roughness: 0.18 });
       const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
       bodyMesh.position.y = 0.75;
       bodyMesh.castShadow = true;
       vGroup.add(bodyMesh);
 
-      // Cabin / Roof & Windows
+      // Dark Glass Windshield & Roof
       const cabinGeo = new THREE.BoxGeometry(2.0, 0.7, 2.4);
-      const cabinMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.1 });
+      const cabinMat = new THREE.MeshStandardMaterial({ color: 0x070c18, roughness: 0.08, metalness: 0.9 });
       const cabinMesh = new THREE.Mesh(cabinGeo, cabinMat);
       cabinMesh.position.set(0, 1.45, -0.2);
       cabinMesh.castShadow = true;
       vGroup.add(cabinMesh);
 
-      // Wheels
-      const wheelGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.4, 16);
-      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.9 });
+      // Sports Alloy Wheels
+      const wheelGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.4, 18);
+      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.85 });
+      const rimMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.15 });
+
       const wheelPositions = [
         [-1.2, 0.45, 1.4], [1.2, 0.45, 1.4],
         [-1.2, 0.45, -1.4], [1.2, 0.45, -1.4]
@@ -2063,30 +2844,39 @@
         wheel.rotation.z = Math.PI / 2;
         wheel.position.set(pos[0], pos[1], pos[2]);
         wheel.castShadow = true;
+
+        const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.42, 8), rimMat);
+        wheel.add(rim);
+
         vGroup.add(wheel);
       });
 
-      // Headlights
-      const headL = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-      headL.position.set(-0.8, 0.8, 2.3);
-      vGroup.add(headL);
-      const headR = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-      headR.position.set(0.8, 0.8, 2.3);
-      vGroup.add(headR);
+      // Headlights with Forward Street Beam
+      const headMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      [-0.8, 0.8].forEach(hx => {
+        const hLight = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), headMat);
+        hLight.position.set(hx, 0.8, 2.3);
+        vGroup.add(hLight);
+      });
+
+      const forwardBeam = new THREE.SpotLight(0xfffaed, 1.5, 35, Math.PI / 6, 0.5);
+      forwardBeam.position.set(0, 1.0, 2.2);
+      forwardBeam.target.position.set(0, 0, 15);
+      vGroup.add(forwardBeam);
+      vGroup.add(forwardBeam.target);
 
       // Taillights
-      const tailL = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
-      tailL.position.set(-0.8, 0.8, -2.3);
-      vGroup.add(tailL);
-      const tailR = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xef4444 }));
-      tailR.position.set(0.8, 0.8, -2.3);
-      vGroup.add(tailR);
+      const tailMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+      [-0.8, 0.8].forEach(tx => {
+        const tLight = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), tailMat);
+        tLight.position.set(tx, 0.8, -2.3);
+        vGroup.add(tLight);
+      });
 
-      // Emergency Lightbar
+      // Emergency Lightbars
       let lightbar1 = null, lightbar2 = null;
       if (isEmergency) {
-        const barGeo = new THREE.BoxGeometry(1.6, 0.2, 0.4);
-        const barMesh = new THREE.Mesh(barGeo, new THREE.MeshBasicMaterial({ color: 0x334155 }));
+        const barMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.2, 0.4), new THREE.MeshBasicMaterial({ color: 0x1e293b }));
         barMesh.position.set(0, 1.9, -0.2);
         vGroup.add(barMesh);
 
@@ -2131,51 +2921,87 @@
     }
 
     function spawnAmbientTrafficAndPedestrians() {
-      // Spawn Vehicles at specific landmarks
+      // Parked Landmark Vehicles
       spawnVehicle('police', -75, -45, Math.PI / 2);
       spawnVehicle('ambulance', 75, -55, 0);
       spawnVehicle('taxi', -5, 70, 0);
       spawnVehicle('supercar', 5, -85, Math.PI);
       spawnVehicle('muscle', 75, 45, -Math.PI / 2);
 
-      // Pedestrians (Walkers)
-      for (let i = 0; i < 20; i++) {
-        const ped = new THREE.Group();
+      // Human Pedestrians with realistic bodies and faces
+      const shirtColors = [0xef4444, 0x10b981, 0x3b82f6, 0xf59e0b, 0x8b5cf6, 0x06b6d4, 0xd97706];
+      const pantsColors = [0x1e293b, 0x334155, 0x0f172a, 0x475569];
+      const hairColors = [0x1c1917, 0x451a03, 0x78350f, 0x0f172a];
+
+      for (let i = 0; i < 22; i++) {
         const px = (Math.random() - 0.5) * 260;
         const pz = (Math.random() - 0.5) * 260;
-        ped.position.set(px, 0, pz);
 
-        const colors = [0xef4444, 0x10b981, 0x3b82f6, 0xf59e0b, 0x8b5cf6];
-        const pedColor = colors[Math.floor(Math.random() * colors.length)];
+        const pedRig = createHumanCharacterMesh({
+          isPlayer: false,
+          shirtColor: shirtColors[Math.floor(Math.random() * shirtColors.length)],
+          pantsColor: pantsColors[Math.floor(Math.random() * pantsColors.length)],
+          hairColor: hairColors[Math.floor(Math.random() * hairColors.length)],
+          shoesColor: 0x334155
+        });
 
-        const body = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.1, 0.4), new THREE.MeshStandardMaterial({ color: pedColor }));
-        body.position.y = 1.35;
-        body.castShadow = true;
-        ped.add(body);
+        pedRig.root.position.set(px, 0, pz);
+        scene.add(pedRig.root);
 
-        const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 12), new THREE.MeshStandardMaterial({ color: 0xfcd34d }));
-        head.position.y = 2.1;
-        head.castShadow = true;
-        ped.add(head);
-
-        scene.add(ped);
         pedestrians.push({
-          group: ped,
-          targetX: px + (Math.random() - 0.5) * 40,
-          targetZ: pz + (Math.random() - 0.5) * 40,
-          speed: 0.04 + Math.random() * 0.03,
-          isPanicking: false
+          group: pedRig.root,
+          rig: pedRig,
+          targetX: px + (Math.random() - 0.5) * 45,
+          targetZ: pz + (Math.random() - 0.5) * 45,
+          speed: 0.045 + Math.random() * 0.03,
+          walkCycle: Math.random() * Math.PI * 2
         });
       }
     }
 
     /* ==========================================================================
-       7. PLAYER CONTROLS & INTERACTION ENGINE
+       7. PLAYER CONTROLS, MOUSE CURSOR & KEYBOARD ENGINE
        ========================================================================== */
+    function onPointerLockChange() {
+      const isLocked = document.pointerLockElement === document.getElementById('gameCanvas');
+      const hint = document.getElementById('cursorLockNotice');
+      if (hint) {
+        if (isLocked) {
+          hint.innerHTML = '<i class="fa-solid fa-gamepad"></i> <span><b>Mouse Terkunci:</b> Gerakkan mouse bebas untuk arah kamera • Tekan <b>[ESC]</b> untuk lepas</span>';
+          hint.classList.add('locked');
+        } else {
+          hint.innerHTML = '<i class="fa-solid fa-arrow-pointer"></i> <span>Klik layar untuk kunci mouse & arahkan kamera (ESC untuk lepas kursor)</span>';
+          hint.classList.remove('locked');
+        }
+      }
+    }
+
+    function isAnyModalOpen() {
+      const inv = document.getElementById('invOverlay');
+      const store = document.getElementById('storeOverlay');
+      const job = document.getElementById('jobOverlay');
+      const help = document.getElementById('helpOverlay');
+      const phone = document.getElementById('phoneContainer');
+      const map = document.getElementById('mapOverlay');
+      const start = document.getElementById('startScreen');
+      return (inv && inv.style.display === 'flex') ||
+             (store && store.style.display === 'flex') ||
+             (job && job.style.display === 'flex') ||
+             (help && help.style.display === 'flex') ||
+             (phone && phone.style.display === 'flex') ||
+             (map && map.style.display === 'flex') ||
+             (start && start.style.display !== 'none');
+    }
+
     function onKeyDown(e) {
       keys[e.code] = true;
+      if (e.key) {
+        keys[e.key] = true;
+        keys[e.key.toLowerCase()] = true;
+        keys[e.key.toUpperCase()] = true;
+      }
 
-      // Disable inputs when chat input is focused
+      // Handle chat input
       if (document.activeElement === document.getElementById('chatInput')) {
         if (e.code === 'Enter') sendChatMessage();
         if (e.code === 'Escape') toggleChat(false);
@@ -2189,25 +3015,32 @@
       } else if (e.code === 'Tab') {
         e.preventDefault();
         toggleInventory();
-      } else if (e.code === 'KeyM' || e.code === 'KeyP') {
+      } else if (e.code === 'KeyM') {
         e.preventDefault();
         togglePhone();
+      } else if (e.code === 'KeyP') {
+        e.preventDefault();
+        toggleMapModal();
       } else if (e.code === 'KeyJ') {
         e.preventDefault();
         openJobCenter();
       } else if (e.code === 'F1') {
         e.preventDefault();
         toggleHelpModal();
+      } else if (e.code === 'Space') {
+        // Jump with vertical physics
+        if (!RP.player.inVehicle && playerGroup.position.y <= 0.05 && !isJumping) {
+          playerVelocityY = 7.5;
+          isJumping = true;
+          audio.playUiClick();
+        }
       } else if (e.code === 'KeyF') {
-        // Enter / Exit Vehicle
         handleVehicleEnterExit();
       } else if (e.code === 'KeyE') {
-        // Interaction
         if (activePrompt && activePrompt.action) {
           activePrompt.action();
         }
       } else if (e.code === 'KeyQ') {
-        // Siren Toggle in Emergency Vehicle
         if (RP.player.inVehicle && RP.player.currentVehicle.isEmergency) {
           const v = RP.player.currentVehicle;
           v.sirenActive = !v.sirenActive;
@@ -2216,7 +3049,6 @@
           showNotification(`Sirine ${v.sirenActive ? 'ON' : 'OFF'}`, 'warning');
         }
       } else if (e.code === 'KeyB') {
-        // Seatbelt
         if (RP.player.inVehicle) {
           RP.player.seatbelt = !RP.player.seatbelt;
           const sIcon = document.getElementById('seatbeltIcon');
@@ -2226,7 +3058,6 @@
           showNotification(`Sabuk Pengaman: ${RP.player.seatbelt ? 'TERPASANG' : 'DILEPAS'}`, RP.player.seatbelt ? 'success' : 'danger');
         }
       } else if (e.code === 'KeyH') {
-        // Horn
         if (RP.player.inVehicle) audio.playCarHorn();
       } else if (e.code === 'Digit1') {
         selectWeapon('fists');
@@ -2241,34 +3072,64 @@
 
     function onKeyUp(e) {
       keys[e.code] = false;
-    }
-
-    function onMouseMove(e) {
-      if (document.pointerLockElement === document.body || mouse.isAiming) {
-        cameraAngle.yaw -= e.movementX * 0.003;
-        cameraAngle.pitch -= e.movementY * 0.003;
-        cameraAngle.pitch = Math.max(0.05, Math.min(Math.PI / 2.2, cameraAngle.pitch));
+      if (e.key) {
+        keys[e.key] = false;
+        keys[e.key.toLowerCase()] = false;
+        keys[e.key.toUpperCase()] = false;
       }
     }
 
+    function onMouseMove(e) {
+      const isLocked = document.pointerLockElement === document.getElementById('gameCanvas');
+
+      if (isLocked) {
+        // High-precision pointer locked mouse look
+        cameraAngle.yaw -= e.movementX * 0.0032;
+        cameraAngle.pitch -= e.movementY * 0.0028;
+      } else if (isDraggingMouse || mouse.isAiming) {
+        // Drag mouse look fallback
+        const dx = e.clientX - lastMousePos.x;
+        const dy = e.clientY - lastMousePos.y;
+        cameraAngle.yaw -= dx * 0.0042;
+        cameraAngle.pitch -= dy * 0.0035;
+      }
+
+      lastMousePos.x = e.clientX;
+      lastMousePos.y = e.clientY;
+
+      // Clamp vertical pitch angles smoothly
+      cameraAngle.pitch = Math.max(-0.35, Math.min(Math.PI / 2.3, cameraAngle.pitch));
+    }
+
     function onMouseDown(e) {
-      if (e.button === 2) {
-        // Right Click Aim
-        mouse.isAiming = true;
-        document.getElementById('crosshair').classList.add('aiming');
-      } else if (e.button === 0) {
-        // Left Click Shoot / Attack
-        if (!RP.player.inVehicle) {
+      lastMousePos.x = e.clientX;
+      lastMousePos.y = e.clientY;
+
+      if (e.button === 0) {
+        isDraggingMouse = true;
+        const isLocked = document.pointerLockElement === document.getElementById('gameCanvas');
+        if (isLocked && !RP.player.inVehicle) {
           fireWeapon();
         }
+      } else if (e.button === 2) {
+        mouse.isAiming = true;
+        isDraggingMouse = true;
+        document.getElementById('crosshair').classList.add('aiming');
       }
     }
 
     function onMouseUp(e) {
-      if (e.button === 2) {
+      if (e.button === 0) {
+        isDraggingMouse = false;
+      } else if (e.button === 2) {
         mouse.isAiming = false;
+        isDraggingMouse = false;
         document.getElementById('crosshair').classList.remove('aiming');
       }
+    }
+
+    function onMouseWheel(e) {
+      camZoom = Math.max(2.4, Math.min(11.0, camZoom + e.deltaY * 0.005));
     }
 
     function onWindowResize() {
@@ -2291,12 +3152,28 @@
       checkInteractions();
       renderRadarMinimap();
 
+      // Blinking Aviation Warning Beacons
+      const time = clock.elapsedTime * 3.5;
+      const bColor = Math.sin(time) > 0 ? 0xff2222 : 0x220505;
+      beaconLights.forEach(b => b.material.color.setHex(bColor));
+
+      // Holographic marker rings rotation
+      interactiveSpots.forEach(s => {
+        if (s.ringMesh) s.ringMesh.rotation.z += delta * 0.8;
+      });
+
       renderer.render(scene, camera);
+    }
+
+    function lerpAngle(obj, targetAngle, speed) {
+      let diff = targetAngle - obj.rotation.y;
+      while (diff < -Math.PI) diff += Math.PI * 2;
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      obj.rotation.y += diff * Math.min(1, speed);
     }
 
     function updatePlayerMovement(delta) {
       if (RP.player.inVehicle) {
-        // Sync player position with car
         const v = RP.player.currentVehicle;
         playerGroup.position.copy(v.group.position);
         playerGroup.visible = false;
@@ -2304,58 +3181,150 @@
       }
       playerGroup.visible = true;
 
-      let moveSpeed = 6.0;
-      if (keys['ShiftLeft'] || keys['ShiftRight']) {
-        if (RP.player.stamina > 10) {
-          moveSpeed = 12.0;
-          RP.player.stamina = Math.max(0, RP.player.stamina - delta * 12);
+      // Handle Vertical Jump & Gravity
+      if (isJumping || playerGroup.position.y > 0) {
+        playerVelocityY -= 20.0 * delta;
+        playerGroup.position.y += playerVelocityY * delta;
+        if (playerGroup.position.y <= 0) {
+          playerGroup.position.y = 0;
+          playerVelocityY = 0;
+          isJumping = false;
         }
-      } else {
-        RP.player.stamina = Math.min(100, RP.player.stamina + delta * 8);
       }
 
-      let dx = 0, dz = 0;
-      if (keys['KeyW']) dz -= 1;
-      if (keys['KeyS']) dz += 1;
-      if (keys['KeyA']) dx -= 1;
-      if (keys['KeyD']) dx += 1;
+      // Camera horizontal forward and right projection vectors
+      const camForward = new THREE.Vector3(-Math.sin(cameraAngle.yaw), 0, -Math.cos(cameraAngle.yaw));
+      const camRight = new THREE.Vector3(Math.cos(cameraAngle.yaw), 0, -Math.sin(cameraAngle.yaw));
 
-      if (dx !== 0 || dz !== 0) {
-        const angle = cameraAngle.yaw + Math.atan2(dx, dz);
-        const moveX = Math.sin(angle) * moveSpeed * delta;
-        const moveZ = Math.cos(angle) * moveSpeed * delta;
+      const moveDir = new THREE.Vector3(0, 0, 0);
 
-        // Collision detection with buildings
-        const newX = playerGroup.position.x + moveX;
-        const newZ = playerGroup.position.z + moveZ;
+      // W: Maju (Forward), S: Mundur (Backward), D: Kanan (Right Strafe), A: Kiri (Left Strafe)
+      const moveF = keys['KeyW'] || keys['Keyw'] || keys['w'] || keys['W'] || keys['ArrowUp'];
+      const moveB = keys['KeyS'] || keys['Keys'] || keys['s'] || keys['S'] || keys['ArrowDown'];
+      const moveR = keys['KeyD'] || keys['Keyd'] || keys['d'] || keys['D'] || keys['ArrowRight'];
+      const moveL = keys['KeyA'] || keys['Keya'] || keys['a'] || keys['A'] || keys['ArrowLeft'];
 
-        let blocked = false;
+      if (moveF) moveDir.add(camForward);
+      if (moveB) moveDir.sub(camForward);
+      if (moveR) moveDir.add(camRight);
+      if (moveL) moveDir.sub(camRight);
+
+      const isMoving = moveDir.lengthSq() > 0.001;
+
+      if (isMoving) {
+        moveDir.normalize();
+
+        let moveSpeed = 5.5;
+        const isSprinting = (keys['ShiftLeft'] || keys['ShiftRight'] || keys['Shift']) && RP.player.stamina > 5;
+        if (isSprinting) {
+          moveSpeed = 11.2;
+          RP.player.stamina = Math.max(0, RP.player.stamina - delta * 14);
+        } else {
+          RP.player.stamina = Math.min(100, RP.player.stamina + delta * 9);
+        }
+
+        const moveX = moveDir.x * moveSpeed * delta;
+        const moveZ = moveDir.z * moveSpeed * delta;
+
+        // Axis-Separated Wall Sliding Collision with anti-trap protection
+        const currX = playerGroup.position.x;
+        const currZ = playerGroup.position.z;
+        const newX = currX + moveX;
+        const newZ = currZ + moveZ;
+
+        let blockedX = false;
+        let blockedZ = false;
+
         for (let b of buildingColliders) {
-          if (newX > b.minX && newX < b.maxX && newZ > b.minZ && newZ < b.maxZ) {
-            blocked = true;
-            break;
+          const currentlyInside = currX >= b.minX && currX <= b.maxX && currZ >= b.minZ && currZ <= b.maxZ;
+          if (currentlyInside) {
+            // Already inside due to spawn, allow step to escape
+            continue;
+          }
+
+          if (newX > b.minX && newX < b.maxX && currZ > b.minZ && currZ < b.maxZ) {
+            blockedX = true;
+          }
+          if (currX > b.minX && currX < b.maxX && newZ > b.minZ && newZ < b.maxZ) {
+            blockedZ = true;
           }
         }
 
-        if (!blocked) {
-          playerGroup.position.x = newX;
-          playerGroup.position.z = newZ;
+        if (!blockedX) playerGroup.position.x = newX;
+        if (!blockedZ) playerGroup.position.z = newZ;
+
+        // Walking & Running Animations
+        playerWalkCycle += delta * (isSprinting ? 14.5 : 8.5);
+
+        // Footstep Audio
+        footstepTimer += delta * (isSprinting ? 14.5 : 8.5);
+        if (footstepTimer > Math.PI) {
+          footstepTimer = 0;
+          if (playerGroup.position.y <= 0.05) audio.playFootstep();
         }
 
-        // Face movement direction
-        playerGroup.rotation.y = angle + Math.PI;
+        if (playerCharacterRig) {
+          const legAmp = isSprinting ? 0.8 : 0.55;
+          const armAmp = isSprinting ? 0.7 : 0.45;
+          playerCharacterRig.leftLeg.rotation.x = Math.sin(playerWalkCycle) * legAmp;
+          playerCharacterRig.rightLeg.rotation.x = -Math.sin(playerWalkCycle) * legAmp;
+
+          if (!mouse.isAiming) {
+            playerCharacterRig.leftArm.rotation.x = -Math.sin(playerWalkCycle) * armAmp;
+            playerCharacterRig.rightArm.rotation.x = Math.sin(playerWalkCycle) * armAmp;
+          }
+
+          playerCharacterRig.rig.position.y = Math.abs(Math.sin(playerWalkCycle * 2)) * 0.05;
+        }
+
+        // Character Facing Direction
+        if (mouse.isAiming) {
+          const aimAngle = Math.atan2(camForward.x, camForward.z);
+          lerpAngle(playerGroup, aimAngle, delta * 18);
+        } else {
+          const targetAngle = Math.atan2(moveDir.x, moveDir.z);
+          lerpAngle(playerGroup, targetAngle, delta * 15);
+        }
+      } else {
+        // Idle Animation
+        RP.player.stamina = Math.min(100, RP.player.stamina + delta * 12);
+
+        if (playerCharacterRig) {
+          playerCharacterRig.leftLeg.rotation.x = THREE.MathUtils.lerp(playerCharacterRig.leftLeg.rotation.x, 0, delta * 10);
+          playerCharacterRig.rightLeg.rotation.x = THREE.MathUtils.lerp(playerCharacterRig.rightLeg.rotation.x, 0, delta * 10);
+
+          if (!mouse.isAiming) {
+            playerCharacterRig.leftArm.rotation.x = THREE.MathUtils.lerp(playerCharacterRig.leftArm.rotation.x, 0, delta * 10);
+            playerCharacterRig.rightArm.rotation.x = THREE.MathUtils.lerp(playerCharacterRig.rightArm.rotation.x, 0, delta * 10);
+          }
+
+          playerCharacterRig.rig.position.y = THREE.MathUtils.lerp(playerCharacterRig.rig.position.y, 0, delta * 10);
+          playerCharacterRig.head.position.y = 2.06 + Math.sin(clock.elapsedTime * 2.5) * 0.015;
+        }
+
+        if (mouse.isAiming) {
+          const aimAngle = Math.atan2(camForward.x, camForward.z);
+          lerpAngle(playerGroup, aimAngle, delta * 18);
+        }
+      }
+
+      // Weapon Aiming Posture
+      if (mouse.isAiming && playerCharacterRig) {
+        playerCharacterRig.rightArm.rotation.x = -Math.PI / 2 + (cameraAngle.pitch - 0.2);
+        playerCharacterRig.leftArm.rotation.x = -Math.PI / 2.2 + (cameraAngle.pitch - 0.2);
+        playerCharacterRig.leftArm.rotation.y = 0.32;
+      } else if (playerCharacterRig) {
+        playerCharacterRig.leftArm.rotation.y = THREE.MathUtils.lerp(playerCharacterRig.leftArm.rotation.y, 0, delta * 8);
       }
     }
 
     function updateVehicles(delta) {
       vehicles.forEach(v => {
-        // Active Player Driven Vehicle
         if (RP.player.inVehicle && RP.player.currentVehicle === v) {
           let accel = 0;
           if (keys['KeyW']) accel += v.accel;
           if (keys['KeyS']) accel -= v.brake;
 
-          // Nitro Boost
           if (keys['KeyX'] && v.speed > 0.2) {
             accel *= 2.5;
             v.nitroActive = true;
@@ -2364,27 +3333,23 @@
           }
 
           v.speed += accel;
-          v.speed *= 0.98; // Friction
+          v.speed *= 0.98;
           v.speed = Math.max(-0.4, Math.min(v.maxSpeed, v.speed));
 
-          // Steering
           if (Math.abs(v.speed) > 0.05) {
             const dir = v.speed > 0 ? 1 : -1;
             if (keys['KeyA']) v.group.rotation.y += v.turnSpeed * dir;
             if (keys['KeyD']) v.group.rotation.y -= v.turnSpeed * dir;
           }
 
-          // Move Vehicle Forward in its direction
           const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), v.group.rotation.y);
           v.group.position.add(forward.multiplyScalar(v.speed * 45 * delta));
 
-          // Update HUD Speedometer & Audio
           const kmh = Math.round(Math.abs(v.speed) * 110);
           document.getElementById('speedNum').innerText = kmh;
           document.getElementById('gearNum').innerText = v.speed < -0.05 ? 'R' : (kmh === 0 ? 'P' : 'D');
           audio.updateEngineRPM(Math.abs(v.speed) / v.maxSpeed);
 
-          // Siren Lightbar strobe animation
           if (v.isEmergency && v.sirenActive) {
             const time = Date.now() * 0.01;
             v.lightbar1.material.color.setHex(Math.sin(time) > 0 ? 0xff0000 : 0x000000);
@@ -2400,7 +3365,7 @@
         const dz = p.targetZ - p.group.position.z;
         const dist = Math.sqrt(dx * dx + dz * dz);
 
-        if (dist < 2) {
+        if (dist < 2.5) {
           p.targetX = (Math.random() - 0.5) * 260;
           p.targetZ = (Math.random() - 0.5) * 260;
         } else {
@@ -2408,26 +3373,40 @@
           p.group.position.x += Math.sin(angle) * p.speed;
           p.group.position.z += Math.cos(angle) * p.speed;
           p.group.rotation.y = angle;
+
+          p.walkCycle += delta * 7.5;
+          p.rig.leftLeg.rotation.x = Math.sin(p.walkCycle) * 0.5;
+          p.rig.rightLeg.rotation.x = -Math.sin(p.walkCycle) * 0.5;
+          p.rig.leftArm.rotation.x = -Math.sin(p.walkCycle) * 0.4;
+          p.rig.rightArm.rotation.x = Math.sin(p.walkCycle) * 0.4;
+          p.rig.rig.position.y = Math.abs(Math.sin(p.walkCycle * 2)) * 0.04;
         }
       });
     }
 
     function updateCamera() {
       const targetPos = RP.player.inVehicle ? RP.player.currentVehicle.group.position : playerGroup.position;
-      const camDist = RP.player.inVehicle ? 9.0 : (mouse.isAiming ? 2.8 : 5.5);
-      const camHeight = RP.player.inVehicle ? 3.8 : 2.2;
+      const curDist = RP.player.inVehicle ? 8.5 : (mouse.isAiming ? 2.6 : camZoom);
+      const camHeight = RP.player.inVehicle ? 3.8 : (mouse.isAiming ? 1.8 : 2.2);
 
-      const cx = targetPos.x + Math.sin(cameraAngle.yaw) * camDist;
-      const cz = targetPos.z + Math.cos(cameraAngle.yaw) * camDist;
-      const cy = targetPos.y + camHeight + Math.sin(cameraAngle.pitch) * camDist;
+      const cx = targetPos.x + Math.sin(cameraAngle.yaw) * curDist;
+      const cz = targetPos.z + Math.cos(cameraAngle.yaw) * curDist;
+      const cy = targetPos.y + camHeight + Math.sin(cameraAngle.pitch) * curDist;
 
       camera.position.set(cx, cy, cz);
-      camera.lookAt(targetPos.x, targetPos.y + 1.4, targetPos.z);
+
+      if (mouse.isAiming && !RP.player.inVehicle) {
+        // Shoulder-aim offset
+        const rightOffset = new THREE.Vector3(Math.cos(cameraAngle.yaw), 0, -Math.sin(cameraAngle.yaw)).multiplyScalar(0.65);
+        camera.position.add(rightOffset);
+        camera.lookAt(targetPos.x + rightOffset.x, targetPos.y + 1.6, targetPos.z + rightOffset.z);
+      } else {
+        camera.lookAt(targetPos.x, targetPos.y + 1.45, targetPos.z);
+      }
     }
 
     function handleVehicleEnterExit() {
       if (RP.player.inVehicle) {
-        // Exit Vehicle
         const v = RP.player.currentVehicle;
         RP.player.inVehicle = false;
         RP.player.currentVehicle = null;
@@ -2437,7 +3416,6 @@
         audio.toggleSiren(false);
         showNotification('Anda telah keluar dari kendaraan.', 'warning');
       } else {
-        // Find closest vehicle
         let closest = null;
         let minDist = 4.5;
         vehicles.forEach(v => {
@@ -2556,6 +3534,7 @@
        ========================================================================== */
     function selectWeapon(wType) {
       RP.player.currentWeapon = wType;
+      updatePlayerWeaponVisual(wType);
       showNotification(`Senjata Dipilih: ${wType.toUpperCase()}`, 'warning');
       audio.playUiClick();
     }
@@ -2991,7 +3970,10 @@
       const isOpen = inv.style.display === 'flex';
       inv.style.display = isOpen ? 'none' : 'flex';
       audio.playUiClick();
-      if (!isOpen) renderInventory();
+      if (!isOpen) {
+        if (document.exitPointerLock) document.exitPointerLock();
+        renderInventory();
+      }
     }
 
     function renderInventory() {
@@ -3031,6 +4013,7 @@
       const box = document.getElementById('chatInputBox');
       const inp = document.getElementById('chatInput');
       if (state) {
+        if (document.exitPointerLock) document.exitPointerLock();
         box.style.display = 'block';
         inp.focus();
       } else {
@@ -3105,8 +4088,10 @@
 
     function toggleHelpModal() {
       const h = document.getElementById('helpOverlay');
-      h.style.display = h.style.display === 'flex' ? 'none' : 'flex';
+      const isOpen = h.style.display === 'flex';
+      h.style.display = isOpen ? 'none' : 'flex';
       audio.playUiClick();
+      if (!isOpen && document.exitPointerLock) document.exitPointerLock();
     }
 
     /* ==========================================================================
