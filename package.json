@@ -4,8 +4,8 @@
   "description": "Los Santos Roleplay - GTA V FiveM Web Edition with Firebase Cloud Save & Sync",
   "main": "index.html",
   "scripts": {
-    "start": "serve . -l 3000",
-    "dev": "serve . -l 3000",
+    "start": "node server.js",
+    "dev": "node server.js",
     "deploy": "firebase deploy"
   },
   "keywords": [
