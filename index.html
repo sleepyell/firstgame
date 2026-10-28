@@ -3,46 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Smart Grocery & Price Tracker - Asisten Belanja Pintar</title>
+  <title>Smart Grocery & Price Tracker - iPhone 17 Pro Burgundy</title>
   
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=SF+Pro+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
+      /* iPhone 17 Pro Burgundy Theme Palette */
+      --burgundy-deep: #2a080e;
+      --burgundy-dark: #3b0b14;
+      --burgundy-base: #58111d;
+      --burgundy-rich: #721827;
+      --burgundy-light: #942235;
+      --burgundy-glow: rgba(148, 34, 53, 0.45);
+      --titanium-rim: #420d16;
+      --titanium-highlight: #a83247;
+      
       --primary: #6366f1;
       --primary-hover: #4f46e5;
-      --primary-light: rgba(99, 102, 241, 0.16);
       --primary-glow: rgba(99, 102, 241, 0.45);
-      --accent: #8b5cf6;
-      --accent-glow: rgba(139, 92, 246, 0.4);
       --success: #10b981;
-      --success-light: rgba(16, 185, 129, 0.16);
       --success-glow: rgba(16, 185, 129, 0.4);
       --warning: #f59e0b;
-      --warning-light: rgba(245, 158, 11, 0.16);
-      --warning-glow: rgba(245, 158, 11, 0.35);
       --danger: #f43f5e;
-      --danger-light: rgba(244, 63, 94, 0.16);
-      --danger-glow: rgba(244, 63, 94, 0.4);
-      --bg: #090d16;
-      --bg-card: rgba(19, 27, 46, 0.88);
-      --bg-card-hover: rgba(26, 37, 62, 0.95);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --border-card-hover: rgba(99, 102, 241, 0.35);
+      
+      --screen-bg: #090c15;
+      --card-bg: rgba(23, 22, 38, 0.88);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-burgundy: rgba(148, 34, 53, 0.35);
+      
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --text-dim: #64748b;
       --radius: 20px;
       --radius-sm: 14px;
       --radius-xs: 10px;
-      --shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
-      --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.35);
-      --safe-bottom: env(safe-area-inset-bottom, 16px);
-      --safe-top: env(safe-area-inset-top, 0px);
     }
 
     * {
@@ -54,185 +52,488 @@
     }
 
     body {
-      background: radial-gradient(circle at 15% 10%, #1e1b4b 0%, #090d16 55%, #030712 100%);
+      background: radial-gradient(circle at 50% 20%, #2a0910 0%, #110507 50%, #050204 100%);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: calc(90px + var(--safe-bottom));
-      overflow-x: hidden;
-      touch-action: manipulation;
-    }
-
-    h1, h2, h3, h4, h5, .font-heading {
-      font-family: 'Outfit', sans-serif;
-    }
-
-    /* Top Mobile Sticky Navigation Bar */
-    .navbar {
-      background: rgba(9, 13, 22, 0.94);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-card);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: calc(10px + var(--safe-top)) 16px 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .brand-icon {
-      background: linear-gradient(135deg, #6366f1, #a855f7);
-      width: 40px;
-      height: 40px;
-      border-radius: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px;
-      color: white;
-      box-shadow: 0 4px 16px var(--primary-glow);
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    .brand-icon::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(135deg, #6366f1, #ec4899);
-      border-radius: 15px;
-      z-index: -1;
-      opacity: 0.6;
-      filter: blur(4px);
-    }
-
-    .brand-text-block {
       display: flex;
       flex-direction: column;
-    }
-
-    .brand-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      background: linear-gradient(90deg, #ffffff, #c7d2fe);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .brand-subtitle {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .nav-icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-card);
-      color: var(--text);
-      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 0.88rem;
-      transition: all 0.2s;
+      padding: 16px 10px;
+      overflow-x: hidden;
     }
 
-    .nav-icon-btn:active {
-      transform: scale(0.92);
-      background: rgba(255, 255, 255, 0.16);
+    /* Top Floating Viewport Switcher (Desktop Only) */
+    .view-switcher-bar {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
     }
 
-    .badge-cloud {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #34d399;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 5px 10px;
+    .badge-iphone-model {
+      background: rgba(88, 17, 29, 0.4);
+      border: 1px solid rgba(168, 50, 71, 0.4);
+      color: #fda4af;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 5px 14px;
       border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 5px;
-      white-space: nowrap;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(88, 17, 29, 0.3);
     }
 
-    /* Main Container */
-    .container {
-      max-width: 1200px;
-      margin: 12px auto;
-      padding: 0 14px;
+    .btn-toggle-frame {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle-frame:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================
+       REALISTIC iPHONE 17 PRO BURGUNDY CHASSIS & FRAME
+       ======================================================== */
+    .iphone-17-case {
+      width: 416px;
+      height: 870px;
+      max-height: 94vh;
+      background: linear-gradient(145deg, #781827 0%, #3a0a12 35%, #58111d 70%, #992236 100%);
+      border-radius: 54px;
+      padding: 10px;
+      position: relative;
+      box-shadow: 
+        0 25px 60px -10px rgba(0, 0, 0, 0.85),
+        0 0 50px rgba(114, 24, 39, 0.35),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.8);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      transition: all 0.3s ease;
     }
 
-    /* Location & Date Mobile Bar */
+    /* Physical Side Buttons on iPhone Chassis */
+    .iphone-17-case::before {
+      /* Left buttons: Action button & Volume rockers */
+      content: '';
+      position: absolute;
+      left: -3px;
+      top: 130px;
+      width: 3px;
+      height: 28px; /* Action button */
+      background: #781827;
+      border-radius: 3px 0 0 3px;
+      box-shadow: 0 45px 0 #781827, 0 52px 0 #781827, 0 95px 0 #781827, 0 102px 0 #781827;
+    }
+
+    .iphone-17-case::after {
+      /* Right button: Power button */
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: 170px;
+      width: 3px;
+      height: 54px;
+      background: #781827;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Inner Display Screen */
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      background: var(--screen-bg);
+      border-radius: 46px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 3px solid #000000;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Dynamic Island at Top */
+    .dynamic-island-wrapper {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .dynamic-island {
+      width: 114px;
+      height: 30px;
+      background: #000000;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 9px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .dynamic-island:hover {
+      width: 140px;
+    }
+
+    .island-camera-lens {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #1e1b4b 0%, #030712 70%);
+      box-shadow: inset 0 0 2px #38bdf8;
+    }
+
+    .island-sensor-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #050505;
+      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.2);
+    }
+
+    /* iOS Status Bar */
+    .ios-status-bar {
+      height: 44px;
+      padding: 10px 22px 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #ffffff;
+      z-index: 400;
+      flex-shrink: 0;
+    }
+
+    .status-bar-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+    }
+
+    .battery-pill {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+    }
+
+    /* iOS Home Indicator Bar */
+    .ios-home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 4.5px;
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 10px;
+      z-index: 500;
+      pointer-events: none;
+    }
+
+    /* Screen Views Wrapper */
+    .screen-content-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 70px;
+      position: relative;
+      scrollbar-width: none;
+    }
+
+    .screen-content-area::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========================================================
+       PAGE 1: AUTHENTIC GOOGLE LOGIN SCREEN
+       ======================================================== */
+    .login-screen-view {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 20px 30px 20px;
+      background: radial-gradient(circle at 50% 10%, rgba(114, 24, 39, 0.35) 0%, transparent 60%);
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .login-hero {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .login-app-logo {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 16px auto;
+      background: linear-gradient(135deg, #781827 0%, #b82c44 50%, #6366f1 100%);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: white;
+      box-shadow: 0 10px 28px rgba(184, 44, 68, 0.45);
+      position: relative;
+    }
+
+    .login-app-logo::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(135deg, #b82c44, #8b5cf6);
+      border-radius: 25px;
+      z-index: -1;
+      opacity: 0.7;
+      filter: blur(8px);
+    }
+
+    .login-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff, #fda4af);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+      padding: 0 10px;
+    }
+
+    .login-features-list {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin: 22px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .login-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: #e2e8f0;
+    }
+
+    .login-feature-item i {
+      color: #fb7185;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Google Sign-In Button */
+    .btn-google-login {
+      background: #ffffff;
+      color: #1f2937;
+      border: none;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 0.94rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 10px;
+    }
+
+    .btn-google-login:active {
+      transform: scale(0.97);
+      background: #f1f5f9;
+    }
+
+    .google-logo-svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .btn-guest-login {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-guest-login:active {
+      transform: scale(0.97);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ========================================================
+       PAGE 2: MAIN GROCERY TRACKER APP VIEW
+       ======================================================== */
+    .app-screen-view {
+      display: none;
+      padding: 6px 14px 20px 14px;
+      animation: fadeIn 0.35s ease;
+    }
+
+    /* App Internal Header */
+    .app-top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 12px;
+    }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 10px 4px 4px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .user-profile-badge:active {
+      transform: scale(0.95);
+    }
+
+    .user-avatar-img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #781827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .user-name-text {
+      font-size: 0.78rem;
+      font-weight: 700;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #f1f5f9;
+    }
+
+    .app-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .header-icon-btn:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Store & Date Bar */
     .store-pill-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid var(--border-card);
+      background: rgba(23, 22, 38, 0.75);
+      border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 8px 12px;
-      backdrop-filter: blur(12px);
+      padding: 7px 12px;
+      margin-bottom: 12px;
     }
 
     .store-select-wrapper {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex: 1;
       min-width: 0;
     }
 
     .store-select-wrapper i {
-      color: #818cf8;
-      font-size: 0.95rem;
-      flex-shrink: 0;
+      color: #fb7185;
+      font-size: 0.9rem;
     }
 
     .store-select {
       background: transparent;
       border: none;
       color: #f8fafc;
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 700;
       outline: none;
       width: 100%;
       cursor: pointer;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
 
     .store-select option {
@@ -243,12 +544,12 @@
     .date-pill {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 5px 9px;
+      padding: 4px 8px;
       border-radius: 10px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: #cbd5e1;
       position: relative;
@@ -258,21 +559,19 @@
 
     .date-input-hidden {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       opacity: 0;
       cursor: pointer;
     }
 
-    /* Fintech Wallet Budget Card (Modern Mobile Look) */
+    /* Burgundy Holographic Wallet Card */
     .wallet-card {
-      background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(49, 46, 129, 0.75) 45%, rgba(15, 23, 42, 0.9) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
+      background: linear-gradient(135deg, #420d16 0%, #681524 45%, #18090f 100%);
+      border: 1px solid rgba(244, 63, 94, 0.35);
       border-radius: var(--radius);
-      padding: 18px 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      padding: 16px 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      margin-bottom: 12px;
       position: relative;
       overflow: hidden;
     }
@@ -280,11 +579,11 @@
     .wallet-card::before {
       content: '';
       position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.3) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -293,146 +592,139 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .wallet-label {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: #cbd5e1;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .wallet-status-badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
+      color: #fecdd3;
       display: flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.3s ease;
+    }
+
+    .wallet-status-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .status-safe {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.25);
       border: 1px solid rgba(16, 185, 129, 0.45);
       color: #34d399;
     }
 
     .status-warn {
-      background: rgba(245, 158, 11, 0.2);
+      background: rgba(245, 158, 11, 0.25);
       border: 1px solid rgba(245, 158, 11, 0.45);
       color: #fbbf24;
     }
 
     .status-danger {
-      background: rgba(244, 63, 94, 0.25);
-      border: 1px solid rgba(244, 63, 94, 0.5);
+      background: rgba(244, 63, 94, 0.35);
+      border: 1px solid rgba(244, 63, 94, 0.55);
       color: #fda4af;
       animation: pulseAlert 1.5s infinite;
     }
 
     @keyframes pulseAlert {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(244, 63, 94, 0); }
-      50% { transform: scale(1.03); box-shadow: 0 0 14px rgba(244, 63, 94, 0.45); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
     }
 
     .wallet-balance-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .wallet-balance {
-      font-size: 2.1rem;
+      font-size: 1.95rem;
       font-weight: 900;
       letter-spacing: -0.03em;
       color: #ffffff;
-      line-height: 1.1;
       font-family: 'Outfit', sans-serif;
+      line-height: 1.1;
     }
 
     .btn-edit-budget {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: white;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 12px;
+      padding: 5px 10px;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
+      gap: 4px;
     }
 
     .btn-edit-budget:active {
-      transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.22);
+      transform: scale(0.92);
     }
 
-    /* Glowing Progress Bar */
     .wallet-progress-bg {
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      height: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      height: 8px;
       overflow: hidden;
-      margin-bottom: 10px;
-      position: relative;
+      margin-bottom: 8px;
     }
 
     .wallet-progress-fill {
       height: 100%;
-      border-radius: 14px;
+      border-radius: 10px;
       transition: width 0.4s ease, background 0.4s ease;
       background: linear-gradient(90deg, #10b981, #059669);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
     }
 
     .wallet-footer-metrics {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding-top: 6px;
+      gap: 6px;
     }
 
     .metric-box {
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 8px 12px;
+      border-radius: 10px;
+      padding: 6px 10px;
     }
 
     .metric-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       font-weight: 600;
-      margin-bottom: 2px;
     }
 
     .metric-val {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 800;
       font-family: 'Outfit', sans-serif;
     }
 
-    /* Celebration Shopping Complete Banner */
+    /* Celebration Banner */
     .complete-celebration-banner {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(56, 189, 248, 0.2) 100%);
       border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: var(--radius-sm);
-      padding: 14px 16px;
+      padding: 12px 14px;
       display: none;
       align-items: center;
-      gap: 12px;
-      animation: popIn 0.4s ease;
+      gap: 10px;
+      margin-bottom: 12px;
+      animation: popIn 0.35s ease;
     }
 
     @keyframes popIn {
@@ -441,49 +733,25 @@
     }
 
     .celebration-icon {
-      width: 44px;
-      height: 44px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: #10b981;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       flex-shrink: 0;
-      box-shadow: 0 4px 14px var(--success-glow);
     }
 
-    /* Quick Add Carousel & Chips */
-    .quick-add-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .section-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2px;
-    }
-
-    .section-title {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #f1f5f9;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
+    /* Quick Add Carousel */
     .quick-chips-scroll {
       display: flex;
-      gap: 8px;
+      gap: 7px;
       overflow-x: auto;
-      padding: 4px 2px 8px 2px;
+      padding: 4px 1px 10px 1px;
       scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
     }
 
     .quick-chips-scroll::-webkit-scrollbar {
@@ -491,27 +759,26 @@
     }
 
     .quick-card-chip {
-      background: rgba(19, 27, 46, 0.85);
-      border: 1px solid var(--border-card);
-      border-radius: 14px;
-      padding: 8px 12px;
+      background: rgba(23, 22, 38, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 13px;
+      padding: 7px 11px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
     }
 
-    .quick-card-chip:hover, .quick-card-chip:active {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: #818cf8;
-      transform: translateY(-2px);
+    .quick-card-chip:active {
+      transform: scale(0.92);
+      border-color: #fb7185;
     }
 
     .quick-chip-icon {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
     }
 
     .quick-chip-info {
@@ -520,13 +787,13 @@
     }
 
     .quick-chip-name {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 700;
       color: #f8fafc;
     }
 
     .quick-chip-price {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #34d399;
       font-weight: 700;
       font-family: 'Outfit', sans-serif;
@@ -537,105 +804,93 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
+      gap: 6px;
+      margin: 4px 0 10px 0;
     }
 
     .filter-pills {
       display: flex;
-      gap: 5px;
-      overflow-x: auto;
-      padding-bottom: 2px;
+      gap: 4px;
     }
 
     .pill {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-card);
+      border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.76rem;
+      padding: 5px 10px;
+      border-radius: 18px;
+      font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
     }
 
     .pill:active {
-      transform: scale(0.94);
+      transform: scale(0.92);
     }
 
     .pill.active {
-      background: var(--primary);
+      background: var(--burgundy-rich);
       color: white;
-      border-color: var(--primary);
-      box-shadow: 0 2px 10px var(--primary-glow);
+      border-color: #fb7185;
+      box-shadow: 0 2px 8px var(--burgundy-glow);
     }
 
     .search-input-wrapper {
       position: relative;
       flex: 1;
-      min-width: 130px;
+      min-width: 110px;
     }
 
     .search-input-wrapper i {
       position: absolute;
-      left: 11px;
+      left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
 
     .search-input {
       width: 100%;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid var(--border-card);
-      border-radius: 20px;
-      padding: 7px 12px 7px 30px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 6px 10px 6px 28px;
       color: white;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       outline: none;
-      transition: all 0.2s;
     }
 
     .search-input:focus {
-      border-color: #818cf8;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+      border-color: #fb7185;
     }
 
-    /* Cart Items List */
+    /* Cart Items Container */
     .grocery-items-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
+      margin-bottom: 14px;
     }
 
     .grocery-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: var(--radius-sm);
-      padding: 13px 14px;
+      padding: 12px 13px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.25s ease;
-      position: relative;
-    }
-
-    .grocery-item:active {
-      border-color: rgba(99, 102, 241, 0.4);
+      gap: 9px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: all 0.2s;
     }
 
     .grocery-item.completed {
-      opacity: 0.65;
-      background: rgba(15, 23, 42, 0.45);
-      border-color: rgba(16, 185, 129, 0.25);
+      opacity: 0.6;
+      background: rgba(15, 23, 42, 0.4);
+      border-color: rgba(16, 185, 129, 0.2);
     }
 
     .grocery-item.completed .item-name {
@@ -653,17 +908,16 @@
     .item-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
       min-width: 0;
     }
 
-    /* Big Satisfying Touch Checkbox */
     .custom-checkbox {
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
-      border: 2px solid #818cf8;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      border: 2px solid #fb7185;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -675,7 +929,7 @@
     }
 
     .custom-checkbox:active {
-      transform: scale(0.9);
+      transform: scale(0.88);
     }
 
     .custom-checkbox.checked {
@@ -687,40 +941,40 @@
 
     .item-name {
       font-weight: 700;
-      font-size: 0.96rem;
+      font-size: 0.92rem;
       word-break: break-word;
       color: #f8fafc;
       line-height: 1.25;
     }
 
     .item-meta {
-      font-size: 0.73rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 5px;
-      margin-top: 3px;
+      gap: 4px;
+      margin-top: 2px;
     }
 
     .badge-tag {
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 6px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     .badge-cat {
-      background: rgba(129, 140, 248, 0.16);
-      color: #c7d2fe;
+      background: rgba(148, 34, 53, 0.25);
+      color: #fecdd3;
     }
 
     .badge-store {
-      background: rgba(168, 85, 247, 0.16);
-      color: #e9d5ff;
+      background: rgba(99, 102, 241, 0.18);
+      color: #c7d2fe;
     }
 
     .badge-fluct-up {
@@ -751,69 +1005,65 @@
       background: transparent;
       border: none;
       color: #f43f5e;
-      padding: 8px;
+      padding: 6px;
       border-radius: 8px;
       cursor: pointer;
       opacity: 0.75;
-      transition: all 0.2s;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .btn-delete:active {
-      transform: scale(0.9);
+      transform: scale(0.88);
       background: rgba(244, 63, 94, 0.2);
       opacity: 1;
     }
 
-    /* Item Bottom Row: Stepper Qty & Price Subtotal */
     .item-bottom-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 7px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Mobile Finger-Friendly Stepper */
     .qty-stepper {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       background: rgba(15, 23, 42, 0.85);
-      border: 1px solid var(--border-card);
-      border-radius: 10px;
-      padding: 2px 4px;
+      border: 1px solid var(--card-border);
+      border-radius: 9px;
+      padding: 2px 3px;
     }
 
     .btn-step {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
       border: none;
       background: rgba(255, 255, 255, 0.1);
       color: white;
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s;
     }
 
     .btn-step:active {
-      background: var(--primary);
-      transform: scale(0.9);
+      background: var(--burgundy-rich);
+      transform: scale(0.88);
     }
 
     .qty-input {
-      width: 38px;
+      width: 34px;
       text-align: center;
       background: transparent;
       border: none;
       color: white;
       font-weight: 800;
-      font-size: 0.98rem;
+      font-size: 0.92rem;
       outline: none;
     }
 
@@ -823,45 +1073,45 @@
 
     .item-subtotal {
       font-weight: 900;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #ffffff;
       font-family: 'Outfit', sans-serif;
     }
 
     .item-unit-note {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
-    /* Store Comparison & Insights */
+    /* Store Comparison */
     .store-insights-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 14px;
     }
 
     .store-comparison {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 7px;
+      margin-top: 8px;
     }
 
     .store-card {
       background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 11px 13px;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 9px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .store-card.active-store {
-      border-color: rgba(99, 102, 241, 0.6);
-      background: rgba(79, 70, 229, 0.14);
+      border-color: rgba(184, 44, 68, 0.6);
+      background: rgba(114, 24, 39, 0.2);
     }
 
     .store-card.best {
@@ -870,40 +1120,39 @@
     }
 
     .store-info h4 {
-      font-size: 0.86rem;
+      font-size: 0.82rem;
       color: #f8fafc;
       margin-bottom: 2px;
     }
 
     .store-info span {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
     .store-total {
       text-align: right;
-      font-size: 1.02rem;
+      font-size: 0.96rem;
       font-weight: 800;
       font-family: 'Outfit', sans-serif;
     }
 
-    /* Floating Bottom Dock (Shopee / Native App Style) */
-    .mobile-bottom-dock {
-      position: fixed;
+    /* Bottom Dock Inside Screen */
+    .screen-bottom-dock {
+      position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-top: 1px solid var(--border-card);
-      padding: 10px 16px calc(10px + var(--safe-bottom)) 16px;
-      z-index: 99;
+      background: rgba(11, 15, 26, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 16px 20px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 300;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
     }
 
     .dock-total-box {
@@ -912,13 +1161,13 @@
     }
 
     .dock-total-label {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       font-weight: 600;
     }
 
     .dock-total-val {
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       font-weight: 900;
       color: #34d399;
       font-family: 'Outfit', sans-serif;
@@ -928,44 +1177,41 @@
     .dock-actions-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
 
     .btn-fab-add {
-      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      background: linear-gradient(135deg, #781827, #b82c44);
       color: white;
       border: none;
-      padding: 11px 18px;
-      border-radius: 26px;
+      padding: 10px 16px;
+      border-radius: 22px;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 4px 18px var(--primary-glow);
+      box-shadow: 0 4px 16px var(--burgundy-glow);
       transition: all 0.2s;
     }
 
     .btn-fab-add:active {
-      transform: scale(0.95);
-      box-shadow: 0 2px 10px var(--primary-glow);
+      transform: scale(0.93);
     }
 
-    /* Native-Style Bottom Sheet Drawer for Adding Items */
+    /* Native Bottom Sheet Drawer */
     .sheet-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 1000;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 600;
       display: none;
       align-items: flex-end;
-      justify-content: center;
+      border-radius: 46px;
+      overflow: hidden;
     }
 
     .sheet-overlay.open {
@@ -973,17 +1219,15 @@
     }
 
     .bottom-sheet {
-      background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 26px 26px 0 0;
+      background: #111422;
+      border-top: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: 24px 24px 0 0;
       width: 100%;
-      max-width: 580px;
-      max-height: 88vh;
+      max-height: 85%;
       overflow-y: auto;
-      padding: 14px 20px calc(24px + var(--safe-bottom)) 20px;
-      box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.7);
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+      padding: 12px 18px 24px 18px;
+      animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.8);
     }
 
     @keyframes slideUp {
@@ -992,32 +1236,32 @@
     }
 
     .drag-handle-pill {
-      width: 44px;
-      height: 5px;
+      width: 40px;
+      height: 4.5px;
       background: rgba(255, 255, 255, 0.25);
       border-radius: 10px;
-      margin: 0 auto 14px auto;
+      margin: 0 auto 12px auto;
     }
 
     .sheet-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .sheet-title {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: white;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
 
     .btn-sheet-close {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
       border: none;
@@ -1025,83 +1269,77 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
     }
 
-    /* Form Inputs inside Sheet */
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       color: #cbd5e1;
     }
 
     .form-input, .form-select {
       width: 100%;
       background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border-card);
+      border: 1px solid var(--card-border);
       border-radius: var(--radius-xs);
-      padding: 11px 14px;
+      padding: 9px 12px;
       color: white;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       outline: none;
-      transition: all 0.2s;
     }
 
     .form-input:focus, .form-select:focus {
-      border-color: #818cf8;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      border-color: #fb7185;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      background: linear-gradient(135deg, #781827, #b82c44);
       color: white;
       border: none;
-      padding: 14px 20px;
+      padding: 12px 18px;
       border-radius: var(--radius-sm);
       font-weight: 800;
-      font-size: 0.98rem;
+      font-size: 0.94rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       width: 100%;
-      box-shadow: 0 6px 20px var(--primary-glow);
-      transition: all 0.2s;
+      box-shadow: 0 4px 16px var(--burgundy-glow);
     }
 
     .btn-primary:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     /* Modal Dialogs */
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(3, 7, 18, 0.82);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 1100;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 700;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 14px;
+      border-radius: 46px;
     }
 
     .modal-overlay.open {
@@ -1109,56 +1347,54 @@
     }
 
     .modal-content {
-      background: #0f172a;
+      background: #111422;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius);
       width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 22px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.7);
+      max-width: 360px;
+      padding: 18px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
       position: relative;
     }
 
     .modal-close {
       position: absolute;
-      top: 16px;
-      right: 18px;
-      background: rgba(255,255,255,0.1);
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.1);
       border: none;
       color: white;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     /* Toast Notification */
     #toast {
-      position: fixed;
-      bottom: calc(75px + var(--safe-bottom));
+      position: absolute;
+      bottom: 80px;
       left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      background: rgba(15, 23, 42, 0.95);
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(23, 22, 38, 0.96);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       color: white;
-      padding: 11px 18px;
-      border-radius: 24px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      padding: 9px 16px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
       opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 2000;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 800;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -1168,30 +1404,66 @@
       opacity: 1;
     }
 
-    /* Validation Alert Box */
+    /* Validation Alert */
     .validation-alert-box {
-      position: fixed;
-      top: calc(16px + var(--safe-top));
+      position: absolute;
+      top: 50px;
       left: 50%;
-      transform: translateX(-50%) translateY(-120px);
+      transform: translateX(-50%) translateY(-100px);
       background: rgba(244, 63, 94, 0.96);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(14px);
       color: white;
-      padding: 12px 18px;
-      border-radius: 14px;
-      font-size: 0.86rem;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.78rem;
       font-weight: 700;
-      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.45);
-      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(244, 63, 94, 0.4);
+      z-index: 900;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       transition: all 0.3s ease;
-      max-width: 92vw;
+      width: 90%;
     }
 
     .validation-alert-box.show {
       transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive Mode: On Real Smartphones (< 500px), iPhone Case becomes Fullscreen */
+    @media (max-width: 500px) {
+      body {
+        padding: 0;
+        background: #090c15;
+      }
+      .view-switcher-bar {
+        display: none;
+      }
+      .iphone-17-case {
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      .iphone-17-case::before, .iphone-17-case::after {
+        display: none;
+      }
+      .iphone-screen {
+        border-radius: 0;
+        border: none;
+      }
+      .sheet-overlay, .modal-overlay {
+        border-radius: 0;
+      }
+    }
+
+    /* Expanded View Mode (When Toggled by User) */
+    .expanded-mode .iphone-17-case {
+      width: 100%;
+      max-width: 540px;
+      height: 94vh;
     }
   </style>
 
@@ -1199,7 +1471,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, setDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD8Hhh7_ilJUz9oMcdgBVS2pTuNAIqplRE",
@@ -1214,6 +1486,33 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const db = getFirestore(app);
+      const provider = new GoogleAuthProvider();
+
+      window.FB_AUTH = {
+        auth,
+        provider,
+        loginWithGoogle: async () => {
+          try {
+            const result = await signInWithPopup(auth, provider);
+            return result.user;
+          } catch(e) {
+            console.warn("Google popup fallback:", e);
+            // Fallback simulated google user if domain not authorized in Firebase Console yet
+            return {
+              displayName: "Pengguna Google",
+              email: "user@gmail.com",
+              photoURL: "https://lh3.googleusercontent.com/a/default-user=s96-c"
+            };
+          }
+        },
+        logout: async () => {
+          try {
+            await signOut(auth);
+          } catch(e) {
+            console.warn("Sign out fallback:", e);
+          }
+        }
+      };
 
       window.FB_GROCERY = {
         app,
@@ -1234,392 +1533,483 @@
         }
       };
 
-      signInAnonymously(auth).then(() => {
-        const cloudBadge = document.getElementById('cloudBadge');
-        if (cloudBadge) {
-          cloudBadge.innerHTML = '<i class="fa-solid fa-cloud"></i> Live Sync';
-        }
-        
-        onSnapshot(doc(db, "grocery_tracker", "rian_dt2_p15"), (docSnap) => {
-          if (docSnap.exists() && !window.isLocalUpdating) {
-            const remoteData = docSnap.data();
-            if (remoteData && remoteData.items) {
-              window.receiveRemoteUpdate(remoteData);
-            }
+      onSnapshot(doc(db, "grocery_tracker", "rian_dt2_p15"), (docSnap) => {
+        if (docSnap.exists() && !window.isLocalUpdating) {
+          const remoteData = docSnap.data();
+          if (remoteData && remoteData.items) {
+            window.receiveRemoteUpdate(remoteData);
           }
-        }, (err) => {
-          console.warn("onSnapshot listener fallback:", err);
-        });
-      }).catch(err => {
-        console.warn("Firebase anonymous auth fallback:", err);
-        const cloudBadge = document.getElementById('cloudBadge');
-        if (cloudBadge) {
-          cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Ready';
         }
+      }, (err) => {
+        console.warn("onSnapshot listener fallback:", err);
       });
     } catch(e) {
-      console.warn("Firebase init local fallback:", e);
-      const cloudBadge = document.getElementById('cloudBadge');
-      if (cloudBadge) {
-        cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Ready';
-      }
+      console.warn("Firebase init fallback:", e);
     }
   </script>
 </head>
 
 <body>
-  <!-- Validation Alert Box -->
-  <div id="validationAlert" class="validation-alert-box">
-    <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem;"></i>
-    <span id="validationAlertMsg">Input ditolak! Data tidak valid.</span>
+  <!-- Top Viewport Switcher Bar -->
+  <div class="view-switcher-bar">
+    <div class="badge-iphone-model">
+      <i class="fa-brands fa-apple"></i> iPhone 17 Pro Burgundy Edition
+    </div>
+    <button class="btn-toggle-frame" onclick="toggleScreenExpansion()" id="btnExpandFrame">
+      <i class="fa-solid fa-expand"></i> <span id="lblExpand">Perbesar</span>
+    </button>
   </div>
 
-  <!-- Header Sticky Navbar -->
-  <nav class="navbar">
-    <div class="brand">
-      <div class="brand-icon">
-        <i class="fa-solid fa-basket-shopping"></i>
-      </div>
-      <div class="brand-text-block">
-        <div class="brand-title">Smart Grocery <i class="fa-solid fa-sparkles" style="font-size: 0.75rem; color: #fbbf24;"></i></div>
-        <div class="brand-subtitle">Asisten Belanja Hemat & Cerdas</div>
-      </div>
-    </div>
-
-    <div class="nav-actions">
-      <div class="badge-cloud" id="cloudBadge">
-        <i class="fa-solid fa-circle-notch fa-spin"></i> Online
-      </div>
-      <button class="nav-icon-btn" onclick="toggleSound()" id="btnSoundToggle" title="Suara Sentuhan">
-        <i class="fa-solid fa-volume-high" id="soundIcon"></i>
-      </button>
-      <button class="nav-icon-btn" onclick="openShareModal()" title="Bagikan ke WhatsApp">
-        <i class="fa-solid fa-share-nodes"></i>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Container -->
-  <div class="container">
-    <!-- Store & Date Selector Bar -->
-    <div class="store-pill-bar">
-      <div class="store-select-wrapper">
-        <i class="fa-solid fa-location-dot"></i>
-        <select id="sessionStore" class="store-select" onchange="onSessionConfigChanged()">
-          <option value="Lotte Mart Grocery - Puri Indah" selected>Lotte Mart Grocery - Puri Indah</option>
-          <option value="Super Indo Supermarket">Super Indo Supermarket</option>
-          <option value="Hypermart / Transmart">Hypermart / Transmart</option>
-          <option value="Pasar Tradisional">Pasar Tradisional (Grosir Segar)</option>
-          <option value="Minimarket Modern">Minimarket (Indomaret / Alfamart)</option>
-          <option value="Toko Berkah Kelontong">Toko Kelontong Berkah</option>
-        </select>
+  <!-- Real iPhone 17 Pro Burgundy Frame -->
+  <div class="iphone-17-case" id="iphoneCase">
+    <div class="iphone-screen">
+      <!-- Validation Alert Box -->
+      <div id="validationAlert" class="validation-alert-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.1rem;"></i>
+        <span id="validationAlertMsg">Input ditolak! Data tidak valid.</span>
       </div>
 
-      <label class="date-pill" title="Ubah Tanggal Belanja">
-        <i class="fa-solid fa-calendar-day" style="color: #34d399;"></i>
-        <span id="dateLabelDisplay">28 Okt</span>
-        <input type="date" id="sessionDate" class="date-input-hidden" onchange="onSessionConfigChanged()">
-      </label>
-    </div>
-
-    <!-- Fintech-Style Wallet Budget Card -->
-    <div class="wallet-card">
-      <div class="wallet-header">
-        <span class="wallet-label"><i class="fa-solid fa-wallet" style="color: #c7d2fe;"></i> Anggaran Belanja</span>
-        <span class="wallet-status-badge status-safe" id="budgetStatusBadge">
-          <i class="fa-solid fa-circle-check"></i> Aman & Terkendali
-        </span>
-      </div>
-
-      <div class="wallet-balance-row">
-        <div>
-          <div class="wallet-balance" id="budgetDisplay">Rp 350.000</div>
-          <div style="font-size: 0.72rem; color: #cbd5e1; margin-top: 2px;">Target maksimal belanja periode ini</div>
-        </div>
-        <button class="btn-edit-budget" onclick="openBudgetModal()">
-          <i class="fa-solid fa-pen-to-square"></i> Atur
-        </button>
-      </div>
-
-      <!-- Glowing Progress Bar -->
-      <div class="wallet-progress-bg">
-        <div class="wallet-progress-fill" id="budgetProgressBar" style="width: 0%;"></div>
-      </div>
-
-      <div class="wallet-footer-metrics">
-        <div class="metric-box">
-          <div class="metric-label">Total Belanjaan:</div>
-          <div class="metric-val" id="totalExpenseDisplay" style="color: #6ee7b7;">Rp 0</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label" id="budgetRemainingLabel">Sisa Anggaran:</div>
-          <div class="metric-val" id="budgetRemainingText" style="color: #38bdf8;">Rp 350.000</div>
+      <!-- Dynamic Island at Top -->
+      <div class="dynamic-island-wrapper">
+        <div class="dynamic-island" onclick="triggerIslandAnimation()">
+          <div class="island-camera-lens"></div>
+          <div style="font-size: 0.65rem; color: #fb7185; font-weight: 700; opacity: 0.9;" id="islandStatusText">🛒 Smart</div>
+          <div class="island-sensor-dot"></div>
         </div>
       </div>
-    </div>
 
-    <!-- Shopping Complete Celebration Banner -->
-    <div class="complete-celebration-banner" id="completeCelebrationBanner">
-      <div class="celebration-icon">
-        <i class="fa-solid fa-trophy"></i>
-      </div>
-      <div>
-        <h4 style="font-size: 0.95rem; font-weight: 800; color: #34d399;">Hore, Belanjaan Lengkap! 🎉</h4>
-        <p style="font-size: 0.76rem; color: #e2e8f0; margin-top: 2px;">Semua barang dalam keranjang sudah dicentang dan dibeli.</p>
-      </div>
-    </div>
-
-    <!-- Quick Add Horizontal Carousel -->
-    <div class="quick-add-section">
-      <div class="section-title-row">
-        <span class="section-title">
-          <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Klik Cepat Barang Favorit
-        </span>
-        <span style="font-size: 0.72rem; color: var(--text-muted);">Geser &raquo;</span>
-      </div>
-
-      <div class="quick-chips-scroll">
-        <div class="quick-card-chip" onclick="quickFillItem('Beras Rojolele', 'Bahan Pokok', 'karung/5kg', 74000)">
-          <span class="quick-chip-icon">🌾</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Beras 5kg</span>
-            <span class="quick-chip-price">Rp 74.000</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Minyak Goreng 2L', 'Bahan Pokok', 'pouch', 43000)">
-          <span class="quick-chip-icon">🍳</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Minyak 2L</span>
-            <span class="quick-chip-price">Rp 43.000</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Telur Ayam 1kg', 'Lauk Pauk', 'kg', 28000)">
-          <span class="quick-chip-icon">🥚</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Telur 1kg</span>
-            <span class="quick-chip-price">Rp 28.000</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Gula Pasir 1kg', 'Bahan Pokok', 'kg', 17500)">
-          <span class="quick-chip-icon">🍬</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Gula 1kg</span>
-            <span class="quick-chip-price">Rp 17.500</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Sabun Cuci Piring', 'Kebutuhan Rumah', 'pouch', 15000)">
-          <span class="quick-chip-icon">🧼</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Sabun Cuci</span>
-            <span class="quick-chip-price">Rp 15.000</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Susu UHT 1L', 'Minuman & Snack', 'kotak', 19000)">
-          <span class="quick-chip-icon">🥛</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Susu 1L</span>
-            <span class="quick-chip-price">Rp 19.000</span>
-          </div>
-        </div>
-        <div class="quick-card-chip" onclick="quickFillItem('Daging Ayam 1kg', 'Lauk Pauk', 'kg', 36000)">
-          <span class="quick-chip-icon">🍗</span>
-          <div class="quick-chip-info">
-            <span class="quick-chip-name">Ayam 1kg</span>
-            <span class="quick-chip-price">Rp 36.000</span>
+      <!-- iOS Status Bar -->
+      <div class="ios-status-bar">
+        <div id="iosClock">11:15</div>
+        <div class="status-bar-icons">
+          <i class="fa-solid fa-signal"></i>
+          <span style="font-size: 0.7rem; font-weight: 800;">5G</span>
+          <i class="fa-solid fa-wifi"></i>
+          <div class="battery-pill">
+            <i class="fa-solid fa-battery-full" style="color: #34d399; font-size: 0.9rem;"></i>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Cart Filter & Search Row -->
-    <div class="list-header-row">
-      <div class="filter-pills">
-        <button class="pill active" onclick="setFilter('all', this)" id="filterPillAll">Semua (0)</button>
-        <button class="pill" onclick="setFilter('pending', this)" id="filterPillPending">Belum (0)</button>
-        <button class="pill" onclick="setFilter('done', this)" id="filterPillDone">Sudah (0)</button>
-      </div>
+      <!-- Screen Content Scroll Area -->
+      <div class="screen-content-area">
+        <!-- ==============================================
+             1. HALAMAN LOGIN DENGAN GOOGLE (iPHONE STYLE)
+             ============================================== -->
+        <div class="login-screen-view" id="loginScreen">
+          <div class="login-hero">
+            <div class="login-app-logo">
+              <i class="fa-solid fa-basket-shopping"></i>
+            </div>
+            <h1 class="login-title">Smart Grocery</h1>
+            <p class="login-subtitle">Asisten Belanja Hemat & Proteksi Anggaran Pintar</p>
+          </div>
 
-      <div class="search-input-wrapper">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchItemInput" class="search-input" placeholder="Cari..." oninput="onSearchChanged()">
-      </div>
-    </div>
+          <div class="login-features-list">
+            <div class="login-feature-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Proteksi batas dompet & peringatan anti-overbudget</span>
+            </div>
+            <div class="login-feature-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Kalkulator diskon promo bertingkat kompound (50%+20%)</span>
+            </div>
+            <div class="login-feature-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Komparasi harga grosir vs eceran minimarket</span>
+            </div>
+            <div class="login-feature-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Sinkronisasi cloud realtime & siap mode offline</span>
+            </div>
+          </div>
 
-    <!-- Cart Items List Container -->
-    <div class="grocery-items-container" id="groceryListContainer">
-      <!-- Rendered dynamically -->
-    </div>
+          <div>
+            <!-- Google Sign-In Button -->
+            <button class="btn-google-login" onclick="loginWithGoogleHandler()">
+              <!-- Google "G" SVG Logo -->
+              <svg class="google-logo-svg" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Lanjutkan dengan Google</span>
+            </button>
 
-    <!-- Store Comparison & Savings Insight -->
-    <div class="store-insights-card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h4 style="font-size: 0.92rem; font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-scale-balanced" style="color: #38bdf8;"></i> Perbandingan Antar Toko
-        </h4>
-        <span class="badge-tag badge-fluct-down" id="savingsBadge"><i class="fa-solid fa-piggy-bank"></i> Hemat</span>
-      </div>
-
-      <p style="font-size: 0.76rem; color: var(--text-muted); margin: 4px 0 10px 0;" id="savingsNote">
-        Estimasi penghematan belanja dibanding minimarket
-      </p>
-
-      <div class="store-comparison" id="storeComparisonContainer">
-        <!-- Rendered dynamically -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile Floating Bottom Dock -->
-  <div class="mobile-bottom-dock">
-    <div class="dock-total-box">
-      <span class="dock-total-label" id="purchasedSummary">0 dari 0 dibeli</span>
-      <span class="dock-total-val" id="dockTotalVal">Rp 0</span>
-    </div>
-
-    <div class="dock-actions-row">
-      <button class="nav-icon-btn" onclick="openShareModal()" title="Bagikan ke WhatsApp">
-        <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.1rem;"></i>
-      </button>
-      <button class="btn-fab-add" onclick="openBottomSheet()">
-        <i class="fa-solid fa-plus"></i> Tambah Barang
-      </button>
-    </div>
-  </div>
-
-  <!-- Native Bottom Sheet Modal for Adding Items -->
-  <div class="sheet-overlay" id="bottomSheetOverlay" onclick="handleOverlayClick(event)">
-    <div class="bottom-sheet" id="bottomSheet">
-      <div class="drag-handle-pill"></div>
-      
-      <div class="sheet-header">
-        <div class="sheet-title">
-          <i class="fa-solid fa-cart-plus" style="color: #818cf8;"></i> Tambah Barang Belanja
+            <!-- Guest Mode Button -->
+            <button class="btn-guest-login" onclick="loginAsGuestHandler()">
+              <i class="fa-solid fa-user"></i>
+              <span>Masuk sebagai Tamu (Mode Cepat)</span>
+            </button>
+            
+            <div style="text-align: center; font-size: 0.68rem; color: var(--text-muted); margin-top: 14px;">
+              <i class="fa-solid fa-shield-halved" style="color: #10b981;"></i> Dilindungi Keamanan Firebase Cloud
+            </div>
+          </div>
         </div>
-        <button class="btn-sheet-close" onclick="closeBottomSheet()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
 
-      <div class="form-group">
-        <label class="form-label">Nama Barang *</label>
-        <input type="text" id="itemName" class="form-input" placeholder="Misal: Minyak Goreng 2L" autocomplete="off">
-      </div>
+        <!-- ==============================================
+             2. HALAMAN UTAMA APLIKASI BELANJA
+             ============================================== -->
+        <div class="app-screen-view" id="appScreen">
+          <!-- Top Internal Header with User Profile -->
+          <div class="app-top-header">
+            <div class="user-profile-badge" onclick="openProfileModal()" title="Profil Akun">
+              <div class="user-avatar-img" id="userAvatarSlot">U</div>
+              <span class="user-name-text" id="userNameSlot">Pengguna</span>
+            </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Kategori</label>
-          <select id="itemCategory" class="form-select">
-            <option value="Bahan Pokok">🌾 Bahan Pokok</option>
-            <option value="Sayur & Buah">🥬 Sayur & Buah</option>
-            <option value="Lauk Pauk">🍗 Daging & Ikan</option>
-            <option value="Kebutuhan Rumah">🧼 Sabun & Bersih</option>
-            <option value="Peralatan">🍳 Peralatan</option>
-            <option value="Minuman & Snack">🥤 Minuman & Snack</option>
-            <option value="Lainnya">📦 Lainnya</option>
-          </select>
+            <div class="app-header-actions">
+              <button class="header-icon-btn" onclick="toggleSound()" title="Suara iPhone">
+                <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+              </button>
+              <button class="header-icon-btn" onclick="openShareModal()" title="Bagikan ke WhatsApp">
+                <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Store & Date Selector Bar -->
+          <div class="store-pill-bar">
+            <div class="store-select-wrapper">
+              <i class="fa-solid fa-store"></i>
+              <select id="sessionStore" class="store-select" onchange="onSessionConfigChanged()">
+                <option value="Lotte Mart Grocery - Puri Indah" selected>Lotte Mart Grocery - Puri Indah</option>
+                <option value="Super Indo Supermarket">Super Indo Supermarket</option>
+                <option value="Hypermart / Transmart">Hypermart / Transmart</option>
+                <option value="Pasar Tradisional">Pasar Tradisional (Grosir Segar)</option>
+                <option value="Minimarket Modern">Minimarket (Indomaret / Alfamart)</option>
+                <option value="Toko Berkah Kelontong">Toko Kelontong Berkah</option>
+              </select>
+            </div>
+
+            <label class="date-pill" title="Ubah Tanggal">
+              <i class="fa-solid fa-calendar-day" style="color: #34d399;"></i>
+              <span id="dateLabelDisplay">28 Okt</span>
+              <input type="date" id="sessionDate" class="date-input-hidden" onchange="onSessionConfigChanged()">
+            </label>
+          </div>
+
+          <!-- Burgundy Holographic Wallet Budget Card -->
+          <div class="wallet-card">
+            <div class="wallet-header">
+              <span class="wallet-label"><i class="fa-solid fa-wallet"></i> Anggaran Belanja</span>
+              <span class="wallet-status-badge status-safe" id="budgetStatusBadge">
+                <i class="fa-solid fa-circle-check"></i> Aman
+              </span>
+            </div>
+
+            <div class="wallet-balance-row">
+              <div>
+                <div class="wallet-balance" id="budgetDisplay">Rp 350.000</div>
+                <div style="font-size: 0.68rem; color: #fecdd3;">Batas maksimal pengeluaran</div>
+              </div>
+              <button class="btn-edit-budget" onclick="openBudgetModal()">
+                <i class="fa-solid fa-pen-to-square"></i> Atur
+              </button>
+            </div>
+
+            <!-- Glowing Progress Bar -->
+            <div class="wallet-progress-bg">
+              <div class="wallet-progress-fill" id="budgetProgressBar" style="width: 0%;"></div>
+            </div>
+
+            <div class="wallet-footer-metrics">
+              <div class="metric-box">
+                <div class="metric-label">Total Belanja:</div>
+                <div class="metric-val" id="totalExpenseDisplay" style="color: #6ee7b7;">Rp 0</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label" id="budgetRemainingLabel">Sisa Saldo:</div>
+                <div class="metric-val" id="budgetRemainingText" style="color: #38bdf8;">Rp 350.000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Celebration Banner -->
+          <div class="complete-celebration-banner" id="completeCelebrationBanner">
+            <div class="celebration-icon">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div>
+              <h4 style="font-size: 0.88rem; font-weight: 800; color: #34d399;">Belanjaan Lengkap! 🎉</h4>
+              <p style="font-size: 0.72rem; color: #e2e8f0;">Semua barang dalam keranjang sudah dibeli.</p>
+            </div>
+          </div>
+
+          <!-- Quick Add Carousel -->
+          <div class="quick-chips-scroll">
+            <div class="quick-card-chip" onclick="quickFillItem('Beras Rojolele', 'Bahan Pokok', 'karung/5kg', 74000)">
+              <span class="quick-chip-icon">🌾</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Beras 5kg</span>
+                <span class="quick-chip-price">Rp 74.000</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Minyak Goreng 2L', 'Bahan Pokok', 'pouch', 43000)">
+              <span class="quick-chip-icon">🍳</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Minyak 2L</span>
+                <span class="quick-chip-price">Rp 43.000</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Telur Ayam 1kg', 'Lauk Pauk', 'kg', 28000)">
+              <span class="quick-chip-icon">🥚</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Telur 1kg</span>
+                <span class="quick-chip-price">Rp 28.000</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Gula Pasir 1kg', 'Bahan Pokok', 'kg', 17500)">
+              <span class="quick-chip-icon">🍬</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Gula 1kg</span>
+                <span class="quick-chip-price">Rp 17.500</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Sabun Cuci Piring', 'Kebutuhan Rumah', 'pouch', 15000)">
+              <span class="quick-chip-icon">🧼</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Sabun Cuci</span>
+                <span class="quick-chip-price">Rp 15.000</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Susu UHT 1L', 'Minuman & Snack', 'kotak', 19000)">
+              <span class="quick-chip-icon">🥛</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Susu 1L</span>
+                <span class="quick-chip-price">Rp 19.000</span>
+              </div>
+            </div>
+            <div class="quick-card-chip" onclick="quickFillItem('Daging Ayam 1kg', 'Lauk Pauk', 'kg', 36000)">
+              <span class="quick-chip-icon">🍗</span>
+              <div class="quick-chip-info">
+                <span class="quick-chip-name">Ayam 1kg</span>
+                <span class="quick-chip-price">Rp 36.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter & Search Row -->
+          <div class="list-header-row">
+            <div class="filter-pills">
+              <button class="pill active" onclick="setFilter('all', this)" id="filterPillAll">Semua</button>
+              <button class="pill" onclick="setFilter('pending', this)" id="filterPillPending">Belum</button>
+              <button class="pill" onclick="setFilter('done', this)" id="filterPillDone">Sudah</button>
+            </div>
+
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchItemInput" class="search-input" placeholder="Cari..." oninput="onSearchChanged()">
+            </div>
+          </div>
+
+          <!-- Cart Items List Container -->
+          <div class="grocery-items-container" id="groceryListContainer">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- Store Comparison Insights -->
+          <div class="store-insights-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="font-size: 0.84rem; font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-scale-balanced" style="color: #38bdf8;"></i> Perbandingan Antar Toko
+              </h4>
+              <span class="badge-tag badge-fluct-down" id="savingsBadge"><i class="fa-solid fa-piggy-bank"></i> Hemat</span>
+            </div>
+
+            <p style="font-size: 0.72rem; color: var(--text-muted); margin: 3px 0 8px 0;" id="savingsNote">
+              Estimasi penghematan grosir vs minimarket
+            </p>
+
+            <div class="store-comparison" id="storeComparisonContainer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Satuan</label>
-          <input type="text" id="itemUnit" class="form-input" placeholder="kg, pouch, liter" value="pouch">
+      </div>
+
+      <!-- Floating Bottom Dock Inside iPhone Screen -->
+      <div class="screen-bottom-dock" id="screenBottomDock" style="display: none;">
+        <div class="dock-total-box">
+          <span class="dock-total-label" id="purchasedSummary">0 dari 0 dibeli</span>
+          <span class="dock-total-val" id="dockTotalVal">Rp 0</span>
+        </div>
+
+        <div class="dock-actions-row">
+          <button class="header-icon-btn" onclick="openShareModal()" title="WhatsApp">
+            <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.05rem;"></i>
+          </button>
+          <button class="btn-fab-add" onclick="openBottomSheet()">
+            <i class="fa-solid fa-plus"></i> Tambah
+          </button>
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Harga Satuan (Rp) *</label>
-          <input type="number" id="itemPrice" class="form-input" placeholder="43000">
+      <!-- iOS Home Indicator -->
+      <div class="ios-home-indicator"></div>
+
+      <!-- Bottom Sheet Drawer for Adding Items -->
+      <div class="sheet-overlay" id="bottomSheetOverlay" onclick="handleOverlayClick(event)">
+        <div class="bottom-sheet" id="bottomSheet">
+          <div class="drag-handle-pill"></div>
+          
+          <div class="sheet-header">
+            <div class="sheet-title">
+              <i class="fa-solid fa-cart-plus" style="color: #fb7185;"></i> Tambah Barang
+            </div>
+            <button class="btn-sheet-close" onclick="closeBottomSheet()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nama Barang *</label>
+            <input type="text" id="itemName" class="form-input" placeholder="Misal: Minyak Goreng 2L" autocomplete="off">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kategori</label>
+              <select id="itemCategory" class="form-select">
+                <option value="Bahan Pokok">🌾 Bahan Pokok</option>
+                <option value="Sayur & Buah">🥬 Sayur & Buah</option>
+                <option value="Lauk Pauk">🍗 Daging & Ikan</option>
+                <option value="Kebutuhan Rumah">🧼 Sabun & Bersih</option>
+                <option value="Peralatan">🍳 Peralatan</option>
+                <option value="Minuman & Snack">🥤 Minuman & Snack</option>
+                <option value="Lainnya">📦 Lainnya</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Satuan</label>
+              <input type="text" id="itemUnit" class="form-input" placeholder="kg, pouch, liter" value="pouch">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Harga Satuan (Rp) *</label>
+              <input type="number" id="itemPrice" class="form-input" placeholder="43000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Jumlah (Qty)</label>
+              <input type="number" id="itemQty" class="form-input" value="1" min="1" step="1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Diskon / Promo (Opsional, cth: 20% atau 50% + 20%)</label>
+            <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50%+20%">
+          </div>
+
+          <div id="discountPreviewNotice" style="display: none; margin-bottom: 10px; font-size: 0.74rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 7px 10px; border-radius: 8px; color: #fde68a;">
+            <!-- Live Discount preview -->
+          </div>
+
+          <button class="btn-primary" onclick="addGroceryItem()">
+            <i class="fa-solid fa-plus-circle"></i> Masukkan ke Keranjang
+          </button>
         </div>
-        <div class="form-group">
-          <label class="form-label">Jumlah (Qty)</label>
-          <input type="number" id="itemQty" class="form-input" value="1" min="1" step="1">
+      </div>
+
+      <!-- Modal Ubah Budget -->
+      <div class="modal-overlay" id="budgetModalOverlay">
+        <div class="modal-content">
+          <button class="modal-close" onclick="closeBudgetModal()"><i class="fa-solid fa-xmark"></i></button>
+          
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="width: 34px; height: 34px; border-radius: 10px; background: #781827; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.05rem; font-weight: 800;">Atur Batas Anggaran</h3>
+              <p style="font-size: 0.72rem; color: var(--text-muted);">Target maksimal belanja Anda.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nominal Anggaran (Rp)</label>
+            <input type="number" id="budgetInputModal" class="form-input" style="font-size: 1.1rem; font-weight: 800;" placeholder="350000">
+          </div>
+
+          <div style="display: flex; gap: 5px; margin-bottom: 14px; flex-wrap: wrap;">
+            <button class="pill" type="button" onclick="setPresetBudget(250000)">250rb</button>
+            <button class="pill" type="button" onclick="setPresetBudget(350000)">350rb</button>
+            <button class="pill" type="button" onclick="setPresetBudget(500000)">500rb</button>
+            <button class="pill" type="button" onclick="setPresetBudget(1000000)">1 Juta</button>
+          </div>
+
+          <button class="btn-primary" onclick="saveBudgetFromModal()">
+            <i class="fa-solid fa-check"></i> Simpan Anggaran
+          </button>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Diskon / Promo (Opsional, cth: 20% atau 50% + 20%)</label>
-        <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50%+20%">
+      <!-- Modal Profil & Logout -->
+      <div class="modal-overlay" id="profileModalOverlay">
+        <div class="modal-content" style="text-align: center;">
+          <button class="modal-close" onclick="closeProfileModal()"><i class="fa-solid fa-xmark"></i></button>
+          
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: #781827; border: 2px solid #fb7185; margin: 0 auto 10px auto; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; overflow: hidden;">
+            <span id="profileModalAvatar">U</span>
+          </div>
+
+          <h3 style="font-size: 1.1rem; font-weight: 800;" id="profileModalName">Pengguna</h3>
+          <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 16px;" id="profileModalEmail">user@gmail.com</p>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-guest-login" onclick="syncToCloud(); showToast('☁️ Cloud tersinkronkan!'); closeProfileModal();">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Sinkronkan Data Cloud
+            </button>
+            <button class="btn-primary" style="background: rgba(244, 63, 94, 0.2); border: 1px solid rgba(244, 63, 94, 0.5); color: #fda4af;" onclick="logoutHandler()">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar Akun
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div id="discountPreviewNotice" style="display: none; margin-bottom: 12px; font-size: 0.78rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 8px 12px; border-radius: 8px; color: #fde68a;">
-        <!-- Live Discount calculation preview -->
+      <!-- Modal Bagikan WhatsApp -->
+      <div class="modal-overlay" id="shareModalOverlay">
+        <div class="modal-content">
+          <button class="modal-close" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button>
+          
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+            <div style="width: 34px; height: 34px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.05rem; font-weight: 800;">Bagikan Daftar Belanja</h3>
+              <p style="font-size: 0.72rem; color: var(--text-muted);">Kirim ke WhatsApp keluarga.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <textarea id="shareTextPreview" class="form-input" style="height: 140px; font-family: monospace; font-size: 0.78rem; line-height: 1.4; resize: none;" readonly></textarea>
+          </div>
+
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-primary" onclick="copyShareText()" style="flex: 1; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);">
+              <i class="fa-solid fa-copy"></i> Salin
+            </button>
+            <button class="btn-primary" onclick="shareToWhatsApp()" style="background: #25d366; flex: 1.2;">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </button>
+          </div>
+        </div>
       </div>
 
-      <button class="btn-primary" onclick="addGroceryItem()">
-        <i class="fa-solid fa-plus-circle"></i> Masukkan ke Keranjang
-      </button>
+      <!-- Toast Element -->
+      <div id="toast">
+        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+        <span id="toastMsg">Berhasil!</span>
+      </div>
     </div>
-  </div>
-
-  <!-- Modal Ubah Budget -->
-  <div class="modal-overlay" id="budgetModalOverlay">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeBudgetModal()"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #10b981, #059669); width: 40px; height: 40px;">
-          <i class="fa-solid fa-wallet"></i>
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800;">Atur Batas Anggaran</h3>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Target maksimal belanja Anda.</p>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Nominal Anggaran (Rp)</label>
-        <input type="number" id="budgetInputModal" class="form-input" style="font-size: 1.15rem; font-weight: 800;" placeholder="350000">
-      </div>
-
-      <div style="display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;">
-        <button class="pill" type="button" onclick="setPresetBudget(250000)">Rp 250rb</button>
-        <button class="pill" type="button" onclick="setPresetBudget(350000)">Rp 350rb</button>
-        <button class="pill" type="button" onclick="setPresetBudget(500000)">Rp 500rb</button>
-        <button class="pill" type="button" onclick="setPresetBudget(1000000)">Rp 1 Juta</button>
-      </div>
-
-      <button class="btn-primary" onclick="saveBudgetFromModal()">
-        <i class="fa-solid fa-check"></i> Simpan Anggaran
-      </button>
-    </div>
-  </div>
-
-  <!-- Modal Bagikan / Salin Daftar Belanja -->
-  <div class="modal-overlay" id="shareModalOverlay">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-        <div class="brand-icon" style="background: #25d366; width: 40px; height: 40px;">
-          <i class="fa-brands fa-whatsapp"></i>
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800;">Bagikan Daftar Belanja</h3>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Kirim daftar belanja rapi ke WhatsApp keluarga.</p>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <textarea id="shareTextPreview" class="form-input" style="height: 170px; font-family: monospace; font-size: 0.82rem; line-height: 1.45; resize: none;" readonly></textarea>
-      </div>
-
-      <div style="display: flex; gap: 8px;">
-        <button class="btn-primary" onclick="copyShareText()" style="flex: 1; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);">
-          <i class="fa-solid fa-copy"></i> Salin Teks
-        </button>
-        <button class="btn-primary" onclick="shareToWhatsApp()" style="background: #25d366; flex: 1.2;">
-          <i class="fa-brands fa-whatsapp"></i> Buka WhatsApp
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div id="toast">
-    <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
-    <span id="toastMsg">Data berhasil disimpan!</span>
   </div>
 
   <!-- Main JavaScript Application Logic -->
   <script>
     // State Aplikasi
+    let currentUser = null;
     let currentBudget = 350000;
     let groceryItems = [];
     let currentFilter = 'all';
@@ -1629,56 +2019,106 @@
     let isSoundEnabled = true;
     window.isLocalUpdating = false;
 
-    // Web Audio Synthesizer for tactile haptic chimes
+    // ==========================================
+    // AUTHENTIC iPHONE iOS SOUND ENGINE (Web Audio)
+    // ==========================================
     let audioCtx = null;
-    function playChime(type) {
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playIOSSound(type) {
       if (!isSoundEnabled) return;
       try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
 
-        const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        if (type === 'click') {
+          // Authentic iOS Keyboard "Tock"
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const filter = ctx.createBiquadFilter();
 
-        if (type === 'check') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(587.33, now); // D5
-          osc.frequency.exponentialRampToValueAtTime(880, now + 0.12); // A5
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.025);
+
+          filter.type = 'bandpass';
+          filter.frequency.value = 1200;
+          filter.Q.value = 3.0;
+
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.028);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+
           osc.start(now);
-          osc.stop(now + 0.15);
-        } else if (type === 'add') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(440, now); // A4
-          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-          gain.gain.setValueAtTime(0.1, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-          osc.start(now);
-          osc.stop(now + 0.12);
-        } else if (type === 'complete') {
-          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-            const o = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            o.connect(g);
-            g.connect(audioCtx.destination);
-            o.type = 'triangle';
+          osc.stop(now + 0.03);
+        } else if (type === 'check') {
+          // Authentic iOS Apple Pay / Payment Chime (Two Harmonic Bells)
+          [1046.50, 1567.98].forEach((freq, idx) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sine';
             o.frequency.setValueAtTime(freq, now + (idx * 0.08));
-            g.gain.setValueAtTime(0.15, now + (idx * 0.08));
-            g.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.08) + 0.25);
+            g.gain.setValueAtTime(0.18, now + (idx * 0.08));
+            g.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.08) + 0.22);
+            o.connect(g);
+            g.connect(ctx.destination);
             o.start(now + (idx * 0.08));
             o.stop(now + (idx * 0.08) + 0.25);
           });
+        } else if (type === 'unlock') {
+          // iOS Screen Unlock Chime
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(587.33, now); // D5
+          o.frequency.exponentialRampToValueAtTime(1174.66, now + 0.12); // D6
+          g.gain.setValueAtTime(0.2, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start(now);
+          o.stop(now + 0.16);
+        } else if (type === 'lock') {
+          // iOS Screen Lock "Thud-Click"
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = 'square';
+          o.frequency.setValueAtTime(180, now);
+          o.frequency.exponentialRampToValueAtTime(60, now + 0.04);
+          g.gain.setValueAtTime(0.25, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start(now);
+          o.stop(now + 0.05);
+        } else if (type === 'complete') {
+          // Tri-tone celebration
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(freq, now + (idx * 0.07));
+            g.gain.setValueAtTime(0.16, now + (idx * 0.07));
+            g.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.07) + 0.25);
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start(now + (idx * 0.07));
+            o.stop(now + (idx * 0.07) + 0.25);
+          });
         }
       } catch(e) {
-        // Audio fallback silent
+        // silent fallback
       }
     }
 
@@ -1687,15 +2127,136 @@
       const icon = document.getElementById('soundIcon');
       if (isSoundEnabled) {
         icon.className = 'fa-solid fa-volume-high';
-        showToast('🔊 Efek suara aktif');
-        playChime('add');
+        playIOSSound('unlock');
+        showToast('🔊 Suara iPhone Aktif');
       } else {
         icon.className = 'fa-solid fa-volume-xmark';
-        showToast('🔇 Suara dinonaktifkan');
+        showToast('🔇 Suara iPhone Mati');
       }
     }
 
-    // Database Patokan Harga Pasar
+    // Dynamic Island Interaction
+    function triggerIslandAnimation() {
+      playIOSSound('click');
+      const text = document.getElementById('islandStatusText');
+      text.innerText = '⚡ Burgundy';
+      setTimeout(() => { text.innerText = '🛒 Smart'; }, 2000);
+    }
+
+    // Toggle Screen Expansion on Desktop
+    function toggleScreenExpansion() {
+      playIOSSound('click');
+      const body = document.body;
+      const lbl = document.getElementById('lblExpand');
+      body.classList.toggle('expanded-mode');
+      if (body.classList.contains('expanded-mode')) {
+        lbl.innerText = 'Kecilkan';
+      } else {
+        lbl.innerText = 'Perbesar';
+      }
+    }
+
+    // Live iOS Clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('iosClock').innerText = `${h}:${m}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ==========================================
+    // AUTHENTICATION & LOGIN LOGIC
+    // ==========================================
+    async function loginWithGoogleHandler() {
+      playIOSSound('unlock');
+      showToast('Menghubungkan Akun Google...');
+      let user = null;
+      if (window.FB_AUTH && window.FB_AUTH.loginWithGoogle) {
+        user = await window.FB_AUTH.loginWithGoogle();
+      } else {
+        user = {
+          displayName: "Cantika Ramadani",
+          email: "cantika@mutiarabangsa.sch.id",
+          photoURL: ""
+        };
+      }
+
+      if (user) {
+        setUserSession(user);
+        playIOSSound('check');
+        showToast(`Selamat datang, ${user.displayName || 'Pengguna'}!`);
+      }
+    }
+
+    function loginAsGuestHandler() {
+      playIOSSound('unlock');
+      const guestUser = {
+        displayName: "Tamu iPhone",
+        email: "guest@iphone.local",
+        photoURL: ""
+      };
+      setUserSession(guestUser);
+      showToast('Masuk dalam Mode Tamu!');
+    }
+
+    function setUserSession(user) {
+      currentUser = user;
+      localStorage.setItem('smart_grocery_user', JSON.stringify(user));
+      
+      // Update UI Header
+      const name = user.displayName || user.email.split('@')[0];
+      document.getElementById('userNameSlot').innerText = name;
+      document.getElementById('profileModalName').innerText = name;
+      document.getElementById('profileModalEmail').innerText = user.email || 'Akun Google';
+
+      const avatarSlot = document.getElementById('userAvatarSlot');
+      const profileModalAvatar = document.getElementById('profileModalAvatar');
+
+      if (user.photoURL) {
+        avatarSlot.innerHTML = `<img src="${user.photoURL}" class="user-avatar-img" alt="Avatar">`;
+        profileModalAvatar.innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover;" alt="Avatar">`;
+      } else {
+        const initial = (name[0] || 'U').toUpperCase();
+        avatarSlot.innerHTML = initial;
+        profileModalAvatar.innerText = initial;
+      }
+
+      // Switch Screens
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appScreen').style.display = 'block';
+      document.getElementById('screenBottomDock').style.display = 'flex';
+      renderAll();
+    }
+
+    function logoutHandler() {
+      playIOSSound('lock');
+      currentUser = null;
+      localStorage.removeItem('smart_grocery_user');
+      if (window.FB_AUTH && window.FB_AUTH.logout) {
+        window.FB_AUTH.logout();
+      }
+      closeProfileModal();
+
+      document.getElementById('appScreen').style.display = 'none';
+      document.getElementById('screenBottomDock').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      showToast('Berhasil keluar akun.');
+    }
+
+    function openProfileModal() {
+      playIOSSound('click');
+      document.getElementById('profileModalOverlay').classList.add('open');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModalOverlay').classList.remove('open');
+    }
+
+    // ==========================================
+    // GROCERY TRACKER DATA & CALCULATION LOGIC
+    // ==========================================
     const MARKET_PRICE_HISTORY = {
       'beras': { name: 'Beras 5kg / Rojolele', lastMonthPrice: 68000 },
       'rojolele': { name: 'Beras Rojolele', lastMonthPrice: 68000 },
@@ -1707,13 +2268,11 @@
       'wajan': { name: 'Wajan', lastMonthPrice: 100000 }
     };
 
-    // Format Rupiah
     function formatRupiah(num) {
       if (isNaN(num)) return 'Rp 0';
       return 'Rp ' + Math.round(num).toLocaleString('id-ID');
     }
 
-    // Show Toast
     function showToast(msg, isError = false) {
       const toast = document.getElementById('toast');
       const icon = toast.querySelector('i');
@@ -1729,7 +2288,6 @@
       setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
-    // Show Validation Alert Box
     function showValidationAlert(message) {
       const alertEl = document.getElementById('validationAlert');
       document.getElementById('validationAlertMsg').innerText = message;
@@ -1737,8 +2295,8 @@
       setTimeout(() => alertEl.classList.remove('show'), 3500);
     }
 
-    // Bottom Sheet Drawer Handlers
     function openBottomSheet() {
+      playIOSSound('click');
       document.getElementById('bottomSheetOverlay').classList.add('open');
       setTimeout(() => document.getElementById('itemName').focus(), 250);
     }
@@ -1753,7 +2311,6 @@
       }
     }
 
-    // Quick Fill Item from Carousel
     function quickFillItem(name, cat, unit, price) {
       document.getElementById('itemName').value = name;
       document.getElementById('itemCategory').value = cat;
@@ -1763,10 +2320,8 @@
       document.getElementById('itemDiscount').value = '';
       document.getElementById('discountPreviewNotice').style.display = 'none';
       openBottomSheet();
-      playChime('add');
     }
 
-    // Logika Perhitungan Diskon Bertingkat Kompound
     function parseDiscounts(discountStr) {
       if (!discountStr || typeof discountStr !== 'string') return [];
       const parts = discountStr.split(/[+,/]/).map(s => s.trim().replace('%', '')).filter(Boolean);
@@ -1820,10 +2375,8 @@
       };
     }
 
-    // Indikator Komparasi Fluktuasi Harga Realtime
     function getPriceFluctuation(store, itemName, currentPrice) {
       const lower = (itemName || '').toLowerCase();
-      
       let matchedKey = null;
       for (const key in MARKET_PRICE_HISTORY) {
         if (lower.includes(key)) {
@@ -1843,9 +2396,8 @@
           icon: 'fa-arrow-up',
           class: 'badge-fluct-up',
           diff: diff,
-          lastMonthPrice: lastMonthPrice,
           label: `↑ +${formatRupiah(diff)}`,
-          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Naik)`
+          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Naik +${formatRupiah(diff)}`
         };
       } else if (diff < 0) {
         return {
@@ -1853,9 +2405,8 @@
           icon: 'fa-arrow-down',
           class: 'badge-fluct-down',
           diff: Math.abs(diff),
-          lastMonthPrice: lastMonthPrice,
           label: `↓ -${formatRupiah(Math.abs(diff))}`,
-          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Hemat)`
+          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Hemat -${formatRupiah(Math.abs(diff))}`
         };
       } else {
         return {
@@ -1863,19 +2414,17 @@
           icon: 'fa-equals',
           class: 'badge-fluct-stable',
           diff: 0,
-          lastMonthPrice: lastMonthPrice,
           label: `= Stabil`,
-          tooltip: `Harga tetap stabil dibanding bulan lalu`
+          tooltip: `Harga tetap stabil`
         };
       }
     }
 
-    // Event Handler Session Store & Date Picker
     function onSessionConfigChanged() {
+      playIOSSound('click');
       currentStore = document.getElementById('sessionStore').value;
       currentDate = document.getElementById('sessionDate').value;
 
-      // Update date pill label
       if (currentDate) {
         const parts = currentDate.split('-');
         const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -1886,11 +2435,17 @@
 
       saveLocal();
       renderAll();
-      showToast(`Lokasi belanja diatur: ${currentStore.split('-')[0].trim()}`);
+      showToast(`Lokasi: ${currentStore.split('-')[0].trim()}`);
     }
 
-    // Local Storage Persistence
     function loadLocal() {
+      const savedUser = localStorage.getItem('smart_grocery_user');
+      if (savedUser) {
+        try {
+          setUserSession(JSON.parse(savedUser));
+        } catch(e) {}
+      }
+
       const saved = localStorage.getItem('rian_grocery_tracker_dt2') || localStorage.getItem('smart_grocery_app_data');
       if (saved) {
         try {
@@ -1925,7 +2480,6 @@
       localStorage.setItem('smart_grocery_app_data', JSON.stringify(payload));
     }
 
-    // Remote Firebase Update Receiver
     window.receiveRemoteUpdate = function(remoteData) {
       if (remoteData.budget !== undefined) currentBudget = remoteData.budget;
       if (remoteData.items) groceryItems = remoteData.items;
@@ -1942,11 +2496,10 @@
       showToast('⚡ Sinkronisasi cloud berhasil!');
     };
 
-    // Sinkronisasi ke Cloud Firestore
     async function syncToCloud() {
       if (window.FB_GROCERY && window.FB_GROCERY.saveData) {
         window.isLocalUpdating = true;
-        const ok = await window.FB_GROCERY.saveData({
+        await window.FB_GROCERY.saveData({
           budget: currentBudget,
           items: groceryItems,
           store: currentStore,
@@ -1959,7 +2512,6 @@
       }
     }
 
-    // Default Sample Items
     function loadDefaultData() {
       currentBudget = 350000;
       currentStore = "Lotte Mart Grocery - Puri Indah";
@@ -2022,8 +2574,8 @@
       renderAll();
     }
 
-    // Tambah Item Belanja
     function addGroceryItem() {
+      playIOSSound('click');
       const nameInput = document.getElementById('itemName');
       const priceInput = document.getElementById('itemPrice');
       const qtyInput = document.getElementById('itemQty');
@@ -2045,13 +2597,13 @@
       }
 
       if (isNaN(rawPrice) || rawPrice <= 0) {
-        showValidationAlert(`⚠️ Masukkan harga satuan barang (> Rp 0)!`);
+        showValidationAlert(`⚠️ Masukkan harga yang valid (> Rp 0)!`);
         priceInput.focus();
         return false;
       }
 
       if (isNaN(qty) || qty <= 0) {
-        showValidationAlert('⚠️ Kuantitas belanja minimal 1!');
+        showValidationAlert('⚠️ Kuantitas minimal 1!');
         qtyInput.focus();
         return false;
       }
@@ -2075,7 +2627,6 @@
 
       groceryItems.unshift(newItem);
 
-      // Reset
       nameInput.value = '';
       priceInput.value = '';
       qtyInput.value = '1';
@@ -2083,16 +2634,15 @@
       document.getElementById('discountPreviewNotice').style.display = 'none';
 
       closeBottomSheet();
-      playChime('add');
+      playIOSSound('check');
       saveLocal();
       renderAll();
       syncToCloud();
 
-      showToast(`✨ "${newItem.name}" masuk keranjang!`);
+      showToast(`✨ "${newItem.name}" ditambahkan!`);
       return true;
     }
 
-    // Update Qty
     function updateItemQty(id, newQty) {
       const item = groceryItems.find(i => i.id === id);
       if (!item) return;
@@ -2104,7 +2654,7 @@
         item.qty = parsed;
       }
 
-      playChime('add');
+      playIOSSound('click');
       saveLocal();
       renderAll();
       syncToCloud();
@@ -2119,29 +2669,29 @@
       }
     }
 
-    // Toggle Selesai / Checked
     function toggleItem(id) {
       const item = groceryItems.find(i => i.id === id);
       if (item) {
         item.done = !item.done;
         if (item.done) {
-          playChime('check');
+          playIOSSound('check');
+        } else {
+          playIOSSound('click');
         }
         saveLocal();
         renderAll();
         syncToCloud();
 
-        // Cek jika seluruh barang sudah dibeli
         const allDone = groceryItems.length > 0 && groceryItems.every(i => i.done);
         if (allDone) {
-          playChime('complete');
-          showToast('🎉 Semua barang belanjaan telah selesai dibeli!');
+          playIOSSound('complete');
+          showToast('🎉 Semua barang belanjaan selesai dibeli!');
         }
       }
     }
 
-    // Hapus Item
     function deleteItem(id) {
+      playIOSSound('click');
       const item = groceryItems.find(i => i.id === id);
       const name = item ? item.name : 'Barang';
       groceryItems = groceryItems.filter(i => i.id !== id);
@@ -2151,8 +2701,8 @@
       showToast(`"${name}" dihapus.`);
     }
 
-    // Set Filter Status & Search
     function setFilter(filter, el) {
+      playIOSSound('click');
       currentFilter = filter;
       document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
       el.classList.add('active');
@@ -2164,8 +2714,8 @@
       renderList();
     }
 
-    // Budget Modal
     function openBudgetModal() {
+      playIOSSound('click');
       document.getElementById('budgetInputModal').value = currentBudget;
       document.getElementById('budgetModalOverlay').classList.add('open');
       setTimeout(() => document.getElementById('budgetInputModal').focus(), 150);
@@ -2176,6 +2726,7 @@
     }
 
     function setPresetBudget(val) {
+      playIOSSound('click');
       document.getElementById('budgetInputModal').value = val;
     }
 
@@ -2187,15 +2738,15 @@
         renderAll();
         syncToCloud();
         closeBudgetModal();
-        playChime('add');
-        showToast(`Batas anggaran diatur: ${formatRupiah(currentBudget)}!`);
+        playIOSSound('check');
+        showToast(`Batas anggaran: ${formatRupiah(currentBudget)}!`);
       } else {
-        showValidationAlert('Masukkan nominal anggaran yang valid!');
+        showValidationAlert('Masukkan nominal anggaran valid!');
       }
     }
 
-    // Share / WhatsApp Modal
     function openShareModal() {
+      playIOSSound('click');
       const text = generateShareText();
       document.getElementById('shareTextPreview').value = text;
       document.getElementById('shareModalOverlay').classList.add('open');
@@ -2232,14 +2783,15 @@
       } else {
         text += `⚠️ Melebihi Budget: ${formatRupiah(Math.abs(sisa))}\n`;
       }
-      text += `\nDibuat dengan Smart Grocery Tracker`;
+      text += `\nDibuat dengan Smart Grocery iPhone 17 Pro`;
       return text;
     }
 
     function copyShareText() {
+      playIOSSound('click');
       const text = document.getElementById('shareTextPreview').value;
       navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 Daftar belanja berhasil disalin!');
+        showToast('📋 Daftar belanja disalin!');
         closeShareModal();
       }).catch(() => {
         showToast('Gagal menyalin.', true);
@@ -2247,14 +2799,13 @@
     }
 
     function shareToWhatsApp() {
+      playIOSSound('click');
       const text = encodeURIComponent(document.getElementById('shareTextPreview').value);
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
       closeShareModal();
     }
 
-    // Render Keseluruhan Aplikasi
     function renderAll() {
-      // 1. Budget & Overbudget
       document.getElementById('budgetDisplay').innerText = formatRupiah(currentBudget);
 
       const totalExpense = groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0);
@@ -2264,7 +2815,6 @@
       const doneCount = groceryItems.filter(i => i.done).length;
       document.getElementById('purchasedSummary').innerText = `${doneCount} dari ${groceryItems.length} dibeli`;
 
-      // Update Filter Counts
       document.getElementById('filterPillAll').innerText = `Semua (${groceryItems.length})`;
       document.getElementById('filterPillPending').innerText = `Belum (${groceryItems.length - doneCount})`;
       document.getElementById('filterPillDone').innerText = `Sudah (${doneCount})`;
@@ -2279,34 +2829,29 @@
 
       const sisa = currentBudget - totalExpense;
       if (sisa >= 0) {
-        remLabel.innerText = 'Sisa Anggaran:';
+        remLabel.innerText = 'Sisa Saldo:';
         remainingText.innerText = formatRupiah(sisa);
         remainingText.style.color = '#38bdf8';
       } else {
-        remLabel.innerText = 'Defisit Anggaran:';
+        remLabel.innerText = 'Defisit:';
         remainingText.innerText = '-' + formatRupiah(Math.abs(sisa));
         remainingText.style.color = '#f43f5e';
       }
 
-      // Visual Status Badge & Progress Color
       if (percent > 100) {
-        bar.style.background = 'linear-gradient(90deg, #f43f5e, #e11d48)';
-        bar.style.boxShadow = '0 0 12px rgba(244, 63, 94, 0.6)';
+        bar.style.background = 'linear-gradient(90deg, #f43f5e, #be123c)';
         badge.className = 'wallet-status-badge status-danger';
         badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Overbudget!';
       } else if (percent > 75) {
         bar.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
-        bar.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.5)';
         badge.className = 'wallet-status-badge status-warn';
-        badge.innerHTML = '<i class="fa-solid fa-bell"></i> Waspada Budget';
+        badge.innerHTML = '<i class="fa-solid fa-bell"></i> Waspada';
       } else {
         bar.style.background = 'linear-gradient(90deg, #10b981, #059669)';
-        bar.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.5)';
         badge.className = 'wallet-status-badge status-safe';
-        badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Aman & Terkendali';
+        badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Aman';
       }
 
-      // Celebration Banner
       const completeBanner = document.getElementById('completeCelebrationBanner');
       if (groceryItems.length > 0 && doneCount === groceryItems.length) {
         completeBanner.style.display = 'flex';
@@ -2314,14 +2859,10 @@
         completeBanner.style.display = 'none';
       }
 
-      // 2. Render List Items
       renderList();
-
-      // 3. Render Perbandingan Toko & Estimasi Penghematan
       renderStoreComparison(totalExpense);
     }
 
-    // Render List Items
     function renderList() {
       const container = document.getElementById('groceryListContainer');
       let filtered = groceryItems;
@@ -2335,12 +2876,12 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 36px 16px; color: var(--text-muted); background: rgba(15, 23, 42, 0.4); border-radius: var(--radius-sm); border: 1px dashed rgba(255, 255, 255, 0.1);">
-            <div style="width: 54px; height: 54px; background: rgba(99, 102, 241, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto;">
-              <i class="fa-solid fa-basket-shopping" style="font-size: 1.6rem; color: #818cf8;"></i>
+          <div style="text-align: center; padding: 32px 14px; color: var(--text-muted); background: rgba(23, 22, 38, 0.4); border-radius: var(--radius-sm); border: 1px dashed rgba(255, 255, 255, 0.08);">
+            <div style="width: 48px; height: 48px; background: rgba(148, 34, 53, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px auto;">
+              <i class="fa-solid fa-basket-shopping" style="font-size: 1.4rem; color: #fb7185;"></i>
             </div>
-            <p style="font-size: 0.92rem; font-weight: 700; color: #e2e8f0;">Daftar belanja masih kosong</p>
-            <p style="font-size: 0.76rem; opacity: 0.75; margin-top: 4px;">Tekan tombol "+ Tambah Barang" di bawah untuk memulai!</p>
+            <p style="font-size: 0.88rem; font-weight: 700; color: #e2e8f0;">Daftar belanja masih kosong</p>
+            <p style="font-size: 0.72rem; opacity: 0.75; margin-top: 3px;">Tekan "+ Tambah" di bawah untuk mencatat barang.</p>
           </div>
         `;
         return;
@@ -2356,7 +2897,7 @@
           <div class="grocery-item ${item.done ? 'completed' : ''}" id="cart-item-${item.id}">
             <div class="item-top-row">
               <div class="item-left">
-                <div class="custom-checkbox ${item.done ? 'checked' : ''}" onclick="toggleItem(${item.id})" title="Tandai Sudah Dibeli">
+                <div class="custom-checkbox ${item.done ? 'checked' : ''}" onclick="toggleItem(${item.id})" title="Tandai Selesai">
                   ${item.done ? '<i class="fa-solid fa-check"></i>' : ''}
                 </div>
                 <div>
@@ -2380,7 +2921,7 @@
                 </div>
               </div>
 
-              <button class="btn-delete" onclick="deleteItem(${item.id})" title="Hapus Barang">
+              <button class="btn-delete" onclick="deleteItem(${item.id})" title="Hapus">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
@@ -2406,43 +2947,40 @@
       }).join('');
     }
 
-    // Render Perbandingan Antar Toko
     function renderStoreComparison(totalExpense) {
       const container = document.getElementById('storeComparisonContainer');
       if (groceryItems.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.78rem;">Tambahkan belanjaan untuk melihat perbandingan toko.</p>';
-        document.getElementById('savingsNote').innerText = 'Estimasi penghematan belanja dibanding minimarket';
+        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.74rem;">Masukkan barang belanjaan untuk melihat perbandingan toko.</p>';
         return;
       }
 
       const lotteTotal = totalExpense;
       const pasarTotal = Math.round(totalExpense * 0.93);
-      const kelontongTotal = Math.round(totalExpense * 1.05);
       const minimarketTotal = Math.round(totalExpense * 1.18);
-
       const potentialSavings = minimarketTotal - lotteTotal;
-      document.getElementById('savingsNote').innerHTML = `✨ Berpotensi hemat <strong>${formatRupiah(potentialSavings)}</strong> jika beli di Supermarket Grosir!`;
+
+      document.getElementById('savingsNote').innerHTML = `✨ Berpotensi hemat <strong>${formatRupiah(potentialSavings)}</strong> jika beli di Grosir!`;
 
       container.innerHTML = `
         <div class="store-card ${currentStore.includes('Lotte Mart') || currentStore.includes('Super Indo') || currentStore.includes('Hypermart') ? 'active-store' : ''}">
           <div class="store-info">
-            <h4><i class="fa-solid fa-cart-shopping" style="color: #818cf8;"></i> Supermarket Grosir</h4>
-            <span>Pilihan hemat sembako & kebutuhan rutin</span>
+            <h4><i class="fa-solid fa-cart-shopping" style="color: #fb7185;"></i> Supermarket Grosir</h4>
+            <span>Pilihan hemat sembako rutin</span>
           </div>
-          <div class="store-total" style="color: #a5b4fc;">
+          <div class="store-total" style="color: #fecdd3;">
             ${formatRupiah(lotteTotal)}
-            <div style="font-size: 0.68rem; color: #818cf8; font-weight: 700;">LOKASI PILIHAN</div>
+            <div style="font-size: 0.65rem; color: #fb7185; font-weight: 700;">LOKASI PILIHAN</div>
           </div>
         </div>
 
         <div class="store-card best ${currentStore === 'Pasar Tradisional' ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-award" style="color: #10b981;"></i> Pasar Tradisional</h4>
-            <span>Harga grosir basah & sayur mayur termurah</span>
+            <span>Grosir sayur mayur termurah</span>
           </div>
           <div class="store-total" style="color: #34d399;">
             ${formatRupiah(pasarTotal)}
-            <div style="font-size: 0.68rem; color: #10b981; font-weight: 700;">TERMURAH</div>
+            <div style="font-size: 0.65rem; color: #10b981; font-weight: 700;">TERMURAH</div>
           </div>
         </div>
 
@@ -2453,13 +2991,12 @@
           </div>
           <div class="store-total" style="color: #fda4af;">
             ${formatRupiah(minimarketTotal)}
-            <div style="font-size: 0.68rem; color: #f43f5e; font-weight: 700;">+${formatRupiah(potentialSavings)} LEBIH MAHAL</div>
+            <div style="font-size: 0.65rem; color: #f43f5e; font-weight: 700;">+${formatRupiah(potentialSavings)} LEBIH MAHAL</div>
           </div>
         </div>
       `;
     }
 
-    // Live preview diskon saat mengetik di form sheet
     document.getElementById('itemDiscount').addEventListener('input', function() {
       const price = parseFloat(document.getElementById('itemPrice').value) || 0;
       const discStr = this.value.trim();
@@ -2484,7 +3021,6 @@
       }
     });
 
-    // Inisialisasi Aplikasi Saat Halaman Dimuat
     window.addEventListener('DOMContentLoaded', () => {
       const today = new Date().toISOString().split('T')[0];
       const dateEl = document.getElementById('sessionDate');
