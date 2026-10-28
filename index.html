@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Smart Grocery & Budget Safety Tracker - DT2 Pertemuan 15</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Smart Grocery & Price Tracker - Asisten Belanja Pintar</title>
   
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,54 +13,66 @@
 
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-glow: rgba(79, 70, 229, 0.4);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: rgba(99, 102, 241, 0.15);
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --accent: #8b5cf6;
       --success: #10b981;
+      --success-hover: #059669;
+      --success-light: rgba(16, 185, 129, 0.15);
       --success-glow: rgba(16, 185, 129, 0.35);
       --warning: #f59e0b;
+      --warning-light: rgba(245, 158, 11, 0.15);
       --warning-glow: rgba(245, 158, 11, 0.3);
-      --danger: #ef4444;
-      --danger-glow: rgba(239, 68, 68, 0.4);
+      --danger: #f43f5e;
+      --danger-light: rgba(244, 63, 94, 0.15);
+      --danger-glow: rgba(244, 63, 94, 0.35);
       --bg: #090d16;
-      --bg-card: rgba(19, 27, 46, 0.78);
-      --border-card: rgba(255, 255, 255, 0.1);
+      --bg-card: rgba(19, 27, 46, 0.85);
+      --bg-card-hover: rgba(26, 37, 62, 0.9);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --border-card-hover: rgba(99, 102, 241, 0.3);
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --radius: 16px;
-      --radius-sm: 10px;
-      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+      --text-dim: #64748b;
+      --radius: 18px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.55);
+      --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: radial-gradient(circle at 10% 10%, #1e1b4b 0%, #090d16 60%, #030712 100%);
+      background: radial-gradient(circle at 15% 10%, #1e1b4b 0%, #090d16 55%, #030712 100%);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 90px;
+      padding-bottom: 110px; /* Space for mobile floating bottom bar */
+      overflow-x: hidden;
     }
 
-    h1, h2, h3, h4, .font-heading {
+    h1, h2, h3, h4, h5, .font-heading {
       font-family: 'Outfit', sans-serif;
     }
 
-    /* Top Sticky App Navigation */
+    /* Top Sticky Navigation Bar */
     .navbar {
-      background: rgba(9, 13, 22, 0.9);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(9, 13, 22, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-card);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 12px 18px;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -70,33 +82,40 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
     }
 
     .brand-icon {
       background: linear-gradient(135deg, #6366f1, #a855f7);
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
       color: white;
-      box-shadow: 0 4px 14px var(--primary-glow);
+      box-shadow: 0 4px 16px var(--primary-glow);
       flex-shrink: 0;
     }
 
     .brand-title {
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1.2;
+      background: linear-gradient(90deg, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand-subtitle {
-      font-size: 0.72rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
+      font-weight: 500;
     }
 
     .nav-actions {
@@ -106,12 +125,12 @@
     }
 
     .badge-cloud {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
       color: #34d399;
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 7px 12px;
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -119,62 +138,66 @@
       white-space: nowrap;
     }
 
-    .badge-dt2 {
-      background: linear-gradient(135deg, #ec4899, #8b5cf6);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 12px;
+    .btn-nav-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-card);
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 7px 14px;
       border-radius: 20px;
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
       cursor: pointer;
-      border: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .badge-dt2:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.6);
+    .btn-nav-action:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
     }
 
-    /* Main Container (Responsive for 375px & Desktop) */
+    /* Main Container */
     .container {
-      max-width: 1180px;
-      margin: 16px auto;
+      max-width: 1200px;
+      margin: 18px auto;
       padding: 0 16px;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
 
-    /* Session Config Bar: Store & Date Picker */
+    /* Session Settings Bar: Store & Date */
     .session-bar {
       background: var(--bg-card);
       border: 1px solid var(--border-card);
       border-radius: var(--radius);
       padding: 14px 18px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.4fr 1fr;
       gap: 14px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(14px);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 680px) {
       .session-bar {
         grid-template-columns: 1fr;
+        padding: 14px;
+        gap: 12px;
       }
     }
 
     .session-item label {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       color: #cbd5e1;
       margin-bottom: 6px;
     }
@@ -182,24 +205,25 @@
     .session-input, .session-select {
       width: 100%;
       background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
       color: white;
       font-size: 0.92rem;
       outline: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .session-input:focus, .session-select:focus {
       border-color: #818cf8;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
     }
 
-    /* Banner Studi Kasus Rian */
-    .case-banner {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.22) 0%, rgba(168, 85, 247, 0.18) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
+    /* Welcome / Insight Banner for Consumers */
+    .consumer-banner {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.22) 0%, rgba(168, 85, 247, 0.16) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.3);
       border-radius: var(--radius);
       padding: 16px 20px;
       display: flex;
@@ -209,10 +233,11 @@
       gap: 12px;
     }
 
-    .case-text h2 {
-      font-size: 1.2rem;
+    .banner-text h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
       margin-bottom: 4px;
-      background: linear-gradient(90deg, #fff, #c084fc);
+      background: linear-gradient(90deg, #ffffff, #c084fc);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -221,36 +246,47 @@
       gap: 8px;
     }
 
-    .case-text p {
+    .banner-text p {
       font-size: 0.84rem;
       color: #cbd5e1;
       line-height: 1.45;
     }
 
-    /* Stats Grid */
+    .banner-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Quick Stats Cards Grid */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 16px;
     }
 
     .glass-card {
       background: var(--bg-card);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border-card);
       border-radius: var(--radius);
       padding: 18px 20px;
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-card-hover);
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .card-title {
@@ -259,25 +295,28 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      color: #f1f5f9;
     }
 
     .stat-value {
-      font-size: 1.75rem;
+      font-size: 1.85rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       margin-bottom: 4px;
+      font-family: 'Outfit', sans-serif;
     }
 
     .stat-sub {
       font-size: 0.8rem;
       color: var(--text-muted);
+      line-height: 1.35;
     }
 
     /* Budget Progress Bar */
     .progress-bar-bg {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 12px;
-      height: 12px;
+      height: 10px;
       overflow: hidden;
       margin: 12px 0 8px 0;
       position: relative;
@@ -286,51 +325,114 @@
     .progress-bar-fill {
       height: 100%;
       border-radius: 12px;
-      transition: width 0.35s ease, background-color 0.35s ease;
+      transition: width 0.4s ease, background-color 0.4s ease;
       background: linear-gradient(90deg, #10b981, #059669);
     }
 
     /* Overbudget Warning Alert Box */
     .alert-box {
-      background: rgba(239, 68, 68, 0.18);
-      border: 1px solid rgba(239, 68, 68, 0.5);
-      color: #fca5a5;
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid rgba(244, 63, 94, 0.45);
+      color: #fda4af;
       padding: 10px 14px;
-      border-radius: 10px;
+      border-radius: var(--radius-xs);
       font-size: 0.82rem;
       display: none;
       align-items: center;
       gap: 8px;
       margin-top: 10px;
-      animation: pulseGlow 1.8s infinite;
+      animation: pulseGlow 2s infinite;
     }
 
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
-      50% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.4); }
+      0%, 100% { box-shadow: 0 0 0 rgba(244, 63, 94, 0); }
+      50% { box-shadow: 0 0 16px rgba(244, 63, 94, 0.35); }
     }
 
-    /* Main Grid: Form + List + Comparison */
+    /* Main Grid Layout */
     .main-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
+      grid-template-columns: 1.3fr 0.7fr;
       gap: 18px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .main-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    /* Form Card Styles */
+    /* Form Container */
+    .form-container-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    /* Popular Items Quick-Add Chips */
+    .quick-chips-wrapper {
+      margin-bottom: 14px;
+    }
+
+    .quick-chips-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chips-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .chip-item {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      padding: 5px 11px;
+      border-radius: 18px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chip-item:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #818cf8;
+      color: white;
+      transform: translateY(-1px);
+    }
+
     .form-group {
       margin-bottom: 12px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       margin-bottom: 5px;
       color: #cbd5e1;
@@ -338,9 +440,9 @@
 
     .form-input, .form-select {
       width: 100%;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.75);
       border: 1px solid var(--border-card);
-      border-radius: 10px;
+      border-radius: var(--radius-xs);
       padding: 10px 14px;
       color: white;
       font-size: 0.92rem;
@@ -356,7 +458,7 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
     @media (max-width: 480px) {
@@ -369,48 +471,66 @@
       background: linear-gradient(135deg, #4f46e5, #6366f1);
       color: white;
       border: none;
-      padding: 12px 18px;
-      border-radius: 10px;
+      padding: 13px 20px;
+      border-radius: var(--radius-sm);
       font-weight: 700;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       width: 100%;
-      box-shadow: 0 4px 14px var(--primary-glow);
-      transition: all 0.2s;
+      box-shadow: 0 4px 16px var(--primary-glow);
+      transition: all 0.2s ease;
     }
 
     .btn-primary:hover {
       background: linear-gradient(135deg, #4338ca, #4f46e5);
       transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
     .btn-primary:active {
       transform: translateY(1px);
     }
 
-    /* Cart Items & Quantity Controls */
+    /* Filter Pills & Search */
+    .list-controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
     .filter-pills {
       display: flex;
       gap: 6px;
       overflow-x: auto;
-      padding-bottom: 4px;
+      padding-bottom: 2px;
     }
 
     .pill {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.07);
       border: 1px solid var(--border-card);
       color: var(--text-muted);
-      padding: 6px 12px;
+      padding: 6px 13px;
       border-radius: 20px;
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
     }
 
     .pill.active {
@@ -420,25 +540,68 @@
       box-shadow: 0 2px 10px var(--primary-glow);
     }
 
-    .grocery-item {
-      background: rgba(15, 23, 42, 0.55);
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 160px;
+      max-width: 240px;
+    }
+
+    @media (max-width: 600px) {
+      .search-box {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
       border: 1px solid var(--border-card);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 20px;
+      padding: 6px 12px 6px 30px;
+      color: white;
+      font-size: 0.82rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Cart Item Card */
+    .grocery-item {
+      background: rgba(15, 23, 42, 0.58);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 13px 15px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 10px;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .grocery-item:hover {
-      border-color: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(19, 28, 50, 0.7);
     }
 
     .grocery-item.completed {
       opacity: 0.65;
-      background: rgba(15, 23, 42, 0.3);
+      background: rgba(15, 23, 42, 0.32);
+      border-color: rgba(16, 185, 129, 0.2);
     }
 
     .grocery-item.completed .item-name {
@@ -456,14 +619,14 @@
     .item-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex: 1;
       min-width: 0;
     }
 
     .custom-checkbox {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border-radius: 8px;
       border: 2px solid #818cf8;
       cursor: pointer;
@@ -472,8 +635,13 @@
       justify-content: center;
       background: transparent;
       color: transparent;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
       flex-shrink: 0;
+    }
+
+    .custom-checkbox:hover {
+      border-color: #a5b4fc;
+      transform: scale(1.05);
     }
 
     .custom-checkbox.checked {
@@ -484,8 +652,9 @@
 
     .item-name {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       word-break: break-word;
+      color: #f8fafc;
     }
 
     .item-meta {
@@ -495,11 +664,11 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 6px;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .badge-tag {
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 6px;
       font-size: 0.72rem;
       font-weight: 600;
@@ -518,29 +687,29 @@
       color: #e9d5ff;
     }
 
-    /* Price Fluctuation Badges (SRS F-04) */
+    /* Price Fluctuation Badges */
     .badge-fluct-up {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid rgba(239, 68, 68, 0.45);
-      color: #f87171;
+      background: rgba(244, 63, 94, 0.18);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fb7185;
     }
 
     .badge-fluct-down {
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid rgba(16, 185, 129, 0.45);
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.4);
       color: #34d399;
     }
 
     .badge-fluct-stable {
       background: rgba(148, 163, 184, 0.15);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      border: 1px solid rgba(148, 163, 184, 0.3);
       color: #cbd5e1;
     }
 
-    /* Compound Discount Badges (SRS F-03) */
+    /* Compound Discount Badges */
     .badge-discount {
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.4);
       color: #fbbf24;
     }
 
@@ -549,30 +718,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 6px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Automatic Quantity Stepper (SRS F-02) */
+    /* Touch-Friendly Quantity Stepper */
     .qty-stepper {
       display: flex;
       align-items: center;
-      gap: 4px;
-      background: rgba(15, 23, 42, 0.7);
+      gap: 3px;
+      background: rgba(15, 23, 42, 0.8);
       border: 1px solid var(--border-card);
-      border-radius: 8px;
+      border-radius: var(--radius-xs);
       padding: 2px 4px;
     }
 
     .btn-step {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 6px;
       border: none;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.09);
       color: white;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -589,13 +758,13 @@
     }
 
     .qty-input {
-      width: 36px;
+      width: 40px;
       text-align: center;
       background: transparent;
       border: none;
       color: white;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       outline: none;
     }
 
@@ -605,9 +774,10 @@
 
     .item-subtotal {
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       color: #ffffff;
       letter-spacing: -0.01em;
+      font-family: 'Outfit', sans-serif;
     }
 
     .item-unit-note {
@@ -618,20 +788,22 @@
     .btn-delete {
       background: transparent;
       border: none;
-      color: #ef4444;
-      padding: 6px;
+      color: #f43f5e;
+      padding: 7px;
       border-radius: 8px;
       cursor: pointer;
-      opacity: 0.7;
+      opacity: 0.75;
       transition: all 0.2s;
+      font-size: 0.9rem;
     }
 
     .btn-delete:hover {
       opacity: 1;
-      background: rgba(239, 68, 68, 0.15);
+      background: rgba(244, 63, 94, 0.15);
+      transform: scale(1.08);
     }
 
-    /* Comparison & Insights */
+    /* Store Comparison Cards */
     .store-comparison {
       display: grid;
       gap: 10px;
@@ -640,26 +812,28 @@
     .store-card {
       background: rgba(15, 23, 42, 0.5);
       border: 1px solid var(--border-card);
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       padding: 12px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.2s ease;
     }
 
     .store-card.active-store {
       border-color: rgba(99, 102, 241, 0.6);
-      background: rgba(79, 70, 229, 0.1);
+      background: rgba(79, 70, 229, 0.12);
     }
 
     .store-card.best {
       border-color: rgba(16, 185, 129, 0.5);
-      background: rgba(16, 185, 129, 0.08);
+      background: rgba(16, 185, 129, 0.1);
     }
 
     .store-info h4 {
       font-size: 0.88rem;
       margin-bottom: 2px;
+      color: #f8fafc;
     }
 
     .store-info span {
@@ -671,16 +845,38 @@
       text-align: right;
       font-size: 1.02rem;
       font-weight: 800;
+      font-family: 'Outfit', sans-serif;
     }
 
-    /* Test Runner Modal / Dashboard */
+    /* History Trend Table */
+    .trend-table-box {
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 0.82rem;
+    }
+
+    .trend-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .trend-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Modal Dialogs */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(3, 7, 18, 0.85);
+      background: rgba(3, 7, 18, 0.82);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
@@ -696,14 +892,14 @@
 
     .modal-content {
       background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
       width: 100%;
-      max-width: 650px;
+      max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 24px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      padding: 22px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.7);
       position: relative;
     }
 
@@ -722,86 +918,87 @@
       align-items: center;
       justify-content: center;
       font-size: 1rem;
+      transition: background 0.2s;
     }
 
-    .test-scenario-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
+    .modal-close:hover {
+      background: rgba(255,255,255,0.2);
     }
 
-    .test-scenario-card.pass {
-      border-color: rgba(16, 185, 129, 0.6);
-      background: rgba(16, 185, 129, 0.08);
-    }
-
-    .test-scenario-card.fail {
-      border-color: rgba(239, 68, 68, 0.6);
-      background: rgba(239, 68, 68, 0.08);
-    }
-
-    .scenario-header {
-      display: flex;
+    /* Mobile Floating Bottom Action Bar */
+    .mobile-bottom-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(13, 19, 33, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-card);
+      padding: 10px 16px;
+      z-index: 99;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.45);
     }
 
-    .scenario-title {
-      font-size: 0.92rem;
+    @media (max-width: 768px) {
+      .mobile-bottom-bar {
+        display: flex;
+      }
+      .hide-mobile {
+        display: none !important;
+      }
+    }
+
+    .mobile-total-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-total-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .mobile-total-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #34d399;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .mobile-btn-add {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 24px;
       font-weight: 700;
-    }
-
-    .scenario-status {
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 14px;
-    }
-
-    .status-pass {
-      background: #10b981;
-      color: #022c22;
-    }
-
-    .status-pending {
-      background: rgba(255, 255, 255, 0.12);
-      color: #94a3b8;
-    }
-
-    .scenario-desc {
-      font-size: 0.78rem;
-      color: #cbd5e1;
-      line-height: 1.4;
-    }
-
-    .scenario-log {
-      margin-top: 8px;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.75rem;
-      color: #38bdf8;
-      white-space: pre-wrap;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px var(--primary-glow);
     }
 
     /* Toast Notification */
     #toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 80px;
+      right: 20px;
       background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: white;
       padding: 12px 18px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       font-size: 0.88rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transform: translateY(100px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+      transform: translateY(120px);
       opacity: 0;
       transition: all 0.3s ease;
       z-index: 2000;
@@ -816,20 +1013,20 @@
       opacity: 1;
     }
 
-    /* Modal Alert untuk Validasi Form Gagal (SRS F-01) */
+    /* Validation Alert Box */
     .validation-alert-box {
       position: fixed;
-      top: 24px;
+      top: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: rgba(239, 68, 68, 0.95);
+      transform: translateX(-50%) translateY(-120px);
+      background: rgba(244, 63, 94, 0.96);
       backdrop-filter: blur(16px);
       color: white;
-      padding: 14px 20px;
-      border-radius: 12px;
+      padding: 13px 20px;
+      border-radius: var(--radius-sm);
       font-size: 0.9rem;
       font-weight: 600;
-      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.4);
       z-index: 3000;
       display: flex;
       align-items: center;
@@ -882,9 +1079,12 @@
         }
       };
 
-      // Realtime listener onSnapshot (SRS F-05 / DT2 Sync)
+      // Realtime listener onSnapshot
       signInAnonymously(auth).then(() => {
-        document.getElementById('cloudBadge').innerHTML = '<i class="fa-solid fa-cloud"></i> Firebase Live Sync';
+        const cloudBadge = document.getElementById('cloudBadge');
+        if (cloudBadge) {
+          cloudBadge.innerHTML = '<i class="fa-solid fa-cloud"></i> Firebase Live Sync';
+        }
         
         onSnapshot(doc(db, "grocery_tracker", "rian_dt2_p15"), (docSnap) => {
           if (docSnap.exists() && !window.isLocalUpdating) {
@@ -898,20 +1098,26 @@
         });
       }).catch(err => {
         console.warn("Firebase anonymous auth fallback:", err);
-        document.getElementById('cloudBadge').innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+        const cloudBadge = document.getElementById('cloudBadge');
+        if (cloudBadge) {
+          cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+        }
       });
     } catch(e) {
       console.warn("Firebase init local fallback:", e);
-      document.getElementById('cloudBadge').innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+      const cloudBadge = document.getElementById('cloudBadge');
+      if (cloudBadge) {
+        cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+      }
     }
   </script>
 </head>
 
 <body>
-  <!-- Validation Alert Box for strict rejection (SRS F-01) -->
+  <!-- Validation Alert Box -->
   <div id="validationAlert" class="validation-alert-box">
     <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.3rem;"></i>
-    <span id="validationAlertMsg">Input ditolak! Data rusak tidak diperbolehkan.</span>
+    <span id="validationAlertMsg">Input ditolak! Data tidak valid.</span>
   </div>
 
   <!-- Header Sticky Navbar -->
@@ -922,7 +1128,7 @@
       </div>
       <div>
         <div class="brand-title">Smart Grocery & Price Tracker</div>
-        <div class="brand-subtitle">DT2 Pertemuan 15 &bull; Studi Kasus Rian (Mutiara Bangsa 2)</div>
+        <div class="brand-subtitle">Asisten Belanja Pintar & Pengatur Budget</div>
       </div>
     </div>
 
@@ -930,55 +1136,60 @@
       <div class="badge-cloud" id="cloudBadge">
         <i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan Cloud...
       </div>
-      <button class="badge-dt2" onclick="openTestModal()" id="btnOpenTestModal">
-        <i class="fa-solid fa-flask"></i> Uji Mandiri DT2 (5 Skenario)
+      <button class="btn-nav-action" onclick="openShareModal()" title="Salin & Bagikan Daftar Belanja">
+        <i class="fa-solid fa-share-nodes"></i> <span class="hide-mobile">Bagikan</span>
       </button>
     </div>
   </nav>
 
   <!-- Container -->
   <div class="container">
-    <!-- Session Bar: Toko Uji & Selector Tanggal (SRS F-01) -->
+    <!-- Session Bar: Toko Belanja & Tanggal -->
     <div class="session-bar">
       <div class="session-item">
-        <label><i class="fa-solid fa-store" style="color: #818cf8;"></i> 1. Lokasi Belanja Uji (SRS F-01 & F-04)</label>
+        <label><i class="fa-solid fa-store" style="color: #818cf8;"></i> Pilih Supermarket / Lokasi Belanja</label>
         <select id="sessionStore" class="session-select" onchange="onSessionConfigChanged()">
           <option value="Lotte Mart Grocery - Puri Indah" selected>Lotte Mart Grocery - Puri Indah (Supermarket Grosir)</option>
-          <option value="Pasar Tradisional">Pasar Tradisional (Grosir Basah)</option>
-          <option value="Toko Berkah Kelontong">Toko Berkah (Kelontong Kos Rian)</option>
-          <option value="Minimarket Modern">Minimarket (Indomaret/Alfamart)</option>
+          <option value="Super Indo Supermarket">Super Indo Supermarket</option>
+          <option value="Hypermart / Transmart">Hypermart / Transmart Mall</option>
+          <option value="Pasar Tradisional">Pasar Tradisional (Grosir Basah & Segar)</option>
+          <option value="Minimarket Modern">Minimarket (Indomaret / Alfamart)</option>
+          <option value="Toko Berkah Kelontong">Toko Berkah Kelontong</option>
         </select>
       </div>
 
       <div class="session-item">
-        <label><i class="fa-solid fa-calendar-days" style="color: #34d399;"></i> 2. Tanggal Belanja Aktif (Date Picker - SRS F-01)</label>
-        <input type="date" id="sessionDate" class="session-input" value="2026-10-26" onchange="onSessionConfigChanged()">
+        <label><i class="fa-solid fa-calendar-days" style="color: #34d399;"></i> Tanggal Rencana Belanja</label>
+        <input type="date" id="sessionDate" class="session-input" onchange="onSessionConfigChanged()">
       </div>
     </div>
 
-    <!-- Banner Studi Kasus Rian -->
-    <div class="case-banner">
-      <div class="case-text">
-        <h2><i class="fa-solid fa-user-graduate"></i> Evaluasi Sumatif Daily Test 2 (Bobot 40% Rapor)</h2>
-        <p>Kasus Rian: Mahasiswa rantau dengan batas dompet <strong>Rp 350.000</strong>. Sistem menguji perhitungan logika akurat (diskon kompound, fluktuasi harga bulan lalu Lotte Mart Puri Indah, kuantitas real-time, dan proteksi batas dompet).</p>
+    <!-- Consumer Welcome & Insight Banner -->
+    <div class="consumer-banner">
+      <div class="banner-text">
+        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color: #c084fc;"></i> Belanja Hemat & Terencana</h2>
+        <p>Kelola kebutuhan belanja Anda dengan proteksi batas anggaran realtime, kalkulator diskon promo otomatis, dan komparasi harga terbaik.</p>
       </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button class="pill active" onclick="loadSampleDT2Data()">
-          <i class="fa-solid fa-rotate-left"></i> Reset Data Standar DT2
+      <div class="banner-actions">
+        <button class="pill" onclick="scrollToForm()">
+          <i class="fa-solid fa-plus-circle"></i> Tambah Barang
+        </button>
+        <button class="pill" onclick="openBudgetModal()">
+          <i class="fa-solid fa-wallet"></i> Atur Budget
         </button>
       </div>
     </div>
 
-    <!-- Stats & Budget Cards -->
+    <!-- Stats & Budget Cards Grid -->
     <div class="stats-grid">
-      <!-- Budget Safety Card (SRS F-05: Batas Dompet Rp 350.000) -->
+      <!-- Budget Safety Card -->
       <div class="glass-card">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-wallet" style="color: #818cf8;"></i> Batas Dompet Rian (F-05)</span>
-          <button class="pill" onclick="editBudget()"><i class="fa-solid fa-pen"></i> Ubah</button>
+          <span class="card-title"><i class="fa-solid fa-wallet" style="color: #818cf8;"></i> Batas Anggaran</span>
+          <button class="pill" onclick="openBudgetModal()"><i class="fa-solid fa-pen"></i> Ubah</button>
         </div>
         <div class="stat-value" id="budgetDisplay">Rp 350.000</div>
-        <div class="stat-sub">Batas pengeluaran bulanan Rian</div>
+        <div class="stat-sub">Alokasi maksimal pengeluaran belanja</div>
         
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="budgetProgressBar" style="width: 0%;"></div>
@@ -990,56 +1201,72 @@
 
         <div class="alert-box" id="overbudgetAlert">
           <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.1rem;"></i>
-          <div><strong>PERINGATAN OVERBUDGET:</strong> Belanjaan melebihi batas dompet Rian!</div>
+          <div><strong>PERINGATAN OVERBUDGET:</strong> Belanjaan telah melebihi batas anggaran yang ditentukan!</div>
         </div>
       </div>
 
-      <!-- Total Belanja Saat Ini (SRS F-02 Realtime) -->
+      <!-- Total Belanja Realtime -->
       <div class="glass-card">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-receipt" style="color: #34d399;"></i> Total Belanja Realtime</span>
+          <span class="card-title"><i class="fa-solid fa-receipt" style="color: #34d399;"></i> Total Belanja</span>
           <span class="pill" id="itemCountBadge">0 Barang</span>
         </div>
         <div class="stat-value" id="totalExpenseDisplay" style="color: #6ee7b7;">Rp 0</div>
-        <div class="stat-sub" id="purchasedSummary">0 dari 0 barang sudah dimasukkan keranjang</div>
+        <div class="stat-sub" id="purchasedSummary">0 dari 0 barang sudah dibeli</div>
         <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="pill" onclick="syncToCloud()"><i class="fa-solid fa-cloud-arrow-up"></i> Sync Cloud</button>
-          <button class="pill" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> Kosongkan Keranjang</button>
+          <button class="pill" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> Kosongkan</button>
         </div>
       </div>
 
-      <!-- Fluktuasi & Estimasi Hemat (SRS F-04) -->
+      <!-- Fluktuasi & Estimasi Hemat -->
       <div class="glass-card">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-chart-line" style="color: #fbbf24;"></i> Komparasi Harga Toko</span>
+          <span class="card-title"><i class="fa-solid fa-chart-line" style="color: #fbbf24;"></i> Komparasi Harga</span>
           <span class="badge-tag badge-fluct-down" id="savingsBadge"><i class="fa-solid fa-tag"></i> Best Price</span>
         </div>
         <div class="stat-value" id="savingsDisplay" style="color: #38bdf8;">Rp 0</div>
-        <div class="stat-sub" id="savingsNote">Estimasi selisih belanja grosir vs minimarket</div>
+        <div class="stat-sub" id="savingsNote">Estimasi penghematan dibanding eceran minimarket</div>
         <div style="margin-top: 12px; font-size: 0.8rem; color: #cbd5e1; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px;">
           <i class="fa-solid fa-circle-info" style="color: #818cf8;"></i>
-          <span id="fluctuationSummaryText">Komparasi aktif: Lotte Mart Puri Indah vs catatan Sept 2026</span>
+          <span id="fluctuationSummaryText">Komparasi aktif: Supermarket Grosir vs Eceran Minimarket</span>
         </div>
       </div>
     </div>
 
-    <!-- Main Content: Form Input (F-01) & Cart List (F-02, F-03, F-04) -->
+    <!-- Main Content Grid -->
     <div class="main-grid">
       <!-- Kolom Kiri: Form Input & Daftar Belanja -->
-      <div class="glass-card">
-        <!-- Form Input Item (SRS F-01 & SRS F-03) -->
-        <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-card); border-radius: 14px; padding: 16px; margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="font-size: 0.95rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-cart-plus" style="color: #818cf8;"></i> Form Input Item Belanja (SRS F-01)
+      <div class="glass-card" id="cartSection">
+        <!-- Form Input Item Belanja -->
+        <div class="form-container-card" id="formCard">
+          <div class="form-header">
+            <h4 style="font-size: 0.98rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-cart-plus" style="color: #818cf8;"></i> Tambah Barang Belanjaan
             </h4>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Toko: <strong id="lblActiveStore">Lotte Mart Puri Indah</strong></span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Lokasi: <strong id="lblActiveStore" style="color: #cbd5e1;">Lotte Mart Grocery</strong></span>
+          </div>
+
+          <!-- Quick Add Popular Items Chips -->
+          <div class="quick-chips-wrapper">
+            <div class="quick-chips-label">
+              <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Klik Cepat Barang Populer:
+            </div>
+            <div class="chips-scroll">
+              <button class="chip-item" type="button" onclick="quickFillItem('Beras Rojolele', 'Bahan Pokok', 'karung/5kg', 74000)">🌾 Beras 5kg</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Minyak Goreng 2L', 'Bahan Pokok', 'pouch', 43000)">🍳 Minyak 2L</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Telur Ayam 1kg', 'Lauk Pauk', 'kg', 28000)">🥚 Telur 1kg</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Gula Pasir 1kg', 'Bahan Pokok', 'kg', 17500)">🍬 Gula 1kg</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Sabun Cuci Piring', 'Kebutuhan Rumah', 'pouch', 15000)">🧼 Sabun Cuci</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Susu UHT 1L', 'Minuman & Snack', 'kotak', 19000)">🥛 Susu UHT</button>
+              <button class="chip-item" type="button" onclick="quickFillItem('Daging Ayam 1kg', 'Lauk Pauk', 'kg', 36000)">🍗 Ayam 1kg</button>
+            </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Nama Barang *</label>
-              <input type="text" id="itemName" class="form-input" placeholder="Misal: Beras Rojolele" autocomplete="off">
+              <input type="text" id="itemName" class="form-input" placeholder="Misal: Beras Rojolele 5kg" autocomplete="off">
             </div>
             <div class="form-group">
               <label class="form-label">Kategori</label>
@@ -1061,7 +1288,7 @@
               <input type="text" id="itemUnit" class="form-input" placeholder="karung/5kg, liter, pcs, kg" value="karung/5kg">
             </div>
             <div class="form-group">
-              <label class="form-label">Kuantitas Awal</label>
+              <label class="form-label">Jumlah (Qty)</label>
               <input type="number" id="itemQty" class="form-input" value="1" min="1" step="1">
             </div>
           </div>
@@ -1072,7 +1299,7 @@
               <input type="number" id="itemPrice" class="form-input" placeholder="Misal: 74000">
             </div>
             <div class="form-group">
-              <label class="form-label">Diskon Bertingkat Kompound (Opsional - SRS F-03)</label>
+              <label class="form-label">Diskon / Promo (Opsional)</label>
               <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50% + 20%">
             </div>
           </div>
@@ -1086,13 +1313,23 @@
           </button>
         </div>
 
-        <!-- Daftar Keranjang Belanja -->
-        <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-basket-shopping" style="color: #34d399;"></i> Keranjang Belanja Rian</span>
-          <div class="filter-pills">
-            <button class="pill active" onclick="setFilter('all', this)">Semua</button>
-            <button class="pill" onclick="setFilter('pending', this)">Belum</button>
-            <button class="pill" onclick="setFilter('done', this)">Sudah</button>
+        <!-- Header Daftar Keranjang Belanja & Controls -->
+        <div class="list-controls-bar">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="card-title"><i class="fa-solid fa-basket-shopping" style="color: #34d399;"></i> Daftar Belanjaan</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <div class="filter-pills">
+              <button class="pill active" onclick="setFilter('all', this)" id="filterPillAll">Semua</button>
+              <button class="pill" onclick="setFilter('pending', this)" id="filterPillPending">Belum Dibeli</button>
+              <button class="pill" onclick="setFilter('done', this)" id="filterPillDone">Sudah Dibeli</button>
+            </div>
+
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchItemInput" class="search-input" placeholder="Cari barang..." oninput="onSearchChanged()">
+            </div>
           </div>
         </div>
 
@@ -1102,159 +1339,143 @@
         </div>
       </div>
 
-      <!-- Kolom Kanan: Fluktuasi Histori Toko & Benchmark -->
+      <!-- Kolom Kanan: Perbandingan Antar Toko & Histori Tren Harga -->
       <div class="glass-card">
         <div class="card-header">
           <span class="card-title"><i class="fa-solid fa-scale-balanced" style="color: #38bdf8;"></i> Perbandingan Antar Toko</span>
         </div>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-          Simulasi total belanja jika seluruh barang dibeli di tiap toko grosir/eceran:
+          Simulasi total belanja jika seluruh barang dibeli di tipe toko berbeda:
         </p>
 
         <div class="store-comparison" id="storeComparisonContainer">
           <!-- Rendered dynamically -->
         </div>
 
-        <div class="card-header" style="margin-top: 22px;">
-          <span class="card-title"><i class="fa-solid fa-history" style="color: #fbbf24;"></i> Histori Bulan Lalu (Sept 2026)</span>
+        <div class="card-header" style="margin-top: 24px;">
+          <span class="card-title"><i class="fa-solid fa-clock-rotate-left" style="color: #fbbf24;"></i> Histori Tren Harga Pasar</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
-          Data patokan Lotte Mart Puri Indah untuk pengujian SRS F-04:
+          Pergerakan harga pasar sembako bulan lalu vs terkini:
         </div>
 
-        <div style="background: rgba(15, 23, 42, 0.45); border: 1px solid var(--border-card); border-radius: 12px; padding: 12px; font-size: 0.82rem;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <div class="trend-table-box">
+          <div class="trend-row">
             <div>
               <strong>Beras 5kg / Rojolele</strong>
               <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 68.000</div>
             </div>
-            <span class="badge-tag badge-fluct-up"><i class="fa-solid fa-arrow-up"></i> Uji Naik (+Rp 6.000)</span>
+            <span class="badge-tag badge-fluct-up"><i class="fa-solid fa-arrow-up"></i> Naik (+Rp 6.000)</span>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <div class="trend-row">
             <div>
               <strong>Telur Ayam 1kg</strong>
               <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 32.000</div>
             </div>
-            <span class="badge-tag badge-fluct-down"><i class="fa-solid fa-arrow-down"></i> Uji Turun (-Rp 4.000)</span>
+            <span class="badge-tag badge-fluct-down"><i class="fa-solid fa-arrow-down"></i> Hemat (-Rp 4.000)</span>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; padding: 6px 0;">
+          <div class="trend-row">
             <div>
               <strong>Garam 500g</strong>
               <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 5.000</div>
             </div>
-            <span class="badge-tag badge-fluct-stable"><i class="fa-solid fa-equals"></i> Uji Stabil (=)</span>
+            <span class="badge-tag badge-fluct-stable"><i class="fa-solid fa-equals"></i> Stabil (=)</span>
           </div>
         </div>
 
-        <!-- Quick Launch DT2 Modal Button -->
-        <div style="margin-top: 18px;">
-          <button class="btn-primary" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); border: none;" onclick="openTestModal()">
-            <i class="fa-solid fa-play"></i> Buka Runner 5 Skenario Uji Mandiri
-          </button>
+        <!-- Tips Belanja Cerdas -->
+        <div style="margin-top: 20px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: var(--radius-sm); padding: 14px;">
+          <h5 style="font-size: 0.85rem; font-weight: 700; color: #a5b4fc; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-lightbulb"></i> Tips Belanja Hemat:
+          </h5>
+          <p style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.45;">
+            Belanja sembako dalam kemasan grosir biasanya menghemat 15–25% dibandingkan beli eceran harian di minimarket. Manfaatkan promo diskon bertingkat untuk kebutuhan sabun & peralatan dapur.
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Evaluasi DT2 Uji Mandiri 5 Skenario -->
-  <div class="modal-overlay" id="testModalOverlay">
+  <!-- Mobile Floating Bottom Bar -->
+  <div class="mobile-bottom-bar">
+    <div class="mobile-total-block">
+      <span class="mobile-total-label">Total Belanja:</span>
+      <span class="mobile-total-val" id="mobileTotalVal">Rp 0</span>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button class="pill" onclick="openShareModal()" title="Bagikan"><i class="fa-solid fa-share-nodes"></i></button>
+      <button class="mobile-btn-add" onclick="scrollToForm()">
+        <i class="fa-solid fa-plus"></i> Tambah
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Ubah Budget -->
+  <div class="modal-overlay" id="budgetModalOverlay">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeTestModal()"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close" onclick="closeBudgetModal()"><i class="fa-solid fa-xmark"></i></button>
       
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); width: 36px; height: 36px;">
-          <i class="fa-solid fa-vial-circle-check"></i>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #10b981, #059669); width: 38px; height: 38px;">
+          <i class="fa-solid fa-wallet"></i>
         </div>
         <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800;">Panel Uji Mandiri Pertemuan 15 (DT2)</h3>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Lakukan 5 skenario pengujian dengan data tepat dari modul Pertemuan 15.</p>
+          <h3 style="font-size: 1.15rem; font-weight: 800;">Atur Batas Anggaran</h3>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Tentukan target maksimal pengeluaran belanja Anda.</p>
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px; margin: 16px 0;">
-        <button class="btn-primary" id="btnRunAllTests" onclick="runAllDT2Tests()" style="flex: 1;">
-          <i class="fa-solid fa-play"></i> Jalankan Semua 5 Skenario Otomatis
+      <div class="form-group">
+        <label class="form-label">Nominal Anggaran (Rp)</label>
+        <input type="number" id="budgetInputModal" class="form-input" style="font-size: 1.1rem; font-weight: 700;" placeholder="350000">
+      </div>
+
+      <div style="display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;">
+        <button class="pill" type="button" onclick="setPresetBudget(250000)">Rp 250.000</button>
+        <button class="pill" type="button" onclick="setPresetBudget(350000)">Rp 350.000</button>
+        <button class="pill" type="button" onclick="setPresetBudget(500000)">Rp 500.000</button>
+        <button class="pill" type="button" onclick="setPresetBudget(1000000)">Rp 1.000.000</button>
+      </div>
+
+      <button class="btn-primary" onclick="saveBudgetFromModal()">
+        <i class="fa-solid fa-check"></i> Terapkan Anggaran Baru
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Bagikan / Salin Daftar Belanja -->
+  <div class="modal-overlay" id="shareModalOverlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #38bdf8, #6366f1); width: 38px; height: 38px;">
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 800;">Bagikan Daftar Belanja</h3>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Salin daftar belanja atau kirim langsung ke WhatsApp / Catatan.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <textarea id="shareTextPreview" class="form-input" style="height: 180px; font-family: monospace; font-size: 0.8rem; line-height: 1.4; resize: none;" readonly></textarea>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary" onclick="copyShareText()" style="flex: 1;">
+          <i class="fa-solid fa-copy"></i> Salin ke Clipboard
         </button>
-        <button class="pill" onclick="resetAppToDT2Clean()">
-          <i class="fa-solid fa-rotate-left"></i> Bersihkan State
+        <button class="btn-primary" onclick="shareToWhatsApp()" style="background: #10b981; flex: 1;">
+          <i class="fa-brands fa-whatsapp"></i> Kirim WhatsApp
         </button>
-      </div>
-
-      <!-- Skenario 1 -->
-      <div class="test-scenario-card" id="cardTest1">
-        <div class="scenario-header">
-          <span class="scenario-title">1. Skenario Uji 1: Form Input, Toko & Selector Tanggal (SRS F-01)</span>
-          <span class="scenario-status status-pending" id="statusTest1">Pending</span>
-        </div>
-        <div class="scenario-desc">
-          • Lokasi: Lotte Mart Grocery - Puri Indah & Selector Tanggal (date picker aktif).<br>
-          • Input: "Beras Rojolele", "Bahan Pokok", "karung/5kg", Qty 1, Rp 74.000.<br>
-          • Validasi Form: Tolak nama barang kosong dan harga negatif (-Rp 15.000) tanpa menambah baris data rusak.
-        </div>
-        <div id="logTest1" class="scenario-log" style="display:none;"></div>
-      </div>
-
-      <!-- Skenario 2 -->
-      <div class="test-scenario-card" id="cardTest2">
-        <div class="scenario-header">
-          <span class="scenario-title">2. Skenario Uji 2: Penggandaan Kuantitas Otomatis Tanpa Delay (SRS F-02)</span>
-          <span class="scenario-status status-pending" id="statusTest2">Pending</span>
-        </div>
-        <div class="scenario-desc">
-          • Input Minyak Goreng 2L seharga Rp 43.000, Qty awal = 1 (Subtotal = Rp 43.000).<br>
-          • Ubah kuantitas menjadi 3 (via tombol + atau angka). Subtotal wajib otomatis berubah menjadi Rp 129.000 langsung tanpa reload/tombol manual terpisah.
-        </div>
-        <div id="logTest2" class="scenario-log" style="display:none;"></div>
-      </div>
-
-      <!-- Skenario 3 -->
-      <div class="test-scenario-card" id="cardTest3">
-        <div class="scenario-header">
-          <span class="scenario-title">3. Skenario Uji 3: Penanganan Diskon Bertingkat Kompound (SRS F-03)</span>
-          <span class="scenario-status status-pending" id="statusTest3">Pending</span>
-        </div>
-        <div class="scenario-desc">
-          • Kasus Diskon Tunggal: Sabun cuci Rp 20.000 diskon 25% → Harga akhir Rp 15.000.<br>
-          • Kasus Diskon Bertumpuk (Kompound): Wajan Rp 100.000 promo 50% + 20%:<br>
-          Tahap 1: Rp 100.000 - 50% = Rp 50.000. Tahap 2: Rp 50.000 - 20% = Rp 40.000. (Bukan Rp 30.000 / linier 70%).
-        </div>
-        <div id="logTest3" class="scenario-log" style="display:none;"></div>
-      </div>
-
-      <!-- Skenario 4 -->
-      <div class="test-scenario-card" id="cardTest4">
-        <div class="scenario-header">
-          <span class="scenario-title">4. Skenario Uji 4: Indikator Komparasi Fluktuasi Harga Realtime (SRS F-04)</span>
-          <span class="scenario-status status-pending" id="statusTest4">Pending</span>
-        </div>
-        <div class="scenario-desc">
-          Di Lotte Mart Puri Indah, sistem membandingkan harga sekarang dengan bulan lalu:<br>
-          • Beras 5kg: Bln lalu Rp 68.000 → Sekarang Rp 74.000 (Panah Merah ↑ Naik +Rp 6.000).<br>
-          • Telur 1kg: Bln lalu Rp 32.000 → Sekarang Rp 28.000 (Panah Hijau ↓ Turun/Hemat -Rp 4.000).<br>
-          • Garam 500g: Bln lalu Rp 5.000 → Sekarang Rp 5.000 (Tanda = Abu-abu Stabil).
-        </div>
-        <div id="logTest4" class="scenario-log" style="display:none;"></div>
-      </div>
-
-      <!-- Skenario 5 -->
-      <div class="test-scenario-card" id="cardTest5">
-        <div class="scenario-header">
-          <span class="scenario-title">5. Skenario Uji 5: Proteksi Batas Dompet Rp 350.000 & Tahan Reload (SRS F-05)</span>
-          <span class="scenario-status status-pending" id="statusTest5">Pending</span>
-        </div>
-        <div class="scenario-desc">
-          • Menjaga uang saku belanja Rian dengan batas dompet Rp 350.000.<br>
-          • Indikator Overbudget tegas saat pengeluaran melampaui Rp 350.000.<br>
-          • Tahan reload browser (F5) via LocalStorage & tersinkronisasi Firebase realtime `onSnapshot`.
-        </div>
-        <div id="logTest5" class="scenario-log" style="display:none;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Toast Element -->
+  <!-- Toast Notification Element -->
   <div id="toast">
     <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
     <span id="toastMsg">Data berhasil disimpan!</span>
@@ -1263,20 +1484,22 @@
   <!-- Main JavaScript Application Logic -->
   <script>
     // State Aplikasi
-    let currentBudget = 350000; // Standar Kasus Rian Pertemuan 15 (Rp 350.000)
+    let currentBudget = 350000;
     let groceryItems = [];
     let currentFilter = 'all';
+    let searchQuery = '';
     let currentStore = "Lotte Mart Grocery - Puri Indah";
-    let currentDate = "2026-10-26";
+    let currentDate = new Date().toISOString().split('T')[0];
     window.isLocalUpdating = false;
 
-    // Database patokan harga bulan lalu (26 September 2026) di Lotte Mart Grocery - Puri Indah (SRS F-04)
-    const LOTTE_MART_PURI_HISTORY = {
+    // Database patokan harga pasar
+    const MARKET_PRICE_HISTORY = {
       'beras': { name: 'Beras 5kg / Rojolele', lastMonthPrice: 68000 },
       'rojolele': { name: 'Beras Rojolele', lastMonthPrice: 68000 },
       'telur': { name: 'Telur 1kg', lastMonthPrice: 32000 },
       'garam': { name: 'Garam 500g', lastMonthPrice: 5000 },
       'minyak': { name: 'Minyak Goreng 2L', lastMonthPrice: 43000 },
+      'gula': { name: 'Gula Pasir 1kg', lastMonthPrice: 18000 },
       'sabun': { name: 'Sabun cuci', lastMonthPrice: 20000 },
       'wajan': { name: 'Wajan', lastMonthPrice: 100000 }
     };
@@ -1293,7 +1516,7 @@
       const icon = toast.querySelector('i');
       if (isError) {
         icon.className = 'fa-solid fa-circle-exclamation';
-        icon.style.color = '#ef4444';
+        icon.style.color = '#f43f5e';
       } else {
         icon.className = 'fa-solid fa-circle-check';
         icon.style.color = '#10b981';
@@ -1303,7 +1526,7 @@
       setTimeout(() => toast.classList.remove('show'), 3200);
     }
 
-    // Show Validation Alert Modal Banner (Strict rejection for SRS F-01)
+    // Show Validation Alert Box
     function showValidationAlert(message) {
       const alertEl = document.getElementById('validationAlert');
       document.getElementById('validationAlertMsg').innerText = message;
@@ -1311,7 +1534,29 @@
       setTimeout(() => alertEl.classList.remove('show'), 3800);
     }
 
-    // Logika Perhitungan Diskon Bertingkat Kompound (SRS F-03)
+    // Scroll smoothly to input form
+    function scrollToForm() {
+      const el = document.getElementById('itemName');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => el.focus(), 300);
+      }
+    }
+
+    // Quick fill popular items
+    function quickFillItem(name, cat, unit, price) {
+      document.getElementById('itemName').value = name;
+      document.getElementById('itemCategory').value = cat;
+      document.getElementById('itemUnit').value = unit;
+      document.getElementById('itemPrice').value = price;
+      document.getElementById('itemQty').value = 1;
+      document.getElementById('itemDiscount').value = '';
+      document.getElementById('discountPreviewNotice').style.display = 'none';
+      showToast(`Pilihan "${name}" dimuat ke formulir!`);
+      document.getElementById('itemPrice').focus();
+    }
+
+    // Logika Perhitungan Diskon Bertingkat Kompound
     function parseDiscounts(discountStr) {
       if (!discountStr || typeof discountStr !== 'string') return [];
       const parts = discountStr.split(/[+,/]/).map(s => s.trim().replace('%', '')).filter(Boolean);
@@ -1343,7 +1588,6 @@
       for (let i = 0; i < discounts.length; i++) {
         const pct = discounts[i];
         const cut = currentPrice * (pct / 100);
-        const before = currentPrice;
         currentPrice = currentPrice - cut;
         steps.push({
           step: i + 1,
@@ -1366,13 +1610,12 @@
       };
     }
 
-    // Indikator Komparasi Fluktuasi Harga Realtime (SRS F-04)
+    // Indikator Komparasi Fluktuasi Harga Realtime
     function getPriceFluctuation(store, itemName, currentPrice) {
-      if (!store || !store.includes('Lotte Mart')) return null;
       const lower = (itemName || '').toLowerCase();
       
       let matchedKey = null;
-      for (const key in LOTTE_MART_PURI_HISTORY) {
+      for (const key in MARKET_PRICE_HISTORY) {
         if (lower.includes(key)) {
           matchedKey = key;
           break;
@@ -1380,7 +1623,7 @@
       }
 
       if (!matchedKey) return null;
-      const hist = LOTTE_MART_PURI_HISTORY[matchedKey];
+      const hist = MARKET_PRICE_HISTORY[matchedKey];
       const lastMonthPrice = hist.lastMonthPrice;
       const diff = currentPrice - lastMonthPrice;
 
@@ -1417,35 +1660,35 @@
       }
     }
 
-    // Event Handler Session Store & Date Picker (SRS F-01)
+    // Event Handler Session Store & Date Picker
     function onSessionConfigChanged() {
       currentStore = document.getElementById('sessionStore').value;
       currentDate = document.getElementById('sessionDate').value;
       document.getElementById('lblActiveStore').innerText = currentStore.split('-')[0].trim();
       saveLocal();
       renderAll();
-      showToast(`Sesi belanja diperbarui: ${currentStore}`);
+      showToast(`Lokasi belanja diatur ke: ${currentStore}`);
     }
 
-    // Local Storage (F5 Persistence - SRS F-05)
+    // Local Storage (F5 Persistence)
     function loadLocal() {
-      const saved = localStorage.getItem('rian_grocery_tracker_dt2');
+      const saved = localStorage.getItem('rian_grocery_tracker_dt2') || localStorage.getItem('smart_grocery_app_data');
       if (saved) {
         try {
           const data = JSON.parse(saved);
           currentBudget = data.budget !== undefined ? data.budget : 350000;
           groceryItems = data.items || [];
           currentStore = data.store || "Lotte Mart Grocery - Puri Indah";
-          currentDate = data.date || "2026-10-26";
+          currentDate = data.date || new Date().toISOString().split('T')[0];
           
           document.getElementById('sessionStore').value = currentStore;
           document.getElementById('sessionDate').value = currentDate;
           document.getElementById('lblActiveStore').innerText = currentStore.split('-')[0].trim();
         } catch(e) {
-          loadSampleDT2Data(false);
+          loadDefaultData();
         }
       } else {
-        loadSampleDT2Data(false);
+        loadDefaultData();
       }
       renderAll();
     }
@@ -1460,6 +1703,7 @@
         lastUpdated: new Date().toISOString()
       };
       localStorage.setItem('rian_grocery_tracker_dt2', JSON.stringify(payload));
+      localStorage.setItem('smart_grocery_app_data', JSON.stringify(payload));
     }
 
     // Remote Firebase Update Receiver
@@ -1476,14 +1720,14 @@
       }
       saveLocal();
       renderAll();
-      showToast('⚡ Sinkronisasi realtime Firebase diterima!');
+      showToast('⚡ Sinkronisasi realtime diterima!');
     };
 
     // Sinkronisasi ke Cloud Firestore
     async function syncToCloud() {
       if (window.FB_GROCERY && window.FB_GROCERY.saveData) {
         window.isLocalUpdating = true;
-        showToast('☁️ Menyimpan ke Cloud Firestore...');
+        showToast('☁️ Menyimpan ke Cloud...');
         const ok = await window.FB_GROCERY.saveData({
           budget: currentBudget,
           items: groceryItems,
@@ -1493,7 +1737,7 @@
         });
         setTimeout(() => { window.isLocalUpdating = false; }, 800);
         if (ok) {
-          showToast('✅ Berhasil tersimpan di Firebase Firestore!');
+          showToast('✅ Berhasil tersimpan di Cloud Firebase!');
         } else {
           showToast('Tersimpan di Penyimpanan Lokal (Offline Ready)');
         }
@@ -1503,11 +1747,11 @@
       }
     }
 
-    // Load Sample Data Kasus Rian Pertemuan 15
-    function loadSampleDT2Data(notify = true) {
-      currentBudget = 350000; // Batas dompet Rp 350.000
+    // Default Sample Data
+    function loadDefaultData() {
+      currentBudget = 350000;
       currentStore = "Lotte Mart Grocery - Puri Indah";
-      currentDate = "2026-10-26";
+      currentDate = new Date().toISOString().split('T')[0];
       document.getElementById('sessionStore').value = currentStore;
       document.getElementById('sessionDate').value = currentDate;
       document.getElementById('lblActiveStore').innerText = "Lotte Mart Grocery";
@@ -1565,10 +1809,9 @@
 
       saveLocal();
       renderAll();
-      if (notify) showToast('Data awal Studi Kasus Rian DT2 berhasil dimuat!');
     }
 
-    // Tambah Item Belanja dengan Uji Validasi Ketat (SRS F-01 & SRS F-03)
+    // Tambah Item Belanja dengan Validasi
     function addGroceryItem() {
       const nameInput = document.getElementById('itemName');
       const priceInput = document.getElementById('itemPrice');
@@ -1584,29 +1827,24 @@
       const category = categorySelect.value;
       const discountStr = discountInput.value.trim();
 
-      // UJI VALIDASI FORM (SRS F-01 Aturan 3):
-      // Guru akan mencoba menekan tombol tambah tanpa mengisi nama barang
       if (!name) {
-        showValidationAlert('⚠️ VALIDASI DITOLAK: Nama barang wajib diisi! Tidak boleh kosong.');
+        showValidationAlert('⚠️ Nama barang wajib diisi!');
         nameInput.focus();
         return false;
       }
 
-      // Guru akan mencoba memasukkan harga negatif (-Rp 15.000) atau 0
       if (isNaN(rawPrice) || rawPrice <= 0) {
-        showValidationAlert(`⚠️ VALIDASI DITOLAK: Harga barang tidak boleh bernilai negatif (-Rp ${Math.abs(rawPrice || 0).toLocaleString('id-ID')}) atau Rp 0!`);
+        showValidationAlert(`⚠️ Masukkan harga barang yang valid (> Rp 0)!`);
         priceInput.focus();
         return false;
       }
 
-      // Validasi kuantitas
       if (isNaN(qty) || qty <= 0) {
-        showValidationAlert('⚠️ VALIDASI DITOLAK: Kuantitas minimal belanja adalah 1!');
+        showValidationAlert('⚠️ Kuantitas minimal belanja adalah 1!');
         qtyInput.focus();
         return false;
       }
 
-      // Hitung Diskon Bertingkat Kompound (SRS F-03)
       const discountCalc = calculateDiscountedPrice(rawPrice, discountStr);
 
       const newItem = {
@@ -1637,11 +1875,11 @@
       renderAll();
       syncToCloud();
 
-      showToast(`Sukses: "${newItem.name}" ditambahkan ke keranjang!`);
+      showToast(`Sukses: "${newItem.name}" dimasukkan ke keranjang!`);
       return true;
     }
 
-    // SRS F-02: Penggandaan Kuantitas Otomatis Tanpa Delay
+    // Penggandaan Kuantitas Otomatis Tanpa Delay
     function updateItemQty(id, newQty) {
       const item = groceryItems.find(i => i.id === id);
       if (!item) return;
@@ -1653,7 +1891,6 @@
         item.qty = parsed;
       }
 
-      // Langsung simpan dan update detik itu juga secara reaktif tanpa reload!
       saveLocal();
       renderAll();
       syncToCloud();
@@ -1687,7 +1924,7 @@
       saveLocal();
       renderAll();
       syncToCloud();
-      showToast(`"${name}" dihapus dari daftar.`);
+      showToast(`"${name}" dihapus dari keranjang.`);
     }
 
     // Kosongkan Keranjang
@@ -1702,7 +1939,7 @@
       }
     }
 
-    // Set Filter Status
+    // Filter Status & Search
     function setFilter(filter, el) {
       currentFilter = filter;
       document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
@@ -1710,34 +1947,117 @@
       renderList();
     }
 
-    // Ubah Batas Dompet Rian (SRS F-05)
-    function editBudget() {
-      const input = prompt('Masukkan Batas Dompet Belanja Rian (Rp):', currentBudget);
-      if (input !== null) {
-        const val = parseInt(input.replace(/[^0-9]/g, ''), 10);
-        if (!isNaN(val) && val > 0) {
-          currentBudget = val;
-          saveLocal();
-          renderAll();
-          syncToCloud();
-          showToast(`Batas dompet Rian diubah menjadi ${formatRupiah(currentBudget)}!`);
-        }
+    function onSearchChanged() {
+      searchQuery = (document.getElementById('searchItemInput').value || '').toLowerCase().trim();
+      renderList();
+    }
+
+    // Budget Modal Handlers
+    function openBudgetModal() {
+      document.getElementById('budgetInputModal').value = currentBudget;
+      document.getElementById('budgetModalOverlay').classList.add('open');
+      setTimeout(() => document.getElementById('budgetInputModal').focus(), 150);
+    }
+
+    function closeBudgetModal() {
+      document.getElementById('budgetModalOverlay').classList.remove('open');
+    }
+
+    function setPresetBudget(val) {
+      document.getElementById('budgetInputModal').value = val;
+    }
+
+    function saveBudgetFromModal() {
+      const val = parseInt(document.getElementById('budgetInputModal').value, 10);
+      if (!isNaN(val) && val > 0) {
+        currentBudget = val;
+        saveLocal();
+        renderAll();
+        syncToCloud();
+        closeBudgetModal();
+        showToast(`Batas anggaran diatur ke ${formatRupiah(currentBudget)}!`);
+      } else {
+        showValidationAlert('Masukkan nominal anggaran yang valid!');
       }
+    }
+
+    // Share / Export Modal Handlers
+    function openShareModal() {
+      const text = generateShareText();
+      document.getElementById('shareTextPreview').value = text;
+      document.getElementById('shareModalOverlay').classList.add('open');
+    }
+
+    function closeShareModal() {
+      document.getElementById('shareModalOverlay').classList.remove('open');
+    }
+
+    function generateShareText() {
+      const dateFormatted = currentDate || 'Hari ini';
+      const totalExpense = groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0);
+      let text = `🛒 DAFTAR BELANJA\n`;
+      text += `📅 Tanggal: ${dateFormatted}\n`;
+      text += `🏪 Lokasi: ${currentStore}\n`;
+      text += `💰 Budget: ${formatRupiah(currentBudget)}\n`;
+      text += `--------------------------------\n`;
+
+      if (groceryItems.length === 0) {
+        text += `(Keranjang belanja masih kosong)\n`;
+      } else {
+        groceryItems.forEach((item, idx) => {
+          const status = item.done ? '[x]' : '[ ]';
+          const subtotal = item.finalPrice * item.qty;
+          text += `${status} ${idx + 1}. ${item.name} (${item.qty} ${item.unit}) - ${formatRupiah(subtotal)}\n`;
+        });
+      }
+
+      text += `--------------------------------\n`;
+      text += `💵 Total Belanja: ${formatRupiah(totalExpense)}\n`;
+      const sisa = currentBudget - totalExpense;
+      if (sisa >= 0) {
+        text += `✨ Sisa Budget: ${formatRupiah(sisa)}\n`;
+      } else {
+        text += `⚠️ Melebihi Budget: ${formatRupiah(Math.abs(sisa))}\n`;
+      }
+      text += `\nDibuat dengan Smart Grocery Tracker`;
+      return text;
+    }
+
+    function copyShareText() {
+      const text = document.getElementById('shareTextPreview').value;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Daftar belanja disalin ke clipboard!');
+        closeShareModal();
+      }).catch(() => {
+        showToast('Gagal menyalin text.', true);
+      });
+    }
+
+    function shareToWhatsApp() {
+      const text = encodeURIComponent(document.getElementById('shareTextPreview').value);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+      closeShareModal();
     }
 
     // Render Keseluruhan Aplikasi
     function renderAll() {
-      // 1. Budget & Overbudget Tracker (SRS F-05)
+      // 1. Budget & Overbudget Tracker
       document.getElementById('budgetDisplay').innerText = formatRupiah(currentBudget);
 
-      // Hitung Total Pengeluaran Realtime (SRS F-02: Subtotal = finalPrice * qty)
+      // Hitung Total Pengeluaran Realtime
       const totalExpense = groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0);
       document.getElementById('totalExpenseDisplay').innerText = formatRupiah(totalExpense);
+      document.getElementById('mobileTotalVal').innerText = formatRupiah(totalExpense);
 
       // Count & Progress
       const doneCount = groceryItems.filter(i => i.done).length;
       document.getElementById('itemCountBadge').innerText = `${groceryItems.length} Barang`;
       document.getElementById('purchasedSummary').innerText = `${doneCount} dari ${groceryItems.length} barang sudah dibeli`;
+
+      // Update Filter counts
+      document.getElementById('filterPillAll').innerText = `Semua (${groceryItems.length})`;
+      document.getElementById('filterPillPending').innerText = `Belum (${groceryItems.length - doneCount})`;
+      document.getElementById('filterPillDone').innerText = `Sudah (${doneCount})`;
 
       const percent = currentBudget > 0 ? Math.round((totalExpense / currentBudget) * 100) : 0;
       const bar = document.getElementById('budgetProgressBar');
@@ -1753,12 +2073,12 @@
         remainingText.style.color = '#34d399';
       } else {
         remainingText.innerText = `Defisit: ${formatRupiah(Math.abs(sisa))}`;
-        remainingText.style.color = '#ef4444';
+        remainingText.style.color = '#f43f5e';
       }
 
       // Visual Alert jika Overbudget (>100%)
       if (percent > 100) {
-        bar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+        bar.style.background = 'linear-gradient(90deg, #f43f5e, #e11d48)';
         alertBox.style.display = 'flex';
       } else if (percent > 80) {
         bar.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
@@ -1771,7 +2091,7 @@
       // 2. Render Daftar Item
       renderList();
 
-      // 3. Render Perbandingan Toko & Estimasi Penghematan (SRS F-04)
+      // 3. Render Perbandingan Toko & Estimasi Penghematan
       renderStoreComparison(totalExpense);
     }
 
@@ -1779,27 +2099,31 @@
     function renderList() {
       const container = document.getElementById('groceryListContainer');
       let filtered = groceryItems;
-      if (currentFilter === 'pending') filtered = groceryItems.filter(i => !i.done);
-      if (currentFilter === 'done') filtered = groceryItems.filter(i => i.done);
+
+      if (currentFilter === 'pending') filtered = filtered.filter(i => !i.done);
+      if (currentFilter === 'done') filtered = filtered.filter(i => i.done);
+
+      if (searchQuery) {
+        filtered = filtered.filter(i => i.name.toLowerCase().includes(searchQuery) || i.category.toLowerCase().includes(searchQuery));
+      }
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 36px 16px; color: var(--text-muted);">
-            <i class="fa-solid fa-cart-shopping" style="font-size: 2.4rem; margin-bottom: 10px; opacity: 0.35;"></i>
-            <p style="font-size: 0.9rem;">Keranjang belanja masih kosong.</p>
-            <p style="font-size: 0.78rem; opacity: 0.7; margin-top: 4px;">Tambahkan barang melalui form di atas atau jalankan Uji Mandiri DT2.</p>
+          <div style="text-align: center; padding: 40px 16px; color: var(--text-muted);">
+            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto;">
+              <i class="fa-solid fa-cart-shopping" style="font-size: 1.8rem; color: #818cf8; opacity: 0.6;"></i>
+            </div>
+            <p style="font-size: 0.95rem; font-weight: 600; color: #cbd5e1;">Keranjang belanja masih kosong.</p>
+            <p style="font-size: 0.8rem; opacity: 0.8; margin-top: 4px;">Tambahkan barang melalui formulir di atas atau gunakan tombol klik cepat.</p>
           </div>
         `;
         return;
       }
 
       container.innerHTML = filtered.map(item => {
-        // Cek Diskon (SRS F-03)
         const hasDiscount = item.discountStr && item.discountStr.trim() !== '';
         const disc = calculateDiscountedPrice(item.rawPrice, item.discountStr);
         const subtotal = disc.finalUnitPrice * item.qty;
-
-        // Cek Indikator Fluktuasi Harga Toko (SRS F-04)
         const fluct = getPriceFluctuation(currentStore, item.name, item.rawPrice);
 
         return `
@@ -1823,7 +2147,7 @@
                     ` : ''}
 
                     ${hasDiscount ? `
-                      <span class="badge-tag badge-discount" title="${disc.isCompound ? 'Diskon Bertingkat Kompound' : 'Diskon Tunggal'}">
+                      <span class="badge-tag badge-discount" title="${disc.isCompound ? 'Diskon Bertingkat Kompound' : 'Diskon'}">
                         <i class="fa-solid fa-percent"></i> Promo ${item.discountStr} (${disc.effectivePercent}% Efektif)
                       </span>
                     ` : ''}
@@ -1832,18 +2156,18 @@
               </div>
 
               <button class="btn-delete" onclick="deleteItem(${item.id})" title="Hapus Barang">
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
 
-            <!-- Bottom Row: Stepper Qty (SRS F-02) & Subtotal Realtime -->
+            <!-- Bottom Row: Stepper Qty & Subtotal Realtime -->
             <div class="item-bottom-row">
               <div class="qty-stepper">
-                <button class="btn-step" onclick="stepQty(${item.id}, -1)" title="Kurangi Qty">-</button>
+                <button class="btn-step" type="button" onclick="stepQty(${item.id}, -1)" title="Kurangi Qty">-</button>
                 <input type="number" class="qty-input" value="${item.qty}" min="1" 
                   onchange="updateItemQty(${item.id}, this.value)"
                   onkeyup="updateItemQty(${item.id}, this.value)">
-                <button class="btn-step" onclick="stepQty(${item.id}, 1)" title="Tambah Qty">+</button>
+                <button class="btn-step" type="button" onclick="stepQty(${item.id}, 1)" title="Tambah Qty">+</button>
               </div>
 
               <div class="item-pricing">
@@ -1858,7 +2182,7 @@
       }).join('');
     }
 
-    // Render Store Comparison & Estimasi Penghematan (SRS F-04)
+    // Render Store Comparison & Estimasi Penghematan
     function renderStoreComparison(totalExpense) {
       const container = document.getElementById('storeComparisonContainer');
       if (groceryItems.length === 0) {
@@ -1867,11 +2191,6 @@
         return;
       }
 
-      // Kalkulasi model benchmark harga toko untuk Studi Kasus Rian:
-      // Lotte Mart Grocery = Basis acuan (1.00)
-      // Pasar Tradisional = Grosir basah termurah (~0.93)
-      // Toko Kelontong Berkah = Eceran tetangga (~1.05)
-      // Minimarket Modern = Eceran ber-AC termahal (~1.18)
       const lotteTotal = totalExpense;
       const pasarTotal = Math.round(totalExpense * 0.93);
       const kelontongTotal = Math.round(totalExpense * 1.05);
@@ -1879,24 +2198,24 @@
 
       const potentialSavings = minimarketTotal - lotteTotal;
       document.getElementById('savingsDisplay').innerText = formatRupiah(potentialSavings);
-      document.getElementById('savingsNote').innerText = `Rian menghemat ${formatRupiah(potentialSavings)} dibanding belanja di Minimarket`;
+      document.getElementById('savingsNote').innerText = `Potensi hemat ${formatRupiah(potentialSavings)} dibanding belanja di Minimarket`;
 
       container.innerHTML = `
-        <div class="store-card ${currentStore.includes('Lotte Mart') ? 'active-store' : ''}">
+        <div class="store-card ${currentStore.includes('Lotte Mart') || currentStore.includes('Super Indo') || currentStore.includes('Hypermart') ? 'active-store' : ''}">
           <div class="store-info">
-            <h4><i class="fa-solid fa-cart-shopping" style="color: #818cf8;"></i> Lotte Mart Grocery - Puri Indah</h4>
-            <span>Supermarket grosir langganan Rian (Toko Uji DT2)</span>
+            <h4><i class="fa-solid fa-cart-shopping" style="color: #818cf8;"></i> Supermarket Grosir</h4>
+            <span>Pilihan hemat untuk sembako & kebutuhan rutin keluarga</span>
           </div>
           <div class="store-total" style="color: #a5b4fc;">
             ${formatRupiah(lotteTotal)}
-            <div style="font-size: 0.7rem; color: #818cf8; font-weight: 600;">LOKASI AKTIF</div>
+            <div style="font-size: 0.7rem; color: #818cf8; font-weight: 600;">LOKASI PILIHAN</div>
           </div>
         </div>
 
         <div class="store-card best ${currentStore === 'Pasar Tradisional' ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-award" style="color: #10b981;"></i> Pasar Tradisional</h4>
-            <span>Harga grosir sembako & sayur mayur termurah</span>
+            <span>Harga grosir sembako, sayur & bumbu dapur termurah</span>
           </div>
           <div class="store-total" style="color: #34d399;">
             ${formatRupiah(pasarTotal)}
@@ -1906,8 +2225,8 @@
 
         <div class="store-card ${currentStore === 'Toko Berkah Kelontong' ? 'active-store' : ''}">
           <div class="store-info">
-            <h4><i class="fa-solid fa-shop" style="color: #cbd5e1;"></i> Toko Berkah Kelontong</h4>
-            <span>Dekat kosan Rian, praktis untuk kebutuhan mendesak</span>
+            <h4><i class="fa-solid fa-shop" style="color: #cbd5e1;"></i> Toko Kelontong Sekitar</h4>
+            <span>Praktis dan dekat, ideal untuk pembelian mendesak</span>
           </div>
           <div class="store-total">
             ${formatRupiah(kelontongTotal)}
@@ -1917,283 +2236,14 @@
         <div class="store-card ${currentStore === 'Minimarket Modern' ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-store" style="color: #f59e0b;"></i> Minimarket Modern</h4>
-            <span>Indomaret / Alfamart (Harga satuan tertinggi)</span>
+            <span>Indomaret / Alfamart (Harga eceran satuan)</span>
           </div>
-          <div class="store-total" style="color: #fca5a5;">
+          <div class="store-total" style="color: #fda4af;">
             ${formatRupiah(minimarketTotal)}
-            <div style="font-size: 0.7rem; color: #ef4444; font-weight: 600;">SELISIH TERTINGGI</div>
+            <div style="font-size: 0.7rem; color: #f43f5e; font-weight: 600;">SELISIH TERTINGGI</div>
           </div>
         </div>
       `;
-    }
-
-    // Modal Evaluasi Uji Mandiri DT2 Controls
-    function openTestModal() {
-      document.getElementById('testModalOverlay').classList.add('open');
-    }
-
-    function closeTestModal() {
-      document.getElementById('testModalOverlay').classList.remove('open');
-    }
-
-    function resetAppToDT2Clean() {
-      loadSampleDT2Data(false);
-      ['1','2','3','4','5'].forEach(i => {
-        const card = document.getElementById(`cardTest${i}`);
-        const status = document.getElementById(`statusTest${i}`);
-        const log = document.getElementById(`logTest${i}`);
-        card.className = 'test-scenario-card';
-        status.className = 'scenario-status status-pending';
-        status.innerText = 'Pending';
-        log.style.display = 'none';
-        log.innerText = '';
-      });
-      showToast('State pengujian dibersihkan ke kondisi awal.');
-    }
-
-    // ==========================================
-    // EXECUTOR: RUN 5 SCENARIOS LENGKAP DT2
-    // ==========================================
-    async function runAllDT2Tests() {
-      const btn = document.getElementById('btnRunAllTests');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menjalankan 5 Skenario Uji...';
-
-      try {
-        // --- TEST 1 (SRS F-01) ---
-        await runTest1();
-        await new Promise(r => setTimeout(r, 600));
-
-        // --- TEST 2 (SRS F-02) ---
-        await runTest2();
-        await new Promise(r => setTimeout(r, 600));
-
-        // --- TEST 3 (SRS F-03) ---
-        await runTest3();
-        await new Promise(r => setTimeout(r, 600));
-
-        // --- TEST 4 (SRS F-04) ---
-        await runTest4();
-        await new Promise(r => setTimeout(r, 600));
-
-        // --- TEST 5 (SRS F-05) ---
-        await runTest5();
-
-        showToast('🎉 SELURUH 5 SKENARIO UJI MANDIRI DT2 BERHASIL LOLOS 100%!');
-      } catch(err) {
-        console.error("Test execution error:", err);
-        showToast('Gagal menjalankan uji: ' + err.message, true);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-play"></i> Jalankan Semua 5 Skenario Otomatis';
-      }
-    }
-
-    // 1. Skenario Uji 1: Form Input Item, Lokasi Toko & Selector Tanggal (SRS F-01)
-    async function runTest1() {
-      const card = document.getElementById('cardTest1');
-      const status = document.getElementById('statusTest1');
-      const log = document.getElementById('logTest1');
-      log.style.display = 'block';
-      log.innerText = 'Memulai Skenario 1 (SRS F-01)...\n';
-
-      // 1. Sesi Belanja disetel ke Lotte Mart Grocery - Puri Indah & tanggal date picker
-      document.getElementById('sessionStore').value = "Lotte Mart Grocery - Puri Indah";
-      document.getElementById('sessionDate').value = "2026-10-26";
-      onSessionConfigChanged();
-      log.innerText += '✓ Sesi Belanja: Lokasi disetel "Lotte Mart Grocery - Puri Indah"\n';
-      log.innerText += '✓ Date Picker Aktif: "2026-10-26"\n';
-
-      // 2. Uji Validasi Form: Tanpa mengisi nama barang (Harus Ditolak!)
-      document.getElementById('itemName').value = '';
-      document.getElementById('itemPrice').value = '50000';
-      const rejectedEmpty = addGroceryItem();
-      if (!rejectedEmpty) {
-        log.innerText += '✓ Uji Validasi 1: Input nama kosong berhasil DITOLAK dengan peringatan tegas!\n';
-      }
-
-      // 3. Uji Validasi Form: Memasukkan harga negatif -15.000 (Harus Ditolak!)
-      document.getElementById('itemName').value = 'Barang Rusak';
-      document.getElementById('itemPrice').value = '-15000';
-      const rejectedNeg = addGroceryItem();
-      if (!rejectedNeg) {
-        log.innerText += '✓ Uji Validasi 2: Input harga negatif (-Rp 15.000) berhasil DITOLAK sistem!\n';
-      }
-
-      // 4. Input Item Pokok Valid: "Beras Rojolele", "Bahan Pokok", "karung/5kg", Qty 1, Rp 74.000
-      document.getElementById('itemName').value = 'Beras Rojolele';
-      document.getElementById('itemCategory').value = 'Bahan Pokok';
-      document.getElementById('itemUnit').value = 'karung/5kg';
-      document.getElementById('itemQty').value = '1';
-      document.getElementById('itemPrice').value = '74000';
-      document.getElementById('itemDiscount').value = '';
-      const added = addGroceryItem();
-
-      if (added) {
-        const item = groceryItems.find(i => i.name === 'Beras Rojolele' && i.rawPrice === 74000);
-        if (item) {
-          log.innerText += '✓ Input Valid Berhasil: "Beras Rojolele", Bahan Pokok, karung/5kg, Qty 1, Rp 74.000 masuk keranjang!\n';
-          log.innerText += 'HASIL: PASSED (100% Lulus Kriteria Uji 1)';
-          card.className = 'test-scenario-card pass';
-          status.className = 'scenario-status status-pass';
-          status.innerText = 'PASSED ✅';
-          return;
-        }
-      }
-
-      card.className = 'test-scenario-card fail';
-      status.innerText = 'FAILED ❌';
-    }
-
-    // 2. Skenario Uji 2: Penggandaan Kuantitas Otomatis Tanpa Delay (SRS F-02)
-    async function runTest2() {
-      const card = document.getElementById('cardTest2');
-      const status = document.getElementById('statusTest2');
-      const log = document.getElementById('logTest2');
-      log.style.display = 'block';
-      log.innerText = 'Memulai Skenario 2 (SRS F-02)...\n';
-
-      // Pastikan ada Minyak Goreng 2L seharga Rp 43.000
-      let minyak = groceryItems.find(i => i.name.includes('Minyak Goreng'));
-      if (!minyak) {
-        document.getElementById('itemName').value = 'Minyak Goreng 2L';
-        document.getElementById('itemCategory').value = 'Bahan Pokok';
-        document.getElementById('itemUnit').value = 'pouch';
-        document.getElementById('itemQty').value = '1';
-        document.getElementById('itemPrice').value = '43000';
-        document.getElementById('itemDiscount').value = '';
-        addGroceryItem();
-        minyak = groceryItems.find(i => i.name.includes('Minyak Goreng'));
-      } else {
-        updateItemQty(minyak.id, 1);
-      }
-
-      // Subtotal awal Qty 1 = Rp 43.000
-      log.innerText += `✓ Kuantitas Awal: ${minyak.qty}, Subtotal: ${formatRupiah(minyak.finalPrice * minyak.qty)}\n`;
-
-      // Ubah kuantitas menjadi 3
-      updateItemQty(minyak.id, 3);
-      const newSubtotal = minyak.finalPrice * minyak.qty;
-      log.innerText += `✓ Ubah kuantitas menjadi 3 (reaktif tanpa reload)...\n`;
-      log.innerText += `✓ Subtotal baru otomatis ter-update: ${formatRupiah(newSubtotal)} (3 x Rp 43.000 = Rp 129.000)!\n`;
-
-      if (newSubtotal === 129000 && minyak.qty === 3) {
-        log.innerText += 'HASIL: PASSED (100% Lulus Kriteria Uji 2 Tanpa Delay)';
-        card.className = 'test-scenario-card pass';
-        status.className = 'scenario-status status-pass';
-        status.innerText = 'PASSED ✅';
-      } else {
-        card.className = 'test-scenario-card fail';
-        status.innerText = 'FAILED ❌';
-      }
-    }
-
-    // 3. Skenario Uji 3: Penanganan Diskon Bertingkat Kompound (SRS F-03)
-    async function runTest3() {
-      const card = document.getElementById('cardTest3');
-      const status = document.getElementById('statusTest3');
-      const log = document.getElementById('logTest3');
-      log.style.display = 'block';
-      log.innerText = 'Memulai Skenario 3 (SRS F-03)...\n';
-
-      // Kasus 1: Sabun cuci seharga Rp 20.000 dengan diskon 25% -> Harga akhir Rp 15.000
-      const calc1 = calculateDiscountedPrice(20000, "25%");
-      log.innerText += `✓ Kasus 1 Diskon Tunggal:\n`;
-      log.innerText += `  Sabun cuci Rp 20.000 diskon 25% → Harga Akhir: ${formatRupiah(calc1.finalUnitPrice)} (Target: Rp 15.000)\n`;
-
-      // Kasus 2: Wajan Rp 100.000 dengan promo bertumpuk 50% + 20%
-      // Tahap 1: Rp 100.000 - 50% = Rp 50.000. Tahap 2: Rp 50.000 - 20% = Rp 40.000.
-      const calc2 = calculateDiscountedPrice(100000, "50% + 20%");
-      log.innerText += `✓ Kasus 2 Diskon Bertumpuk Kompound:\n`;
-      log.innerText += `  Beli Wajan Rp 100.000 dengan promo 50% + 20%:\n`;
-      log.innerText += `  • Tahap 1: Potong 50% = Rp ${calc2.steps[0].priceAfter.toLocaleString('id-ID')}\n`;
-      log.innerText += `  • Tahap 2: Sisa dipotong 20% = Rp ${calc2.steps[1].priceAfter.toLocaleString('id-ID')}\n`;
-      log.innerText += `  • Harga Akhir Kompound: ${formatRupiah(calc2.finalUnitPrice)} (Diskon Efektif: ${calc2.effectivePercent}%)\n`;
-
-      // Validasi matematis bukan 70% (Rp 30.000)
-      if (calc2.finalUnitPrice === 40000 && calc2.finalUnitPrice !== 30000 && calc1.finalUnitPrice === 15000) {
-        log.innerText += `✓ Verifikasi Logika: Sistem berhasil menolak kesalahan linier 70% (Rp 30.000) dan menghitung kompound Rp 40.000!\n`;
-        log.innerText += 'HASIL: PASSED (100% Lulus Kriteria Uji 3)';
-        card.className = 'test-scenario-card pass';
-        status.className = 'scenario-status status-pass';
-        status.innerText = 'PASSED ✅';
-      } else {
-        card.className = 'test-scenario-card fail';
-        status.innerText = 'FAILED ❌';
-      }
-    }
-
-    // 4. Skenario Uji 4: Indikator Komparasi Fluktuasi Harga Realtime (SRS F-04)
-    async function runTest4() {
-      const card = document.getElementById('cardTest4');
-      const status = document.getElementById('statusTest4');
-      const log = document.getElementById('logTest4');
-      log.style.display = 'block';
-      log.innerText = 'Memulai Skenario 4 (SRS F-04) di Lotte Mart Puri Indah...\n';
-
-      // 1. Beras 5kg: Bln lalu Rp 68.000 -> Sekarang Rp 74.000
-      const f1 = getPriceFluctuation("Lotte Mart Grocery - Puri Indah", "Beras 5kg Rojolele", 74000);
-      log.innerText += `✓ Beras 5kg: Bln lalu Rp 68.000 → Sekarang Rp 74.000\n`;
-      log.innerText += `  Indikator: ${f1.label} (${f1.status.toUpperCase()} Merah)\n`;
-
-      // 2. Telur 1kg: Bln lalu Rp 32.000 -> Sekarang Rp 28.000
-      const f2 = getPriceFluctuation("Lotte Mart Grocery - Puri Indah", "Telur 1kg", 28000);
-      log.innerText += `✓ Telur 1kg: Bln lalu Rp 32.000 → Sekarang Rp 28.000\n`;
-      log.innerText += `  Indikator: ${f2.label} (${f2.status.toUpperCase()} Hijau Hemat)\n`;
-
-      // 3. Garam 500g: Bln lalu Rp 5.000 -> Sekarang Rp 5.000
-      const f3 = getPriceFluctuation("Lotte Mart Grocery - Puri Indah", "Garam 500g", 5000);
-      log.innerText += `✓ Garam 500g: Bln lalu Rp 5.000 → Sekarang Rp 5.000\n`;
-      log.innerText += `  Indikator: ${f3.label} (${f3.status.toUpperCase()} Abu-abu)\n`;
-
-      if (f1.status === 'up' && f1.diff === 6000 &&
-          f2.status === 'down' && f2.diff === 4000 &&
-          f3.status === 'stable') {
-        log.innerText += 'HASIL: PASSED (100% Lulus Kriteria Uji 4 Fluktuasi Visual)';
-        card.className = 'test-scenario-card pass';
-        status.className = 'scenario-status status-pass';
-        status.innerText = 'PASSED ✅';
-      } else {
-        card.className = 'test-scenario-card fail';
-        status.innerText = 'FAILED ❌';
-      }
-    }
-
-    // 5. Skenario Uji 5: Proteksi Batas Dompet Rp 350.000 & Tahan Reload (SRS F-05)
-    async function runTest5() {
-      const card = document.getElementById('cardTest5');
-      const status = document.getElementById('statusTest5');
-      const log = document.getElementById('logTest5');
-      log.style.display = 'block';
-      log.innerText = 'Memulai Skenario 5 (SRS F-05)...\n';
-
-      // 1. Validasi Batas Dompet Rian Rp 350.000
-      currentBudget = 350000;
-      saveLocal();
-      renderAll();
-      log.innerText += `✓ Batas Dompet Terkonfigurasi: ${formatRupiah(currentBudget)}\n`;
-
-      // 2. Cek Total & Progress Bar
-      const totalExpense = groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0);
-      const isOver = totalExpense > currentBudget;
-      log.innerText += `✓ Total Belanja Sekarang: ${formatRupiah(totalExpense)}\n`;
-      log.innerText += `✓ Status Anggaran: ${isOver ? 'OVERBUDGET (Peringatan Merah Aktif)' : 'DALAM BATAS ANGGARAN (Aman)'}\n`;
-
-      // 3. Uji Ketahanan Reload Browser (F5) Local Storage
-      const savedRaw = localStorage.getItem('rian_grocery_tracker_dt2');
-      if (savedRaw) {
-        const parsed = JSON.parse(savedRaw);
-        if (parsed.budget === 350000 && parsed.items.length === groceryItems.length) {
-          log.innerText += `✓ Uji Tahan Reload (F5): Data LocalStorage tersimpan utuh dan tahan reload browser!\n`;
-        }
-      }
-
-      // 4. Firebase Sync Realtime Support
-      log.innerText += `✓ Firebase Cloud Sync: Listener onSnapshot siap menerima perubahan live multi-device!\n`;
-      log.innerText += 'HASIL: PASSED (100% Lulus Kriteria Uji 5)';
-      card.className = 'test-scenario-card pass';
-      status.className = 'scenario-status status-pass';
-      status.innerText = 'PASSED ✅';
     }
 
     // Live preview kalkulasi diskon saat mengetik di form
@@ -2223,6 +2273,12 @@
 
     // Inisialisasi Aplikasi Saat Halaman Selesai Dimuat
     window.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi tanggal hari ini jika belum ada
+      const today = new Date().toISOString().split('T')[0];
+      const dateEl = document.getElementById('sessionDate');
+      if (dateEl && !dateEl.value) {
+        dateEl.value = today;
+      }
       loadLocal();
     });
   </script>
