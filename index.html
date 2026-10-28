@@ -1354,6 +1354,66 @@
       gap: 8px;
     }
 
+    /* Clickable Quick Discount Preset Chips */
+    .discount-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 6px 1px 4px 1px;
+      scrollbar-width: none;
+    }
+
+    .discount-chips-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .discount-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .discount-chip:active {
+      transform: scale(0.92);
+    }
+
+    .discount-chip.active {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: #fbbf24;
+      color: #fde68a;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+    }
+
+    .discount-chip.special {
+      background: rgba(148, 34, 53, 0.25);
+      border-color: #fb7185;
+      color: #fecdd3;
+    }
+
+    .discount-chip.special.active {
+      background: #b82c44;
+      border-color: #fda4af;
+      color: white;
+      box-shadow: 0 2px 10px var(--burgundy-glow);
+    }
+
+    .discount-chip.reset {
+      color: #94a3b8;
+      border-style: dashed;
+      background: transparent;
+    }
+
     .btn-primary {
       background: linear-gradient(135deg, #781827, #b82c44);
       color: white;
@@ -1949,7 +2009,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Harga Satuan (Rp) *</label>
-              <input type="number" id="itemPrice" class="form-input" placeholder="43000">
+              <input type="number" id="itemPrice" class="form-input" placeholder="43000" oninput="updateDiscountPreviewAndChips()">
             </div>
             <div class="form-group">
               <label class="form-label">Jumlah (Qty)</label>
@@ -1958,8 +2018,21 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Diskon / Promo (Opsional, cth: 20% atau 50% + 20%)</label>
-            <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50%+20%">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label class="form-label" style="margin-bottom: 0;">Diskon / Promo</label>
+              <span style="font-size: 0.68rem; color: var(--text-muted);">Bisa ketik atau klik pilihan:</span>
+            </div>
+            <input type="text" id="itemDiscount" class="form-input" placeholder="Ketik diskon (cth: 25% atau 50%+20%)" oninput="updateDiscountPreviewAndChips()" autocomplete="off">
+            
+            <!-- Clickable Preset Chips -->
+            <div class="discount-chips-row">
+              <button type="button" class="discount-chip" data-value="10%" onclick="applyDiscountPreset('10%')">10%</button>
+              <button type="button" class="discount-chip" data-value="20%" onclick="applyDiscountPreset('20%')">20%</button>
+              <button type="button" class="discount-chip" data-value="30%" onclick="applyDiscountPreset('30%')">30%</button>
+              <button type="button" class="discount-chip" data-value="50%" onclick="applyDiscountPreset('50%')">50%</button>
+              <button type="button" class="discount-chip special" data-value="50% + 20%" onclick="applyDiscountPreset('50% + 20%')">🔥 50% + 20%</button>
+              <button type="button" class="discount-chip reset" data-value="" onclick="applyDiscountPreset('')">✕ Batal</button>
+            </div>
           </div>
 
           <div id="discountPreviewNotice" style="display: none; margin-bottom: 10px; font-size: 0.74rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 7px 10px; border-radius: 8px; color: #fde68a;">
@@ -2404,6 +2477,7 @@
       document.getElementById('itemQty').value = 1;
       document.getElementById('itemDiscount').value = '';
       document.getElementById('discountPreviewNotice').style.display = 'none';
+      document.querySelectorAll('.discount-chip').forEach(c => c.classList.remove('active'));
       openBottomSheet();
     }
 
@@ -2717,6 +2791,7 @@
       qtyInput.value = '1';
       discountInput.value = '';
       document.getElementById('discountPreviewNotice').style.display = 'none';
+      document.querySelectorAll('.discount-chip').forEach(c => c.classList.remove('active'));
 
       closeBottomSheet();
       playIOSSound('check');
@@ -3114,10 +3189,32 @@
       `;
     }
 
-    document.getElementById('itemDiscount').addEventListener('input', function() {
+    function applyDiscountPreset(val) {
+      playIOSSound('click');
+      const input = document.getElementById('itemDiscount');
+      if (input.value === val && val !== '') {
+        input.value = '';
+      } else {
+        input.value = val;
+      }
+      updateDiscountPreviewAndChips();
+    }
+
+    function updateDiscountPreviewAndChips() {
+      const input = document.getElementById('itemDiscount');
+      const discStr = (input.value || '').trim();
       const price = parseFloat(document.getElementById('itemPrice').value) || 0;
-      const discStr = this.value.trim();
       const previewEl = document.getElementById('discountPreviewNotice');
+
+      // Update active highlight on preset chips
+      document.querySelectorAll('.discount-chip').forEach(chip => {
+        const chipVal = chip.getAttribute('data-value') || '';
+        if (chipVal && chipVal.toLowerCase().replace(/\s+/g, '') === discStr.toLowerCase().replace(/\s+/g, '')) {
+          chip.classList.add('active');
+        } else {
+          chip.classList.remove('active');
+        }
+      });
 
       if (!discStr || price <= 0) {
         previewEl.style.display = 'none';
@@ -3136,7 +3233,7 @@
       } else {
         previewEl.style.display = 'none';
       }
-    });
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
       const today = new Date().toISOString().split('T')[0];
