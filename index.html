@@ -2,45 +2,47 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Smart Grocery & Price Tracker - Asisten Belanja Pintar</title>
   
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
       --primary: #6366f1;
       --primary-hover: #4f46e5;
-      --primary-light: rgba(99, 102, 241, 0.15);
-      --primary-glow: rgba(99, 102, 241, 0.4);
+      --primary-light: rgba(99, 102, 241, 0.16);
+      --primary-glow: rgba(99, 102, 241, 0.45);
       --accent: #8b5cf6;
+      --accent-glow: rgba(139, 92, 246, 0.4);
       --success: #10b981;
-      --success-hover: #059669;
-      --success-light: rgba(16, 185, 129, 0.15);
-      --success-glow: rgba(16, 185, 129, 0.35);
+      --success-light: rgba(16, 185, 129, 0.16);
+      --success-glow: rgba(16, 185, 129, 0.4);
       --warning: #f59e0b;
-      --warning-light: rgba(245, 158, 11, 0.15);
-      --warning-glow: rgba(245, 158, 11, 0.3);
+      --warning-light: rgba(245, 158, 11, 0.16);
+      --warning-glow: rgba(245, 158, 11, 0.35);
       --danger: #f43f5e;
-      --danger-light: rgba(244, 63, 94, 0.15);
-      --danger-glow: rgba(244, 63, 94, 0.35);
+      --danger-light: rgba(244, 63, 94, 0.16);
+      --danger-glow: rgba(244, 63, 94, 0.4);
       --bg: #090d16;
-      --bg-card: rgba(19, 27, 46, 0.85);
-      --bg-card-hover: rgba(26, 37, 62, 0.9);
+      --bg-card: rgba(19, 27, 46, 0.88);
+      --bg-card-hover: rgba(26, 37, 62, 0.95);
       --border-card: rgba(255, 255, 255, 0.08);
-      --border-card-hover: rgba(99, 102, 241, 0.3);
+      --border-card-hover: rgba(99, 102, 241, 0.35);
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --radius: 18px;
-      --radius-sm: 12px;
-      --radius-xs: 8px;
-      --shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.55);
-      --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --radius-xs: 10px;
+      --shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+      --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.35);
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
+      --safe-top: env(safe-area-inset-top, 0px);
     }
 
     * {
@@ -55,54 +57,75 @@
       background: radial-gradient(circle at 15% 10%, #1e1b4b 0%, #090d16 55%, #030712 100%);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 110px; /* Space for mobile floating bottom bar */
+      padding-bottom: calc(90px + var(--safe-bottom));
       overflow-x: hidden;
+      touch-action: manipulation;
     }
 
     h1, h2, h3, h4, h5, .font-heading {
       font-family: 'Outfit', sans-serif;
     }
 
-    /* Top Sticky Navigation Bar */
+    /* Top Mobile Sticky Navigation Bar */
     .navbar {
-      background: rgba(9, 13, 22, 0.92);
+      background: rgba(9, 13, 22, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-card);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 12px 20px;
+      padding: calc(10px + var(--safe-top)) 16px 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       color: inherit;
     }
 
     .brand-icon {
       background: linear-gradient(135deg, #6366f1, #a855f7);
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 19px;
       color: white;
       box-shadow: 0 4px 16px var(--primary-glow);
       flex-shrink: 0;
+      position: relative;
+    }
+
+    .brand-icon::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      border-radius: 15px;
+      z-index: -1;
+      opacity: 0.6;
+      filter: blur(4px);
+    }
+
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
     }
 
     .brand-title {
-      font-size: 1.12rem;
+      font-size: 1.05rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1.2;
@@ -110,10 +133,13 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .brand-subtitle {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 500;
     }
@@ -121,405 +147,416 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+    }
+
+    .nav-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-card);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .nav-icon-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.16);
     }
 
     .badge-cloud {
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(16, 185, 129, 0.3);
       color: #34d399;
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      padding: 7px 12px;
+      padding: 5px 10px;
       border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       white-space: nowrap;
-    }
-
-    .btn-nav-action {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-card);
-      color: var(--text);
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-nav-action:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-1px);
     }
 
     /* Main Container */
     .container {
       max-width: 1200px;
-      margin: 18px auto;
-      padding: 0 16px;
+      margin: 12px auto;
+      padding: 0 14px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-    }
-
-    /* Session Settings Bar: Store & Date */
-    .session-bar {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 14px 18px;
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
       gap: 14px;
-      box-shadow: var(--shadow-sm);
-      backdrop-filter: blur(14px);
     }
 
-    @media (max-width: 680px) {
-      .session-bar {
-        grid-template-columns: 1fr;
-        padding: 14px;
-        gap: 12px;
-      }
-    }
-
-    .session-item label {
+    /* Location & Date Mobile Bar */
+    .store-pill-bar {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #cbd5e1;
-      margin-bottom: 6px;
-    }
-
-    .session-input, .session-select {
-      width: 100%;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      color: white;
-      font-size: 0.92rem;
-      outline: none;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-
-    .session-input:focus, .session-select:focus {
-      border-color: #818cf8;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    }
-
-    /* Welcome / Insight Banner for Consumers */
-    .consumer-banner {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.22) 0%, rgba(168, 85, 247, 0.16) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .banner-text h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-      background: linear-gradient(90deg, #ffffff, #c084fc);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: flex;
-      align-items: center;
       gap: 8px;
-    }
-
-    .banner-text p {
-      font-size: 0.84rem;
-      color: #cbd5e1;
-      line-height: 1.45;
-    }
-
-    .banner-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    /* Quick Stats Cards Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 16px;
-    }
-
-    .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 23, 42, 0.75);
       border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      border-radius: 14px;
+      padding: 8px 12px;
+      backdrop-filter: blur(12px);
     }
 
-    .glass-card:hover {
-      border-color: var(--border-card-hover);
-    }
-
-    .card-header {
+    .store-select-wrapper {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
     }
 
-    .card-title {
+    .store-select-wrapper i {
+      color: #818cf8;
       font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .store-select {
+      background: transparent;
+      border: none;
+      color: #f8fafc;
+      font-size: 0.84rem;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #f1f5f9;
-    }
-
-    .stat-value {
-      font-size: 1.85rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 4px;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .stat-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
-    /* Budget Progress Bar */
-    .progress-bar-bg {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      height: 10px;
-      overflow: hidden;
-      margin: 12px 0 8px 0;
-      position: relative;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      border-radius: 12px;
-      transition: width 0.4s ease, background-color 0.4s ease;
-      background: linear-gradient(90deg, #10b981, #059669);
-    }
-
-    /* Overbudget Warning Alert Box */
-    .alert-box {
-      background: rgba(244, 63, 94, 0.16);
-      border: 1px solid rgba(244, 63, 94, 0.45);
-      color: #fda4af;
-      padding: 10px 14px;
-      border-radius: var(--radius-xs);
-      font-size: 0.82rem;
-      display: none;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      animation: pulseGlow 2s infinite;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(244, 63, 94, 0); }
-      50% { box-shadow: 0 0 16px rgba(244, 63, 94, 0.35); }
-    }
-
-    /* Main Grid Layout */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 18px;
-    }
-
-    @media (max-width: 980px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Form Container */
-    .form-container-card {
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 18px;
-      margin-bottom: 20px;
-    }
-
-    .form-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    /* Popular Items Quick-Add Chips */
-    .quick-chips-wrapper {
-      margin-bottom: 14px;
-    }
-
-    .quick-chips-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #94a3b8;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .chips-scroll {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: thin;
-    }
-
-    .chip-item {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #e2e8f0;
-      padding: 5px 11px;
-      border-radius: 18px;
-      font-size: 0.76rem;
-      font-weight: 600;
+      outline: none;
+      width: 100%;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.18s ease;
-      display: inline-flex;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .store-select option {
+      background: #0f172a;
+      color: white;
+    }
+
+    .date-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 5px 9px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .date-input-hidden {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* Fintech Wallet Budget Card (Modern Mobile Look) */
+    .wallet-card {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(49, 46, 129, 0.75) 45%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wallet-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .wallet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .wallet-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wallet-status-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: flex;
       align-items: center;
       gap: 5px;
+      transition: all 0.3s ease;
     }
 
-    .chip-item:hover {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: #818cf8;
-      color: white;
-      transform: translateY(-1px);
+    .status-safe {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
     }
 
-    .form-group {
+    .status-warn {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+    }
+
+    .status-danger {
+      background: rgba(244, 63, 94, 0.25);
+      border: 1px solid rgba(244, 63, 94, 0.5);
+      color: #fda4af;
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(244, 63, 94, 0); }
+      50% { transform: scale(1.03); box-shadow: 0 0 14px rgba(244, 63, 94, 0.45); }
+    }
+
+    .wallet-balance-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
       margin-bottom: 12px;
     }
 
-    .form-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: #cbd5e1;
+    .wallet-balance {
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.1;
+      font-family: 'Outfit', sans-serif;
     }
 
-    .form-input, .form-select {
-      width: 100%;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-xs);
-      padding: 10px 14px;
+    .btn-edit-budget {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      font-size: 0.92rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .form-input:focus, .form-select:focus {
-      border-color: #818cf8;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 480px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
-      color: white;
-      border: none;
-      padding: 13px 20px;
-      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
       font-weight: 700;
-      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .btn-edit-budget:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Glowing Progress Bar */
+    .wallet-progress-bg {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      height: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .wallet-progress-fill {
+      height: 100%;
+      border-radius: 14px;
+      transition: width 0.4s ease, background 0.4s ease;
+      background: linear-gradient(90deg, #10b981, #059669);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+
+    .wallet-footer-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
-      width: 100%;
-      box-shadow: 0 4px 16px var(--primary-glow);
+      padding-top: 6px;
+    }
+
+    .metric-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .metric-val {
+      font-size: 1.05rem;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Celebration Shopping Complete Banner */
+    .complete-celebration-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .celebration-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #10b981;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px var(--success-glow);
+    }
+
+    /* Quick Add Carousel & Chips */
+    .quick-add-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2px;
+    }
+
+    .section-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-chips-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 8px 2px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .quick-chips-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quick-card-chip {
+      background: rgba(19, 27, 46, 0.85);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
       transition: all 0.2s ease;
     }
 
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #4338ca, #4f46e5);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px var(--primary-glow);
+    .quick-card-chip:hover, .quick-card-chip:active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #818cf8;
+      transform: translateY(-2px);
     }
 
-    .btn-primary:active {
-      transform: translateY(1px);
+    .quick-chip-icon {
+      font-size: 1.25rem;
+    }
+
+    .quick-chip-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quick-chip-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .quick-chip-price {
+      font-size: 0.72rem;
+      color: #34d399;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
     }
 
     /* Filter Pills & Search */
-    .list-controls-bar {
+    .list-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-top: 4px;
     }
 
     .filter-pills {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       overflow-x: auto;
       padding-bottom: 2px;
     }
 
     .pill {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-card);
       color: var(--text-muted);
-      padding: 6px 13px;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.76rem;
+      font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
@@ -528,9 +565,8 @@
       gap: 5px;
     }
 
-    .pill:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: white;
+    .pill:active {
+      transform: scale(0.94);
     }
 
     .pill.active {
@@ -540,68 +576,66 @@
       box-shadow: 0 2px 10px var(--primary-glow);
     }
 
-    .search-box {
+    .search-input-wrapper {
       position: relative;
       flex: 1;
-      min-width: 160px;
-      max-width: 240px;
+      min-width: 130px;
     }
 
-    @media (max-width: 600px) {
-      .search-box {
-        max-width: 100%;
-        width: 100%;
-      }
-    }
-
-    .search-box i {
+    .search-input-wrapper i {
       position: absolute;
       left: 11px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
     .search-input {
       width: 100%;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.75);
       border: 1px solid var(--border-card);
       border-radius: 20px;
-      padding: 6px 12px 6px 30px;
+      padding: 7px 12px 7px 30px;
       color: white;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       outline: none;
       transition: all 0.2s;
     }
 
     .search-input:focus {
       border-color: #818cf8;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
     }
 
-    /* Cart Item Card */
-    .grocery-item {
-      background: rgba(15, 23, 42, 0.58);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 13px 15px;
+    /* Cart Items List */
+    .grocery-items-container {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-bottom: 10px;
-      transition: all 0.2s ease;
     }
 
-    .grocery-item:hover {
-      border-color: rgba(255, 255, 255, 0.18);
-      background: rgba(19, 28, 50, 0.7);
+    .grocery-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .grocery-item:active {
+      border-color: rgba(99, 102, 241, 0.4);
     }
 
     .grocery-item.completed {
       opacity: 0.65;
-      background: rgba(15, 23, 42, 0.32);
-      border-color: rgba(16, 185, 129, 0.2);
+      background: rgba(15, 23, 42, 0.45);
+      border-color: rgba(16, 185, 129, 0.25);
     }
 
     .grocery-item.completed .item-name {
@@ -624,10 +658,11 @@
       min-width: 0;
     }
 
+    /* Big Satisfying Touch Checkbox */
     .custom-checkbox {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
       border: 2px solid #818cf8;
       cursor: pointer;
       display: flex;
@@ -639,15 +674,15 @@
       flex-shrink: 0;
     }
 
-    .custom-checkbox:hover {
-      border-color: #a5b4fc;
-      transform: scale(1.05);
+    .custom-checkbox:active {
+      transform: scale(0.9);
     }
 
     .custom-checkbox.checked {
       background: #10b981;
       border-color: #10b981;
       color: white;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.5);
     }
 
     .item-name {
@@ -655,22 +690,23 @@
       font-size: 0.96rem;
       word-break: break-word;
       color: #f8fafc;
+      line-height: 1.25;
     }
 
     .item-meta {
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       color: var(--text-muted);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       margin-top: 3px;
     }
 
     .badge-tag {
       padding: 2px 8px;
       border-radius: 6px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -678,24 +714,23 @@
     }
 
     .badge-cat {
-      background: rgba(129, 140, 248, 0.15);
+      background: rgba(129, 140, 248, 0.16);
       color: #c7d2fe;
     }
 
     .badge-store {
-      background: rgba(168, 85, 247, 0.15);
+      background: rgba(168, 85, 247, 0.16);
       color: #e9d5ff;
     }
 
-    /* Price Fluctuation Badges */
     .badge-fluct-up {
-      background: rgba(244, 63, 94, 0.18);
+      background: rgba(244, 63, 94, 0.2);
       border: 1px solid rgba(244, 63, 94, 0.4);
       color: #fb7185;
     }
 
     .badge-fluct-down {
-      background: rgba(16, 185, 129, 0.18);
+      background: rgba(16, 185, 129, 0.2);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #34d399;
     }
@@ -706,11 +741,28 @@
       color: #cbd5e1;
     }
 
-    /* Compound Discount Badges */
     .badge-discount {
-      background: rgba(245, 158, 11, 0.18);
+      background: rgba(245, 158, 11, 0.2);
       border: 1px solid rgba(245, 158, 11, 0.4);
       color: #fbbf24;
+    }
+
+    .btn-delete {
+      background: transparent;
+      border: none;
+      color: #f43f5e;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.75;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .btn-delete:active {
+      transform: scale(0.9);
+      background: rgba(244, 63, 94, 0.2);
+      opacity: 1;
     }
 
     /* Item Bottom Row: Stepper Qty & Price Subtotal */
@@ -719,29 +771,29 @@
       justify-content: space-between;
       align-items: center;
       padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    /* Touch-Friendly Quantity Stepper */
+    /* Mobile Finger-Friendly Stepper */
     .qty-stepper {
       display: flex;
       align-items: center;
       gap: 3px;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.85);
       border: 1px solid var(--border-card);
-      border-radius: var(--radius-xs);
+      border-radius: 10px;
       padding: 2px 4px;
     }
 
     .btn-step {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
       border: none;
-      background: rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.1);
       color: white;
-      font-weight: 700;
-      font-size: 1rem;
+      font-weight: 800;
+      font-size: 1.1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -749,22 +801,19 @@
       transition: all 0.15s;
     }
 
-    .btn-step:hover {
-      background: var(--primary);
-    }
-
     .btn-step:active {
-      transform: scale(0.92);
+      background: var(--primary);
+      transform: scale(0.9);
     }
 
     .qty-input {
-      width: 40px;
+      width: 38px;
       text-align: center;
       background: transparent;
       border: none;
       color: white;
-      font-weight: 700;
-      font-size: 0.95rem;
+      font-weight: 800;
+      font-size: 0.98rem;
       outline: none;
     }
 
@@ -773,10 +822,9 @@
     }
 
     .item-subtotal {
-      font-weight: 800;
-      font-size: 1.08rem;
+      font-weight: 900;
+      font-size: 1.1rem;
       color: #ffffff;
-      letter-spacing: -0.01em;
       font-family: 'Outfit', sans-serif;
     }
 
@@ -785,59 +833,50 @@
       color: var(--text-muted);
     }
 
-    .btn-delete {
-      background: transparent;
-      border: none;
-      color: #f43f5e;
-      padding: 7px;
-      border-radius: 8px;
-      cursor: pointer;
-      opacity: 0.75;
-      transition: all 0.2s;
-      font-size: 0.9rem;
+    /* Store Comparison & Insights */
+    .store-insights-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
     }
 
-    .btn-delete:hover {
-      opacity: 1;
-      background: rgba(244, 63, 94, 0.15);
-      transform: scale(1.08);
-    }
-
-    /* Store Comparison Cards */
     .store-comparison {
-      display: grid;
-      gap: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .store-card {
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--border-card);
       border-radius: var(--radius-sm);
-      padding: 12px 14px;
+      padding: 11px 13px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.2s ease;
     }
 
     .store-card.active-store {
       border-color: rgba(99, 102, 241, 0.6);
-      background: rgba(79, 70, 229, 0.12);
+      background: rgba(79, 70, 229, 0.14);
     }
 
     .store-card.best {
       border-color: rgba(16, 185, 129, 0.5);
-      background: rgba(16, 185, 129, 0.1);
+      background: rgba(16, 185, 129, 0.12);
     }
 
     .store-info h4 {
-      font-size: 0.88rem;
-      margin-bottom: 2px;
+      font-size: 0.86rem;
       color: #f8fafc;
+      margin-bottom: 2px;
     }
 
     .store-info span {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
 
@@ -848,25 +887,204 @@
       font-family: 'Outfit', sans-serif;
     }
 
-    /* History Trend Table */
-    .trend-table-box {
-      background: rgba(15, 23, 42, 0.45);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      font-size: 0.82rem;
-    }
-
-    .trend-row {
+    /* Floating Bottom Dock (Shopee / Native App Style) */
+    .mobile-bottom-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 17, 32, 0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border-card);
+      padding: 10px 16px calc(10px + var(--safe-bottom)) 16px;
+      z-index: 99;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 7px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 12px;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
     }
 
-    .trend-row:last-child {
-      border-bottom: none;
+    .dock-total-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dock-total-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .dock-total-val {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #34d399;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.1;
+    }
+
+    .dock-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-fab-add {
+      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 26px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 18px var(--primary-glow);
+      transition: all 0.2s;
+    }
+
+    .btn-fab-add:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    /* Native-Style Bottom Sheet Drawer for Adding Items */
+    .sheet-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet-overlay.open {
+      display: flex;
+    }
+
+    .bottom-sheet {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 26px 26px 0 0;
+      width: 100%;
+      max-width: 580px;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 14px 20px calc(24px + var(--safe-bottom)) 20px;
+      box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.7);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(0); }
+    }
+
+    .drag-handle-pill {
+      width: 44px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      margin: 0 auto 14px auto;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .sheet-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-sheet-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    /* Form Inputs inside Sheet */
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #cbd5e1;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-xs);
+      padding: 11px 14px;
+      color: white;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.98rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
     }
 
     /* Modal Dialogs */
@@ -879,7 +1097,7 @@
       background: rgba(3, 7, 18, 0.82);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      z-index: 1000;
+      z-index: 1100;
       display: none;
       align-items: center;
       justify-content: center;
@@ -895,7 +1113,7 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius);
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 22px;
@@ -918,121 +1136,58 @@
       align-items: center;
       justify-content: center;
       font-size: 1rem;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* Mobile Floating Bottom Action Bar */
-    .mobile-bottom-bar {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(13, 19, 33, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border-card);
-      padding: 10px 16px;
-      z-index: 99;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 -8px 24px rgba(0,0,0,0.45);
-    }
-
-    @media (max-width: 768px) {
-      .mobile-bottom-bar {
-        display: flex;
-      }
-      .hide-mobile {
-        display: none !important;
-      }
-    }
-
-    .mobile-total-block {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .mobile-total-label {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .mobile-total-val {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #34d399;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .mobile-btn-add {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 24px;
-      font-weight: 700;
-      font-size: 0.86rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 14px var(--primary-glow);
     }
 
     /* Toast Notification */
     #toast {
       position: fixed;
-      bottom: 80px;
-      right: 20px;
+      bottom: calc(75px + var(--safe-bottom));
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: white;
-      padding: 12px 18px;
-      border-radius: var(--radius-sm);
-      font-size: 0.88rem;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
-      transform: translateY(120px);
+      padding: 11px 18px;
+      border-radius: 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 2000;
       display: flex;
       align-items: center;
-      gap: 10px;
-      max-width: 90vw;
+      gap: 8px;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
     #toast.show {
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
 
     /* Validation Alert Box */
     .validation-alert-box {
       position: fixed;
-      top: 20px;
+      top: calc(16px + var(--safe-top));
       left: 50%;
       transform: translateX(-50%) translateY(-120px);
       background: rgba(244, 63, 94, 0.96);
       backdrop-filter: blur(16px);
       color: white;
-      padding: 13px 20px;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-      font-weight: 600;
-      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.4);
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.45);
       z-index: 3000;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       transition: all 0.3s ease;
-      max-width: 90vw;
+      max-width: 92vw;
     }
 
     .validation-alert-box.show {
@@ -1079,11 +1234,10 @@
         }
       };
 
-      // Realtime listener onSnapshot
       signInAnonymously(auth).then(() => {
         const cloudBadge = document.getElementById('cloudBadge');
         if (cloudBadge) {
-          cloudBadge.innerHTML = '<i class="fa-solid fa-cloud"></i> Firebase Live Sync';
+          cloudBadge.innerHTML = '<i class="fa-solid fa-cloud"></i> Live Sync';
         }
         
         onSnapshot(doc(db, "grocery_tracker", "rian_dt2_p15"), (docSnap) => {
@@ -1100,14 +1254,14 @@
         console.warn("Firebase anonymous auth fallback:", err);
         const cloudBadge = document.getElementById('cloudBadge');
         if (cloudBadge) {
-          cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+          cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Ready';
         }
       });
     } catch(e) {
       console.warn("Firebase init local fallback:", e);
       const cloudBadge = document.getElementById('cloudBadge');
       if (cloudBadge) {
-        cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Local Ready';
+        cloudBadge.innerHTML = '<i class="fa-solid fa-hard-drive"></i> Offline Ready';
       }
     }
   </script>
@@ -1116,7 +1270,7 @@
 <body>
   <!-- Validation Alert Box -->
   <div id="validationAlert" class="validation-alert-box">
-    <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.3rem;"></i>
+    <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem;"></i>
     <span id="validationAlertMsg">Input ditolak! Data tidak valid.</span>
   </div>
 
@@ -1126,288 +1280,270 @@
       <div class="brand-icon">
         <i class="fa-solid fa-basket-shopping"></i>
       </div>
-      <div>
-        <div class="brand-title">Smart Grocery & Price Tracker</div>
-        <div class="brand-subtitle">Asisten Belanja Pintar & Pengatur Budget</div>
+      <div class="brand-text-block">
+        <div class="brand-title">Smart Grocery <i class="fa-solid fa-sparkles" style="font-size: 0.75rem; color: #fbbf24;"></i></div>
+        <div class="brand-subtitle">Asisten Belanja Hemat & Cerdas</div>
       </div>
     </div>
 
     <div class="nav-actions">
       <div class="badge-cloud" id="cloudBadge">
-        <i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan Cloud...
+        <i class="fa-solid fa-circle-notch fa-spin"></i> Online
       </div>
-      <button class="btn-nav-action" onclick="openShareModal()" title="Salin & Bagikan Daftar Belanja">
-        <i class="fa-solid fa-share-nodes"></i> <span class="hide-mobile">Bagikan</span>
+      <button class="nav-icon-btn" onclick="toggleSound()" id="btnSoundToggle" title="Suara Sentuhan">
+        <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+      </button>
+      <button class="nav-icon-btn" onclick="openShareModal()" title="Bagikan ke WhatsApp">
+        <i class="fa-solid fa-share-nodes"></i>
       </button>
     </div>
   </nav>
 
   <!-- Container -->
   <div class="container">
-    <!-- Session Bar: Toko Belanja & Tanggal -->
-    <div class="session-bar">
-      <div class="session-item">
-        <label><i class="fa-solid fa-store" style="color: #818cf8;"></i> Pilih Supermarket / Lokasi Belanja</label>
-        <select id="sessionStore" class="session-select" onchange="onSessionConfigChanged()">
-          <option value="Lotte Mart Grocery - Puri Indah" selected>Lotte Mart Grocery - Puri Indah (Supermarket Grosir)</option>
+    <!-- Store & Date Selector Bar -->
+    <div class="store-pill-bar">
+      <div class="store-select-wrapper">
+        <i class="fa-solid fa-location-dot"></i>
+        <select id="sessionStore" class="store-select" onchange="onSessionConfigChanged()">
+          <option value="Lotte Mart Grocery - Puri Indah" selected>Lotte Mart Grocery - Puri Indah</option>
           <option value="Super Indo Supermarket">Super Indo Supermarket</option>
-          <option value="Hypermart / Transmart">Hypermart / Transmart Mall</option>
-          <option value="Pasar Tradisional">Pasar Tradisional (Grosir Basah & Segar)</option>
+          <option value="Hypermart / Transmart">Hypermart / Transmart</option>
+          <option value="Pasar Tradisional">Pasar Tradisional (Grosir Segar)</option>
           <option value="Minimarket Modern">Minimarket (Indomaret / Alfamart)</option>
-          <option value="Toko Berkah Kelontong">Toko Berkah Kelontong</option>
+          <option value="Toko Berkah Kelontong">Toko Kelontong Berkah</option>
         </select>
       </div>
 
-      <div class="session-item">
-        <label><i class="fa-solid fa-calendar-days" style="color: #34d399;"></i> Tanggal Rencana Belanja</label>
-        <input type="date" id="sessionDate" class="session-input" onchange="onSessionConfigChanged()">
-      </div>
+      <label class="date-pill" title="Ubah Tanggal Belanja">
+        <i class="fa-solid fa-calendar-day" style="color: #34d399;"></i>
+        <span id="dateLabelDisplay">28 Okt</span>
+        <input type="date" id="sessionDate" class="date-input-hidden" onchange="onSessionConfigChanged()">
+      </label>
     </div>
 
-    <!-- Consumer Welcome & Insight Banner -->
-    <div class="consumer-banner">
-      <div class="banner-text">
-        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color: #c084fc;"></i> Belanja Hemat & Terencana</h2>
-        <p>Kelola kebutuhan belanja Anda dengan proteksi batas anggaran realtime, kalkulator diskon promo otomatis, dan komparasi harga terbaik.</p>
+    <!-- Fintech-Style Wallet Budget Card -->
+    <div class="wallet-card">
+      <div class="wallet-header">
+        <span class="wallet-label"><i class="fa-solid fa-wallet" style="color: #c7d2fe;"></i> Anggaran Belanja</span>
+        <span class="wallet-status-badge status-safe" id="budgetStatusBadge">
+          <i class="fa-solid fa-circle-check"></i> Aman & Terkendali
+        </span>
       </div>
-      <div class="banner-actions">
-        <button class="pill" onclick="scrollToForm()">
-          <i class="fa-solid fa-plus-circle"></i> Tambah Barang
+
+      <div class="wallet-balance-row">
+        <div>
+          <div class="wallet-balance" id="budgetDisplay">Rp 350.000</div>
+          <div style="font-size: 0.72rem; color: #cbd5e1; margin-top: 2px;">Target maksimal belanja periode ini</div>
+        </div>
+        <button class="btn-edit-budget" onclick="openBudgetModal()">
+          <i class="fa-solid fa-pen-to-square"></i> Atur
         </button>
-        <button class="pill" onclick="openBudgetModal()">
-          <i class="fa-solid fa-wallet"></i> Atur Budget
-        </button>
-      </div>
-    </div>
-
-    <!-- Stats & Budget Cards Grid -->
-    <div class="stats-grid">
-      <!-- Budget Safety Card -->
-      <div class="glass-card">
-        <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-wallet" style="color: #818cf8;"></i> Batas Anggaran</span>
-          <button class="pill" onclick="openBudgetModal()"><i class="fa-solid fa-pen"></i> Ubah</button>
-        </div>
-        <div class="stat-value" id="budgetDisplay">Rp 350.000</div>
-        <div class="stat-sub">Alokasi maksimal pengeluaran belanja</div>
-        
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="budgetProgressBar" style="width: 0%;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
-          <span id="budgetPercentText">0% Terpakai</span>
-          <span id="budgetRemainingText" style="font-weight: 700;">Sisa: Rp 350.000</span>
-        </div>
-
-        <div class="alert-box" id="overbudgetAlert">
-          <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.1rem;"></i>
-          <div><strong>PERINGATAN OVERBUDGET:</strong> Belanjaan telah melebihi batas anggaran yang ditentukan!</div>
-        </div>
       </div>
 
-      <!-- Total Belanja Realtime -->
-      <div class="glass-card">
-        <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-receipt" style="color: #34d399;"></i> Total Belanja</span>
-          <span class="pill" id="itemCountBadge">0 Barang</span>
-        </div>
-        <div class="stat-value" id="totalExpenseDisplay" style="color: #6ee7b7;">Rp 0</div>
-        <div class="stat-sub" id="purchasedSummary">0 dari 0 barang sudah dibeli</div>
-        <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
-          <button class="pill" onclick="syncToCloud()"><i class="fa-solid fa-cloud-arrow-up"></i> Sync Cloud</button>
-          <button class="pill" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> Kosongkan</button>
-        </div>
+      <!-- Glowing Progress Bar -->
+      <div class="wallet-progress-bg">
+        <div class="wallet-progress-fill" id="budgetProgressBar" style="width: 0%;"></div>
       </div>
 
-      <!-- Fluktuasi & Estimasi Hemat -->
-      <div class="glass-card">
-        <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-chart-line" style="color: #fbbf24;"></i> Komparasi Harga</span>
-          <span class="badge-tag badge-fluct-down" id="savingsBadge"><i class="fa-solid fa-tag"></i> Best Price</span>
+      <div class="wallet-footer-metrics">
+        <div class="metric-box">
+          <div class="metric-label">Total Belanjaan:</div>
+          <div class="metric-val" id="totalExpenseDisplay" style="color: #6ee7b7;">Rp 0</div>
         </div>
-        <div class="stat-value" id="savingsDisplay" style="color: #38bdf8;">Rp 0</div>
-        <div class="stat-sub" id="savingsNote">Estimasi penghematan dibanding eceran minimarket</div>
-        <div style="margin-top: 12px; font-size: 0.8rem; color: #cbd5e1; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px;">
-          <i class="fa-solid fa-circle-info" style="color: #818cf8;"></i>
-          <span id="fluctuationSummaryText">Komparasi aktif: Supermarket Grosir vs Eceran Minimarket</span>
+        <div class="metric-box">
+          <div class="metric-label" id="budgetRemainingLabel">Sisa Anggaran:</div>
+          <div class="metric-val" id="budgetRemainingText" style="color: #38bdf8;">Rp 350.000</div>
         </div>
       </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="main-grid">
-      <!-- Kolom Kiri: Form Input & Daftar Belanja -->
-      <div class="glass-card" id="cartSection">
-        <!-- Form Input Item Belanja -->
-        <div class="form-container-card" id="formCard">
-          <div class="form-header">
-            <h4 style="font-size: 0.98rem; color: #f1f5f9; display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-cart-plus" style="color: #818cf8;"></i> Tambah Barang Belanjaan
-            </h4>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Lokasi: <strong id="lblActiveStore" style="color: #cbd5e1;">Lotte Mart Grocery</strong></span>
-          </div>
+    <!-- Shopping Complete Celebration Banner -->
+    <div class="complete-celebration-banner" id="completeCelebrationBanner">
+      <div class="celebration-icon">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: #34d399;">Hore, Belanjaan Lengkap! 🎉</h4>
+        <p style="font-size: 0.76rem; color: #e2e8f0; margin-top: 2px;">Semua barang dalam keranjang sudah dicentang dan dibeli.</p>
+      </div>
+    </div>
 
-          <!-- Quick Add Popular Items Chips -->
-          <div class="quick-chips-wrapper">
-            <div class="quick-chips-label">
-              <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Klik Cepat Barang Populer:
-            </div>
-            <div class="chips-scroll">
-              <button class="chip-item" type="button" onclick="quickFillItem('Beras Rojolele', 'Bahan Pokok', 'karung/5kg', 74000)">🌾 Beras 5kg</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Minyak Goreng 2L', 'Bahan Pokok', 'pouch', 43000)">🍳 Minyak 2L</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Telur Ayam 1kg', 'Lauk Pauk', 'kg', 28000)">🥚 Telur 1kg</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Gula Pasir 1kg', 'Bahan Pokok', 'kg', 17500)">🍬 Gula 1kg</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Sabun Cuci Piring', 'Kebutuhan Rumah', 'pouch', 15000)">🧼 Sabun Cuci</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Susu UHT 1L', 'Minuman & Snack', 'kotak', 19000)">🥛 Susu UHT</button>
-              <button class="chip-item" type="button" onclick="quickFillItem('Daging Ayam 1kg', 'Lauk Pauk', 'kg', 36000)">🍗 Ayam 1kg</button>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Nama Barang *</label>
-              <input type="text" id="itemName" class="form-input" placeholder="Misal: Beras Rojolele 5kg" autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Kategori</label>
-              <select id="itemCategory" class="form-select">
-                <option value="Bahan Pokok">🌾 Bahan Pokok (Sembako)</option>
-                <option value="Sayur & Buah">🥬 Sayur & Buah</option>
-                <option value="Lauk Pauk">🍗 Daging, Telur & Ikan</option>
-                <option value="Kebutuhan Rumah">🧼 Sabun & Kebersihan</option>
-                <option value="Peralatan">🍳 Peralatan & Masak</option>
-                <option value="Minuman & Snack">🥤 Minuman & Cemilan</option>
-                <option value="Lainnya">📦 Lainnya</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Satuan</label>
-              <input type="text" id="itemUnit" class="form-input" placeholder="karung/5kg, liter, pcs, kg" value="karung/5kg">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Jumlah (Qty)</label>
-              <input type="number" id="itemQty" class="form-input" value="1" min="1" step="1">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Harga Satuan (Rp) *</label>
-              <input type="number" id="itemPrice" class="form-input" placeholder="Misal: 74000">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Diskon / Promo (Opsional)</label>
-              <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50% + 20%">
-            </div>
-          </div>
-
-          <div id="discountPreviewNotice" style="display: none; margin-bottom: 12px; font-size: 0.8rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 8px 12px; border-radius: 8px; color: #fde68a;">
-            <!-- Realtime discount breakdown -->
-          </div>
-
-          <button class="btn-primary" id="btnAddToCart" onclick="addGroceryItem()">
-            <i class="fa-solid fa-plus-circle"></i> Tambah ke Keranjang Belanja
-          </button>
-        </div>
-
-        <!-- Header Daftar Keranjang Belanja & Controls -->
-        <div class="list-controls-bar">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="card-title"><i class="fa-solid fa-basket-shopping" style="color: #34d399;"></i> Daftar Belanjaan</span>
-          </div>
-
-          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <div class="filter-pills">
-              <button class="pill active" onclick="setFilter('all', this)" id="filterPillAll">Semua</button>
-              <button class="pill" onclick="setFilter('pending', this)" id="filterPillPending">Belum Dibeli</button>
-              <button class="pill" onclick="setFilter('done', this)" id="filterPillDone">Sudah Dibeli</button>
-            </div>
-
-            <div class="search-box">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" id="searchItemInput" class="search-input" placeholder="Cari barang..." oninput="onSearchChanged()">
-            </div>
-          </div>
-        </div>
-
-        <!-- List Items Container -->
-        <div id="groceryListContainer">
-          <!-- Rendered dynamically -->
-        </div>
+    <!-- Quick Add Horizontal Carousel -->
+    <div class="quick-add-section">
+      <div class="section-title-row">
+        <span class="section-title">
+          <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Klik Cepat Barang Favorit
+        </span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">Geser &raquo;</span>
       </div>
 
-      <!-- Kolom Kanan: Perbandingan Antar Toko & Histori Tren Harga -->
-      <div class="glass-card">
-        <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-scale-balanced" style="color: #38bdf8;"></i> Perbandingan Antar Toko</span>
-        </div>
-        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-          Simulasi total belanja jika seluruh barang dibeli di tipe toko berbeda:
-        </p>
-
-        <div class="store-comparison" id="storeComparisonContainer">
-          <!-- Rendered dynamically -->
-        </div>
-
-        <div class="card-header" style="margin-top: 24px;">
-          <span class="card-title"><i class="fa-solid fa-clock-rotate-left" style="color: #fbbf24;"></i> Histori Tren Harga Pasar</span>
-        </div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
-          Pergerakan harga pasar sembako bulan lalu vs terkini:
-        </div>
-
-        <div class="trend-table-box">
-          <div class="trend-row">
-            <div>
-              <strong>Beras 5kg / Rojolele</strong>
-              <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 68.000</div>
-            </div>
-            <span class="badge-tag badge-fluct-up"><i class="fa-solid fa-arrow-up"></i> Naik (+Rp 6.000)</span>
-          </div>
-
-          <div class="trend-row">
-            <div>
-              <strong>Telur Ayam 1kg</strong>
-              <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 32.000</div>
-            </div>
-            <span class="badge-tag badge-fluct-down"><i class="fa-solid fa-arrow-down"></i> Hemat (-Rp 4.000)</span>
-          </div>
-
-          <div class="trend-row">
-            <div>
-              <strong>Garam 500g</strong>
-              <div style="font-size: 0.72rem; color: var(--text-muted);">Bln lalu: Rp 5.000</div>
-            </div>
-            <span class="badge-tag badge-fluct-stable"><i class="fa-solid fa-equals"></i> Stabil (=)</span>
+      <div class="quick-chips-scroll">
+        <div class="quick-card-chip" onclick="quickFillItem('Beras Rojolele', 'Bahan Pokok', 'karung/5kg', 74000)">
+          <span class="quick-chip-icon">🌾</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Beras 5kg</span>
+            <span class="quick-chip-price">Rp 74.000</span>
           </div>
         </div>
-
-        <!-- Tips Belanja Cerdas -->
-        <div style="margin-top: 20px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: var(--radius-sm); padding: 14px;">
-          <h5 style="font-size: 0.85rem; font-weight: 700; color: #a5b4fc; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-lightbulb"></i> Tips Belanja Hemat:
-          </h5>
-          <p style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.45;">
-            Belanja sembako dalam kemasan grosir biasanya menghemat 15–25% dibandingkan beli eceran harian di minimarket. Manfaatkan promo diskon bertingkat untuk kebutuhan sabun & peralatan dapur.
-          </p>
+        <div class="quick-card-chip" onclick="quickFillItem('Minyak Goreng 2L', 'Bahan Pokok', 'pouch', 43000)">
+          <span class="quick-chip-icon">🍳</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Minyak 2L</span>
+            <span class="quick-chip-price">Rp 43.000</span>
+          </div>
         </div>
+        <div class="quick-card-chip" onclick="quickFillItem('Telur Ayam 1kg', 'Lauk Pauk', 'kg', 28000)">
+          <span class="quick-chip-icon">🥚</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Telur 1kg</span>
+            <span class="quick-chip-price">Rp 28.000</span>
+          </div>
+        </div>
+        <div class="quick-card-chip" onclick="quickFillItem('Gula Pasir 1kg', 'Bahan Pokok', 'kg', 17500)">
+          <span class="quick-chip-icon">🍬</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Gula 1kg</span>
+            <span class="quick-chip-price">Rp 17.500</span>
+          </div>
+        </div>
+        <div class="quick-card-chip" onclick="quickFillItem('Sabun Cuci Piring', 'Kebutuhan Rumah', 'pouch', 15000)">
+          <span class="quick-chip-icon">🧼</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Sabun Cuci</span>
+            <span class="quick-chip-price">Rp 15.000</span>
+          </div>
+        </div>
+        <div class="quick-card-chip" onclick="quickFillItem('Susu UHT 1L', 'Minuman & Snack', 'kotak', 19000)">
+          <span class="quick-chip-icon">🥛</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Susu 1L</span>
+            <span class="quick-chip-price">Rp 19.000</span>
+          </div>
+        </div>
+        <div class="quick-card-chip" onclick="quickFillItem('Daging Ayam 1kg', 'Lauk Pauk', 'kg', 36000)">
+          <span class="quick-chip-icon">🍗</span>
+          <div class="quick-chip-info">
+            <span class="quick-chip-name">Ayam 1kg</span>
+            <span class="quick-chip-price">Rp 36.000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Filter & Search Row -->
+    <div class="list-header-row">
+      <div class="filter-pills">
+        <button class="pill active" onclick="setFilter('all', this)" id="filterPillAll">Semua (0)</button>
+        <button class="pill" onclick="setFilter('pending', this)" id="filterPillPending">Belum (0)</button>
+        <button class="pill" onclick="setFilter('done', this)" id="filterPillDone">Sudah (0)</button>
+      </div>
+
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchItemInput" class="search-input" placeholder="Cari..." oninput="onSearchChanged()">
+      </div>
+    </div>
+
+    <!-- Cart Items List Container -->
+    <div class="grocery-items-container" id="groceryListContainer">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- Store Comparison & Savings Insight -->
+    <div class="store-insights-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4 style="font-size: 0.92rem; font-weight: 800; color: #f8fafc; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-scale-balanced" style="color: #38bdf8;"></i> Perbandingan Antar Toko
+        </h4>
+        <span class="badge-tag badge-fluct-down" id="savingsBadge"><i class="fa-solid fa-piggy-bank"></i> Hemat</span>
+      </div>
+
+      <p style="font-size: 0.76rem; color: var(--text-muted); margin: 4px 0 10px 0;" id="savingsNote">
+        Estimasi penghematan belanja dibanding minimarket
+      </p>
+
+      <div class="store-comparison" id="storeComparisonContainer">
+        <!-- Rendered dynamically -->
       </div>
     </div>
   </div>
 
-  <!-- Mobile Floating Bottom Bar -->
-  <div class="mobile-bottom-bar">
-    <div class="mobile-total-block">
-      <span class="mobile-total-label">Total Belanja:</span>
-      <span class="mobile-total-val" id="mobileTotalVal">Rp 0</span>
+  <!-- Mobile Floating Bottom Dock -->
+  <div class="mobile-bottom-dock">
+    <div class="dock-total-box">
+      <span class="dock-total-label" id="purchasedSummary">0 dari 0 dibeli</span>
+      <span class="dock-total-val" id="dockTotalVal">Rp 0</span>
     </div>
-    <div style="display: flex; gap: 8px;">
-      <button class="pill" onclick="openShareModal()" title="Bagikan"><i class="fa-solid fa-share-nodes"></i></button>
-      <button class="mobile-btn-add" onclick="scrollToForm()">
-        <i class="fa-solid fa-plus"></i> Tambah
+
+    <div class="dock-actions-row">
+      <button class="nav-icon-btn" onclick="openShareModal()" title="Bagikan ke WhatsApp">
+        <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.1rem;"></i>
+      </button>
+      <button class="btn-fab-add" onclick="openBottomSheet()">
+        <i class="fa-solid fa-plus"></i> Tambah Barang
+      </button>
+    </div>
+  </div>
+
+  <!-- Native Bottom Sheet Modal for Adding Items -->
+  <div class="sheet-overlay" id="bottomSheetOverlay" onclick="handleOverlayClick(event)">
+    <div class="bottom-sheet" id="bottomSheet">
+      <div class="drag-handle-pill"></div>
+      
+      <div class="sheet-header">
+        <div class="sheet-title">
+          <i class="fa-solid fa-cart-plus" style="color: #818cf8;"></i> Tambah Barang Belanja
+        </div>
+        <button class="btn-sheet-close" onclick="closeBottomSheet()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nama Barang *</label>
+        <input type="text" id="itemName" class="form-input" placeholder="Misal: Minyak Goreng 2L" autocomplete="off">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Kategori</label>
+          <select id="itemCategory" class="form-select">
+            <option value="Bahan Pokok">🌾 Bahan Pokok</option>
+            <option value="Sayur & Buah">🥬 Sayur & Buah</option>
+            <option value="Lauk Pauk">🍗 Daging & Ikan</option>
+            <option value="Kebutuhan Rumah">🧼 Sabun & Bersih</option>
+            <option value="Peralatan">🍳 Peralatan</option>
+            <option value="Minuman & Snack">🥤 Minuman & Snack</option>
+            <option value="Lainnya">📦 Lainnya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Satuan</label>
+          <input type="text" id="itemUnit" class="form-input" placeholder="kg, pouch, liter" value="pouch">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Harga Satuan (Rp) *</label>
+          <input type="number" id="itemPrice" class="form-input" placeholder="43000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jumlah (Qty)</label>
+          <input type="number" id="itemQty" class="form-input" value="1" min="1" step="1">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Diskon / Promo (Opsional, cth: 20% atau 50% + 20%)</label>
+        <input type="text" id="itemDiscount" class="form-input" placeholder="Contoh: 25% atau 50%+20%">
+      </div>
+
+      <div id="discountPreviewNotice" style="display: none; margin-bottom: 12px; font-size: 0.78rem; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 8px 12px; border-radius: 8px; color: #fde68a;">
+        <!-- Live Discount calculation preview -->
+      </div>
+
+      <button class="btn-primary" onclick="addGroceryItem()">
+        <i class="fa-solid fa-plus-circle"></i> Masukkan ke Keranjang
       </button>
     </div>
   </div>
@@ -1418,29 +1554,29 @@
       <button class="modal-close" onclick="closeBudgetModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #10b981, #059669); width: 38px; height: 38px;">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #10b981, #059669); width: 40px; height: 40px;">
           <i class="fa-solid fa-wallet"></i>
         </div>
         <div>
           <h3 style="font-size: 1.15rem; font-weight: 800;">Atur Batas Anggaran</h3>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Tentukan target maksimal pengeluaran belanja Anda.</p>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Target maksimal belanja Anda.</p>
         </div>
       </div>
 
       <div class="form-group">
         <label class="form-label">Nominal Anggaran (Rp)</label>
-        <input type="number" id="budgetInputModal" class="form-input" style="font-size: 1.1rem; font-weight: 700;" placeholder="350000">
+        <input type="number" id="budgetInputModal" class="form-input" style="font-size: 1.15rem; font-weight: 800;" placeholder="350000">
       </div>
 
       <div style="display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;">
-        <button class="pill" type="button" onclick="setPresetBudget(250000)">Rp 250.000</button>
-        <button class="pill" type="button" onclick="setPresetBudget(350000)">Rp 350.000</button>
-        <button class="pill" type="button" onclick="setPresetBudget(500000)">Rp 500.000</button>
-        <button class="pill" type="button" onclick="setPresetBudget(1000000)">Rp 1.000.000</button>
+        <button class="pill" type="button" onclick="setPresetBudget(250000)">Rp 250rb</button>
+        <button class="pill" type="button" onclick="setPresetBudget(350000)">Rp 350rb</button>
+        <button class="pill" type="button" onclick="setPresetBudget(500000)">Rp 500rb</button>
+        <button class="pill" type="button" onclick="setPresetBudget(1000000)">Rp 1 Juta</button>
       </div>
 
       <button class="btn-primary" onclick="saveBudgetFromModal()">
-        <i class="fa-solid fa-check"></i> Terapkan Anggaran Baru
+        <i class="fa-solid fa-check"></i> Simpan Anggaran
       </button>
     </div>
   </div>
@@ -1451,31 +1587,31 @@
       <button class="modal-close" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button>
       
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-        <div class="brand-icon" style="background: linear-gradient(135deg, #38bdf8, #6366f1); width: 38px; height: 38px;">
-          <i class="fa-solid fa-share-nodes"></i>
+        <div class="brand-icon" style="background: #25d366; width: 40px; height: 40px;">
+          <i class="fa-brands fa-whatsapp"></i>
         </div>
         <div>
           <h3 style="font-size: 1.15rem; font-weight: 800;">Bagikan Daftar Belanja</h3>
-          <p style="font-size: 0.78rem; color: var(--text-muted);">Salin daftar belanja atau kirim langsung ke WhatsApp / Catatan.</p>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Kirim daftar belanja rapi ke WhatsApp keluarga.</p>
         </div>
       </div>
 
       <div class="form-group">
-        <textarea id="shareTextPreview" class="form-input" style="height: 180px; font-family: monospace; font-size: 0.8rem; line-height: 1.4; resize: none;" readonly></textarea>
+        <textarea id="shareTextPreview" class="form-input" style="height: 170px; font-family: monospace; font-size: 0.82rem; line-height: 1.45; resize: none;" readonly></textarea>
       </div>
 
       <div style="display: flex; gap: 8px;">
-        <button class="btn-primary" onclick="copyShareText()" style="flex: 1;">
-          <i class="fa-solid fa-copy"></i> Salin ke Clipboard
+        <button class="btn-primary" onclick="copyShareText()" style="flex: 1; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);">
+          <i class="fa-solid fa-copy"></i> Salin Teks
         </button>
-        <button class="btn-primary" onclick="shareToWhatsApp()" style="background: #10b981; flex: 1;">
-          <i class="fa-brands fa-whatsapp"></i> Kirim WhatsApp
+        <button class="btn-primary" onclick="shareToWhatsApp()" style="background: #25d366; flex: 1.2;">
+          <i class="fa-brands fa-whatsapp"></i> Buka WhatsApp
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification Element -->
+  <!-- Toast Notification -->
   <div id="toast">
     <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
     <span id="toastMsg">Data berhasil disimpan!</span>
@@ -1490,9 +1626,76 @@
     let searchQuery = '';
     let currentStore = "Lotte Mart Grocery - Puri Indah";
     let currentDate = new Date().toISOString().split('T')[0];
+    let isSoundEnabled = true;
     window.isLocalUpdating = false;
 
-    // Database patokan harga pasar
+    // Web Audio Synthesizer for tactile haptic chimes
+    let audioCtx = null;
+    function playChime(type) {
+      if (!isSoundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'check') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, now); // D5
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.12); // A5
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'add') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now); // A4
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'complete') {
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(freq, now + (idx * 0.08));
+            g.gain.setValueAtTime(0.15, now + (idx * 0.08));
+            g.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.08) + 0.25);
+            o.start(now + (idx * 0.08));
+            o.stop(now + (idx * 0.08) + 0.25);
+          });
+        }
+      } catch(e) {
+        // Audio fallback silent
+      }
+    }
+
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      const icon = document.getElementById('soundIcon');
+      if (isSoundEnabled) {
+        icon.className = 'fa-solid fa-volume-high';
+        showToast('🔊 Efek suara aktif');
+        playChime('add');
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark';
+        showToast('🔇 Suara dinonaktifkan');
+      }
+    }
+
+    // Database Patokan Harga Pasar
     const MARKET_PRICE_HISTORY = {
       'beras': { name: 'Beras 5kg / Rojolele', lastMonthPrice: 68000 },
       'rojolele': { name: 'Beras Rojolele', lastMonthPrice: 68000 },
@@ -1523,7 +1726,7 @@
       }
       document.getElementById('toastMsg').innerText = msg;
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3200);
+      setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
     // Show Validation Alert Box
@@ -1531,19 +1734,26 @@
       const alertEl = document.getElementById('validationAlert');
       document.getElementById('validationAlertMsg').innerText = message;
       alertEl.classList.add('show');
-      setTimeout(() => alertEl.classList.remove('show'), 3800);
+      setTimeout(() => alertEl.classList.remove('show'), 3500);
     }
 
-    // Scroll smoothly to input form
-    function scrollToForm() {
-      const el = document.getElementById('itemName');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => el.focus(), 300);
+    // Bottom Sheet Drawer Handlers
+    function openBottomSheet() {
+      document.getElementById('bottomSheetOverlay').classList.add('open');
+      setTimeout(() => document.getElementById('itemName').focus(), 250);
+    }
+
+    function closeBottomSheet() {
+      document.getElementById('bottomSheetOverlay').classList.remove('open');
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target.id === 'bottomSheetOverlay') {
+        closeBottomSheet();
       }
     }
 
-    // Quick fill popular items
+    // Quick Fill Item from Carousel
     function quickFillItem(name, cat, unit, price) {
       document.getElementById('itemName').value = name;
       document.getElementById('itemCategory').value = cat;
@@ -1552,8 +1762,8 @@
       document.getElementById('itemQty').value = 1;
       document.getElementById('itemDiscount').value = '';
       document.getElementById('discountPreviewNotice').style.display = 'none';
-      showToast(`Pilihan "${name}" dimuat ke formulir!`);
-      document.getElementById('itemPrice').focus();
+      openBottomSheet();
+      playChime('add');
     }
 
     // Logika Perhitungan Diskon Bertingkat Kompound
@@ -1635,7 +1845,7 @@
           diff: diff,
           lastMonthPrice: lastMonthPrice,
           label: `↑ +${formatRupiah(diff)}`,
-          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Naik +${formatRupiah(diff)})`
+          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Naik)`
         };
       } else if (diff < 0) {
         return {
@@ -1645,7 +1855,7 @@
           diff: Math.abs(diff),
           lastMonthPrice: lastMonthPrice,
           label: `↓ -${formatRupiah(Math.abs(diff))}`,
-          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Hemat -${formatRupiah(Math.abs(diff))})`
+          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Hemat)`
         };
       } else {
         return {
@@ -1655,7 +1865,7 @@
           diff: 0,
           lastMonthPrice: lastMonthPrice,
           label: `= Stabil`,
-          tooltip: `Bulan lalu ${formatRupiah(lastMonthPrice)} → Sekarang ${formatRupiah(currentPrice)} (Harga tetap stabil)`
+          tooltip: `Harga tetap stabil dibanding bulan lalu`
         };
       }
     }
@@ -1664,13 +1874,22 @@
     function onSessionConfigChanged() {
       currentStore = document.getElementById('sessionStore').value;
       currentDate = document.getElementById('sessionDate').value;
-      document.getElementById('lblActiveStore').innerText = currentStore.split('-')[0].trim();
+
+      // Update date pill label
+      if (currentDate) {
+        const parts = currentDate.split('-');
+        const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+        const day = parseInt(parts[2], 10);
+        const m = months[parseInt(parts[1], 10) - 1];
+        document.getElementById('dateLabelDisplay').innerText = `${day} ${m}`;
+      }
+
       saveLocal();
       renderAll();
-      showToast(`Lokasi belanja diatur ke: ${currentStore}`);
+      showToast(`Lokasi belanja diatur: ${currentStore.split('-')[0].trim()}`);
     }
 
-    // Local Storage (F5 Persistence)
+    // Local Storage Persistence
     function loadLocal() {
       const saved = localStorage.getItem('rian_grocery_tracker_dt2') || localStorage.getItem('smart_grocery_app_data');
       if (saved) {
@@ -1683,7 +1902,7 @@
           
           document.getElementById('sessionStore').value = currentStore;
           document.getElementById('sessionDate').value = currentDate;
-          document.getElementById('lblActiveStore').innerText = currentStore.split('-')[0].trim();
+          onSessionConfigChanged();
         } catch(e) {
           loadDefaultData();
         }
@@ -1720,14 +1939,13 @@
       }
       saveLocal();
       renderAll();
-      showToast('⚡ Sinkronisasi realtime diterima!');
+      showToast('⚡ Sinkronisasi cloud berhasil!');
     };
 
     // Sinkronisasi ke Cloud Firestore
     async function syncToCloud() {
       if (window.FB_GROCERY && window.FB_GROCERY.saveData) {
         window.isLocalUpdating = true;
-        showToast('☁️ Menyimpan ke Cloud...');
         const ok = await window.FB_GROCERY.saveData({
           budget: currentBudget,
           items: groceryItems,
@@ -1736,30 +1954,23 @@
           total: groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0)
         });
         setTimeout(() => { window.isLocalUpdating = false; }, 800);
-        if (ok) {
-          showToast('✅ Berhasil tersimpan di Cloud Firebase!');
-        } else {
-          showToast('Tersimpan di Penyimpanan Lokal (Offline Ready)');
-        }
       } else {
         saveLocal();
-        showToast('Tersimpan di Penyimpanan Lokal (Offline Ready)');
       }
     }
 
-    // Default Sample Data
+    // Default Sample Items
     function loadDefaultData() {
       currentBudget = 350000;
       currentStore = "Lotte Mart Grocery - Puri Indah";
       currentDate = new Date().toISOString().split('T')[0];
       document.getElementById('sessionStore').value = currentStore;
       document.getElementById('sessionDate').value = currentDate;
-      document.getElementById('lblActiveStore').innerText = "Lotte Mart Grocery";
 
       groceryItems = [
         {
           id: 101,
-          name: 'Beras Rojolele',
+          name: 'Beras Rojolele 5kg',
           category: 'Bahan Pokok',
           unit: 'karung/5kg',
           qty: 1,
@@ -1811,7 +2022,7 @@
       renderAll();
     }
 
-    // Tambah Item Belanja dengan Validasi
+    // Tambah Item Belanja
     function addGroceryItem() {
       const nameInput = document.getElementById('itemName');
       const priceInput = document.getElementById('itemPrice');
@@ -1834,13 +2045,13 @@
       }
 
       if (isNaN(rawPrice) || rawPrice <= 0) {
-        showValidationAlert(`⚠️ Masukkan harga barang yang valid (> Rp 0)!`);
+        showValidationAlert(`⚠️ Masukkan harga satuan barang (> Rp 0)!`);
         priceInput.focus();
         return false;
       }
 
       if (isNaN(qty) || qty <= 0) {
-        showValidationAlert('⚠️ Kuantitas minimal belanja adalah 1!');
+        showValidationAlert('⚠️ Kuantitas belanja minimal 1!');
         qtyInput.focus();
         return false;
       }
@@ -1864,22 +2075,24 @@
 
       groceryItems.unshift(newItem);
 
-      // Reset Input Form
+      // Reset
       nameInput.value = '';
       priceInput.value = '';
       qtyInput.value = '1';
       discountInput.value = '';
       document.getElementById('discountPreviewNotice').style.display = 'none';
 
+      closeBottomSheet();
+      playChime('add');
       saveLocal();
       renderAll();
       syncToCloud();
 
-      showToast(`Sukses: "${newItem.name}" dimasukkan ke keranjang!`);
+      showToast(`✨ "${newItem.name}" masuk keranjang!`);
       return true;
     }
 
-    // Penggandaan Kuantitas Otomatis Tanpa Delay
+    // Update Qty
     function updateItemQty(id, newQty) {
       const item = groceryItems.find(i => i.id === id);
       if (!item) return;
@@ -1891,6 +2104,7 @@
         item.qty = parsed;
       }
 
+      playChime('add');
       saveLocal();
       renderAll();
       syncToCloud();
@@ -1910,9 +2124,19 @@
       const item = groceryItems.find(i => i.id === id);
       if (item) {
         item.done = !item.done;
+        if (item.done) {
+          playChime('check');
+        }
         saveLocal();
         renderAll();
         syncToCloud();
+
+        // Cek jika seluruh barang sudah dibeli
+        const allDone = groceryItems.length > 0 && groceryItems.every(i => i.done);
+        if (allDone) {
+          playChime('complete');
+          showToast('🎉 Semua barang belanjaan telah selesai dibeli!');
+        }
       }
     }
 
@@ -1924,22 +2148,10 @@
       saveLocal();
       renderAll();
       syncToCloud();
-      showToast(`"${name}" dihapus dari keranjang.`);
+      showToast(`"${name}" dihapus.`);
     }
 
-    // Kosongkan Keranjang
-    function clearCart() {
-      if (groceryItems.length === 0) return;
-      if (confirm('Yakin ingin mengosongkan seluruh keranjang belanja?')) {
-        groceryItems = [];
-        saveLocal();
-        renderAll();
-        syncToCloud();
-        showToast('Keranjang belanja berhasil dikosongkan.');
-      }
-    }
-
-    // Filter Status & Search
+    // Set Filter Status & Search
     function setFilter(filter, el) {
       currentFilter = filter;
       document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
@@ -1952,7 +2164,7 @@
       renderList();
     }
 
-    // Budget Modal Handlers
+    // Budget Modal
     function openBudgetModal() {
       document.getElementById('budgetInputModal').value = currentBudget;
       document.getElementById('budgetModalOverlay').classList.add('open');
@@ -1975,13 +2187,14 @@
         renderAll();
         syncToCloud();
         closeBudgetModal();
-        showToast(`Batas anggaran diatur ke ${formatRupiah(currentBudget)}!`);
+        playChime('add');
+        showToast(`Batas anggaran diatur: ${formatRupiah(currentBudget)}!`);
       } else {
         showValidationAlert('Masukkan nominal anggaran yang valid!');
       }
     }
 
-    // Share / Export Modal Handlers
+    // Share / WhatsApp Modal
     function openShareModal() {
       const text = generateShareText();
       document.getElementById('shareTextPreview').value = text;
@@ -2005,7 +2218,7 @@
         text += `(Keranjang belanja masih kosong)\n`;
       } else {
         groceryItems.forEach((item, idx) => {
-          const status = item.done ? '[x]' : '[ ]';
+          const status = item.done ? '✅' : '⬜';
           const subtotal = item.finalPrice * item.qty;
           text += `${status} ${idx + 1}. ${item.name} (${item.qty} ${item.unit}) - ${formatRupiah(subtotal)}\n`;
         });
@@ -2026,10 +2239,10 @@
     function copyShareText() {
       const text = document.getElementById('shareTextPreview').value;
       navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 Daftar belanja disalin ke clipboard!');
+        showToast('📋 Daftar belanja berhasil disalin!');
         closeShareModal();
       }).catch(() => {
-        showToast('Gagal menyalin text.', true);
+        showToast('Gagal menyalin.', true);
       });
     }
 
@@ -2041,61 +2254,74 @@
 
     // Render Keseluruhan Aplikasi
     function renderAll() {
-      // 1. Budget & Overbudget Tracker
+      // 1. Budget & Overbudget
       document.getElementById('budgetDisplay').innerText = formatRupiah(currentBudget);
 
-      // Hitung Total Pengeluaran Realtime
       const totalExpense = groceryItems.reduce((acc, curr) => acc + (curr.finalPrice * curr.qty), 0);
       document.getElementById('totalExpenseDisplay').innerText = formatRupiah(totalExpense);
-      document.getElementById('mobileTotalVal').innerText = formatRupiah(totalExpense);
+      document.getElementById('dockTotalVal').innerText = formatRupiah(totalExpense);
 
-      // Count & Progress
       const doneCount = groceryItems.filter(i => i.done).length;
-      document.getElementById('itemCountBadge').innerText = `${groceryItems.length} Barang`;
-      document.getElementById('purchasedSummary').innerText = `${doneCount} dari ${groceryItems.length} barang sudah dibeli`;
+      document.getElementById('purchasedSummary').innerText = `${doneCount} dari ${groceryItems.length} dibeli`;
 
-      // Update Filter counts
+      // Update Filter Counts
       document.getElementById('filterPillAll').innerText = `Semua (${groceryItems.length})`;
       document.getElementById('filterPillPending').innerText = `Belum (${groceryItems.length - doneCount})`;
       document.getElementById('filterPillDone').innerText = `Sudah (${doneCount})`;
 
       const percent = currentBudget > 0 ? Math.round((totalExpense / currentBudget) * 100) : 0;
       const bar = document.getElementById('budgetProgressBar');
-      const alertBox = document.getElementById('overbudgetAlert');
+      const badge = document.getElementById('budgetStatusBadge');
+      const remLabel = document.getElementById('budgetRemainingLabel');
       const remainingText = document.getElementById('budgetRemainingText');
 
       bar.style.width = Math.min(percent, 100) + '%';
-      document.getElementById('budgetPercentText').innerText = `${percent}% Terpakai`;
 
       const sisa = currentBudget - totalExpense;
       if (sisa >= 0) {
-        remainingText.innerText = `Sisa: ${formatRupiah(sisa)}`;
-        remainingText.style.color = '#34d399';
+        remLabel.innerText = 'Sisa Anggaran:';
+        remainingText.innerText = formatRupiah(sisa);
+        remainingText.style.color = '#38bdf8';
       } else {
-        remainingText.innerText = `Defisit: ${formatRupiah(Math.abs(sisa))}`;
+        remLabel.innerText = 'Defisit Anggaran:';
+        remainingText.innerText = '-' + formatRupiah(Math.abs(sisa));
         remainingText.style.color = '#f43f5e';
       }
 
-      // Visual Alert jika Overbudget (>100%)
+      // Visual Status Badge & Progress Color
       if (percent > 100) {
         bar.style.background = 'linear-gradient(90deg, #f43f5e, #e11d48)';
-        alertBox.style.display = 'flex';
-      } else if (percent > 80) {
+        bar.style.boxShadow = '0 0 12px rgba(244, 63, 94, 0.6)';
+        badge.className = 'wallet-status-badge status-danger';
+        badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Overbudget!';
+      } else if (percent > 75) {
         bar.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
-        alertBox.style.display = 'none';
+        bar.style.boxShadow = '0 0 10px rgba(245, 158, 11, 0.5)';
+        badge.className = 'wallet-status-badge status-warn';
+        badge.innerHTML = '<i class="fa-solid fa-bell"></i> Waspada Budget';
       } else {
         bar.style.background = 'linear-gradient(90deg, #10b981, #059669)';
-        alertBox.style.display = 'none';
+        bar.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.5)';
+        badge.className = 'wallet-status-badge status-safe';
+        badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Aman & Terkendali';
       }
 
-      // 2. Render Daftar Item
+      // Celebration Banner
+      const completeBanner = document.getElementById('completeCelebrationBanner');
+      if (groceryItems.length > 0 && doneCount === groceryItems.length) {
+        completeBanner.style.display = 'flex';
+      } else {
+        completeBanner.style.display = 'none';
+      }
+
+      // 2. Render List Items
       renderList();
 
       // 3. Render Perbandingan Toko & Estimasi Penghematan
       renderStoreComparison(totalExpense);
     }
 
-    // Render List Keranjang Belanja
+    // Render List Items
     function renderList() {
       const container = document.getElementById('groceryListContainer');
       let filtered = groceryItems;
@@ -2109,12 +2335,12 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 40px 16px; color: var(--text-muted);">
-            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto;">
-              <i class="fa-solid fa-cart-shopping" style="font-size: 1.8rem; color: #818cf8; opacity: 0.6;"></i>
+          <div style="text-align: center; padding: 36px 16px; color: var(--text-muted); background: rgba(15, 23, 42, 0.4); border-radius: var(--radius-sm); border: 1px dashed rgba(255, 255, 255, 0.1);">
+            <div style="width: 54px; height: 54px; background: rgba(99, 102, 241, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto;">
+              <i class="fa-solid fa-basket-shopping" style="font-size: 1.6rem; color: #818cf8;"></i>
             </div>
-            <p style="font-size: 0.95rem; font-weight: 600; color: #cbd5e1;">Keranjang belanja masih kosong.</p>
-            <p style="font-size: 0.8rem; opacity: 0.8; margin-top: 4px;">Tambahkan barang melalui formulir di atas atau gunakan tombol klik cepat.</p>
+            <p style="font-size: 0.92rem; font-weight: 700; color: #e2e8f0;">Daftar belanja masih kosong</p>
+            <p style="font-size: 0.76rem; opacity: 0.75; margin-top: 4px;">Tekan tombol "+ Tambah Barang" di bawah untuk memulai!</p>
           </div>
         `;
         return;
@@ -2128,7 +2354,6 @@
 
         return `
           <div class="grocery-item ${item.done ? 'completed' : ''}" id="cart-item-${item.id}">
-            <!-- Top Row: Checkbox, Name, Badges, Delete -->
             <div class="item-top-row">
               <div class="item-left">
                 <div class="custom-checkbox ${item.done ? 'checked' : ''}" onclick="toggleItem(${item.id})" title="Tandai Sudah Dibeli">
@@ -2147,8 +2372,8 @@
                     ` : ''}
 
                     ${hasDiscount ? `
-                      <span class="badge-tag badge-discount" title="${disc.isCompound ? 'Diskon Bertingkat Kompound' : 'Diskon'}">
-                        <i class="fa-solid fa-percent"></i> Promo ${item.discountStr} (${disc.effectivePercent}% Efektif)
+                      <span class="badge-tag badge-discount" title="Promo">
+                        <i class="fa-solid fa-percent"></i> ${item.discountStr} (${disc.effectivePercent}%)
                       </span>
                     ` : ''}
                   </div>
@@ -2160,18 +2385,17 @@
               </button>
             </div>
 
-            <!-- Bottom Row: Stepper Qty & Subtotal Realtime -->
             <div class="item-bottom-row">
               <div class="qty-stepper">
-                <button class="btn-step" type="button" onclick="stepQty(${item.id}, -1)" title="Kurangi Qty">-</button>
+                <button class="btn-step" type="button" onclick="stepQty(${item.id}, -1)">-</button>
                 <input type="number" class="qty-input" value="${item.qty}" min="1" 
                   onchange="updateItemQty(${item.id}, this.value)"
                   onkeyup="updateItemQty(${item.id}, this.value)">
-                <button class="btn-step" type="button" onclick="stepQty(${item.id}, 1)" title="Tambah Qty">+</button>
+                <button class="btn-step" type="button" onclick="stepQty(${item.id}, 1)">+</button>
               </div>
 
               <div class="item-pricing">
-                <div class="item-subtotal" id="subtotal-${item.id}">${formatRupiah(subtotal)}</div>
+                <div class="item-subtotal">${formatRupiah(subtotal)}</div>
                 <div class="item-unit-note">
                   ${item.qty} &times; ${hasDiscount ? `<del style="color:#94a3b8;">${formatRupiah(item.rawPrice)}</del> ${formatRupiah(disc.finalUnitPrice)}` : formatRupiah(item.rawPrice)}
                 </div>
@@ -2182,12 +2406,12 @@
       }).join('');
     }
 
-    // Render Store Comparison & Estimasi Penghematan
+    // Render Perbandingan Antar Toko
     function renderStoreComparison(totalExpense) {
       const container = document.getElementById('storeComparisonContainer');
       if (groceryItems.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.82rem;">Masukkan barang belanjaan untuk melihat perbandingan toko.</p>';
-        document.getElementById('savingsDisplay').innerText = 'Rp 0';
+        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.78rem;">Tambahkan belanjaan untuk melihat perbandingan toko.</p>';
+        document.getElementById('savingsNote').innerText = 'Estimasi penghematan belanja dibanding minimarket';
         return;
       }
 
@@ -2197,56 +2421,45 @@
       const minimarketTotal = Math.round(totalExpense * 1.18);
 
       const potentialSavings = minimarketTotal - lotteTotal;
-      document.getElementById('savingsDisplay').innerText = formatRupiah(potentialSavings);
-      document.getElementById('savingsNote').innerText = `Potensi hemat ${formatRupiah(potentialSavings)} dibanding belanja di Minimarket`;
+      document.getElementById('savingsNote').innerHTML = `✨ Berpotensi hemat <strong>${formatRupiah(potentialSavings)}</strong> jika beli di Supermarket Grosir!`;
 
       container.innerHTML = `
         <div class="store-card ${currentStore.includes('Lotte Mart') || currentStore.includes('Super Indo') || currentStore.includes('Hypermart') ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-cart-shopping" style="color: #818cf8;"></i> Supermarket Grosir</h4>
-            <span>Pilihan hemat untuk sembako & kebutuhan rutin keluarga</span>
+            <span>Pilihan hemat sembako & kebutuhan rutin</span>
           </div>
           <div class="store-total" style="color: #a5b4fc;">
             ${formatRupiah(lotteTotal)}
-            <div style="font-size: 0.7rem; color: #818cf8; font-weight: 600;">LOKASI PILIHAN</div>
+            <div style="font-size: 0.68rem; color: #818cf8; font-weight: 700;">LOKASI PILIHAN</div>
           </div>
         </div>
 
         <div class="store-card best ${currentStore === 'Pasar Tradisional' ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-award" style="color: #10b981;"></i> Pasar Tradisional</h4>
-            <span>Harga grosir sembako, sayur & bumbu dapur termurah</span>
+            <span>Harga grosir basah & sayur mayur termurah</span>
           </div>
           <div class="store-total" style="color: #34d399;">
             ${formatRupiah(pasarTotal)}
-            <div style="font-size: 0.7rem; color: #10b981; font-weight: 600;">HEMAT GROSIR</div>
-          </div>
-        </div>
-
-        <div class="store-card ${currentStore === 'Toko Berkah Kelontong' ? 'active-store' : ''}">
-          <div class="store-info">
-            <h4><i class="fa-solid fa-shop" style="color: #cbd5e1;"></i> Toko Kelontong Sekitar</h4>
-            <span>Praktis dan dekat, ideal untuk pembelian mendesak</span>
-          </div>
-          <div class="store-total">
-            ${formatRupiah(kelontongTotal)}
+            <div style="font-size: 0.68rem; color: #10b981; font-weight: 700;">TERMURAH</div>
           </div>
         </div>
 
         <div class="store-card ${currentStore === 'Minimarket Modern' ? 'active-store' : ''}">
           <div class="store-info">
             <h4><i class="fa-solid fa-store" style="color: #f59e0b;"></i> Minimarket Modern</h4>
-            <span>Indomaret / Alfamart (Harga eceran satuan)</span>
+            <span>Harga eceran satuan</span>
           </div>
           <div class="store-total" style="color: #fda4af;">
             ${formatRupiah(minimarketTotal)}
-            <div style="font-size: 0.7rem; color: #f43f5e; font-weight: 600;">SELISIH TERTINGGI</div>
+            <div style="font-size: 0.68rem; color: #f43f5e; font-weight: 700;">+${formatRupiah(potentialSavings)} LEBIH MAHAL</div>
           </div>
         </div>
       `;
     }
 
-    // Live preview kalkulasi diskon saat mengetik di form
+    // Live preview diskon saat mengetik di form sheet
     document.getElementById('itemDiscount').addEventListener('input', function() {
       const price = parseFloat(document.getElementById('itemPrice').value) || 0;
       const discStr = this.value.trim();
@@ -2262,7 +2475,7 @@
         previewEl.style.display = 'block';
         if (res.isCompound) {
           let stepHtml = res.steps.map(s => `Tahap ${s.step} (-${s.percent}%): ${formatRupiah(s.priceAfter)}`).join(' → ');
-          previewEl.innerHTML = `<strong>Diskon Kompound:</strong> ${stepHtml} | Harga Akhir: <strong>${formatRupiah(res.finalUnitPrice)}</strong> (Hemat ${formatRupiah(res.discountAmount)})`;
+          previewEl.innerHTML = `<strong>Diskon Bertingkat:</strong> ${stepHtml} | Harga Akhir: <strong>${formatRupiah(res.finalUnitPrice)}</strong> (Hemat ${formatRupiah(res.discountAmount)})`;
         } else {
           previewEl.innerHTML = `<strong>Diskon ${res.steps[0].percent}%:</strong> Potongan ${formatRupiah(res.discountAmount)} | Harga Akhir: <strong>${formatRupiah(res.finalUnitPrice)}</strong>`;
         }
@@ -2271,9 +2484,8 @@
       }
     });
 
-    // Inisialisasi Aplikasi Saat Halaman Selesai Dimuat
+    // Inisialisasi Aplikasi Saat Halaman Dimuat
     window.addEventListener('DOMContentLoaded', () => {
-      // Inisialisasi tanggal hari ini jika belum ada
       const today = new Date().toISOString().split('T')[0];
       const dateEl = document.getElementById('sessionDate');
       if (dateEl && !dateEl.value) {
